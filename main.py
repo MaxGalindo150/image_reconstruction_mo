@@ -1,10 +1,7 @@
-from SSM.Set_Settings import SimulationSettings
 import matplotlib.pyplot as plt
+from SSM.Set_Settings import set_settings
 
-simulation_settings = SimulationSettings(1)
-
-MODEL, PROBE, SIGNAL = simulation_settings.get_settings()
-
+MODEL, PROBE, SIGNAL = set_settings(example=1)
 plt.figure()
 plt.plot(PROBE.mu, 'b-', linewidth=4, label='True µ')
 plt.legend()
