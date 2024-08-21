@@ -41,7 +41,7 @@ def generate_ssm_model(model: SimpleNamespace, probe: SimpleNamespace) -> Simple
     vec_a = np.exp(-probe.mu * model.dz)
     d[0] = probe.mu[0]
     for i in range(1, model.Nd):
-        d[i] = model.mu[i] * np.prod(vec_a[:i-1])
+        d[i] = probe.mu[i] * np.prod(vec_a[:i-1])
     del vec_a
 
     # Vector b for the finite difference scheme
@@ -58,7 +58,7 @@ def generate_ssm_model(model: SimpleNamespace, probe: SimpleNamespace) -> Simple
     # Vector c for the finite difference scheme
     c = np.zeros((2*model.Nz, 1))
     c[model.idx_l] = 1
-    model.c = csr_matrix(model.c)
+    model.c = csr_matrix(c)
 
     return model
 

@@ -1,5 +1,6 @@
 import numpy as np
 from types import SimpleNamespace
+
 def mo_estimation(d_est: np.array, model: SimpleNamespace) -> np.array:
     mu_est = np.zeros(d_est.shape)
     vec_a_est = np.zeros(d_est.shape)

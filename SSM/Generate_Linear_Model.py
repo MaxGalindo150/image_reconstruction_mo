@@ -1,7 +1,7 @@
 from types import SimpleNamespace
 import numpy as np
 from scipy.sparse import csr_matrix
-from scipy.signal import convolution_matrix
+from scipy.linalg import convolution_matrix
 
 def generate_linear_model(model: SimpleNamespace, signal: SimpleNamespace, probe: SimpleNamespace) -> SimpleNamespace:
     # Generate matrix M6
@@ -19,7 +19,7 @@ def generate_linear_model(model: SimpleNamespace, signal: SimpleNamespace, probe
         del imp2
 
         # Generate convolution matrix C(i)
-        input_signal = np.concatenate((signal.i, np.zeros((model.Ny - model.Ni, 1))))
+        input_signal = np.concatenate((signal.i, np.zeros((model.Ny - signal.Ni, 1))))
         C = convolution_matrix(input_signal.flatten(), model.Ny,mode='full')
         model.C = csr_matrix(C[:model.Ny, :])
 

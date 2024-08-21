@@ -1,3 +1,4 @@
+import numpy as np
 from types import SimpleNamespace
 from SSM.Generate_Standard_Absorption_Profiles import generate_standard_absorption_profiles
 from SSM.Generate_Standard_Input_Signal import generate_standard_input_signal
@@ -8,8 +9,8 @@ def set_settings(example: int) -> tuple:
             'dt': 1e-9,
             'dz': 30e-7,
             'Nz': 20,
-            'idx_l': 1,
-            'idx_r': 21,
+            'idx_l': 0,
+            'idx_r': 20,
             'Nd': 20,
             'Ny': 100,
             'sigma_q2': 1e-28,
@@ -27,9 +28,9 @@ def set_settings(example: int) -> tuple:
         })
         signal_nr = 5
         signal = SimpleNamespace(**{
-            'Ni': 50,
-            'Omega_min': 0.1 * 3.141592653589793,
-            'Omega_max': 0.25 * 3.141592653589793
+            'Ni': 100,
+            'Omega_min': 0.1 * np.pi,
+            'Omega_max': 0.25 * np.pi
         })
         signal.i = generate_standard_input_signal(signal_nr, signal, model)
     elif example == 2:

@@ -19,5 +19,6 @@ def estimation(model: SimpleNamespace, signal: SimpleNamespace) -> SimpleNamespa
         vec_a_est[iter - 1] = np.exp(-mu_est[iter - 1] * model.dz)
         mu_est[iter] = d_est[iter] / np.prod(vec_a_est[:iter])
 
-    estimation_results.mu_est = mu_est
-    
+    estimation_results.mu = mu_est
+
+    return estimation_results    
