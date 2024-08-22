@@ -17,7 +17,10 @@ def generate_measurements(signal: SimpleNamespace, model: SimpleNamespace) -> Si
         y_without_meas_noise[iter+1] = model.c.T @ x
         y_without_meas_and_proc_noise[iter+1] = model.c.T @ x_without_proc_noise
     
-    signal.y = y
+    #noise = np.random.normal(0, np.sqrt(model.sigma_w2), model.Ny)
+    noise = 1e-1 * np.random.randn(model.Ny, 1)
+
+    signal.y = y + noise
     signal.y_without_meas_noise = y_without_meas_noise
     signal.y_without_meas_and_proc_noise = y_without_meas_and_proc_noise
 

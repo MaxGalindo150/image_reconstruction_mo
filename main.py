@@ -23,7 +23,7 @@ SIGNAL = generate_measurements(SIGNAL, MODEL)
 # Estimation
 ESTIMATION_RESULTS = estimation(MODEL, SIGNAL)
 
-
+# =================================================== MO ===================================================
 # Problem
 PROBLEM = ImageReconstructionProblem(MODEL, PROBE, SIGNAL)
 
@@ -45,13 +45,13 @@ plt.ylabel('f2')
 #plt.title('Pareto Front')
 plt.savefig('pareto_front.png')
 plt.close()
-
+# =================================================== MO ===================================================
 
 # Primera figura
 plt.figure()
 plt.plot(PROBE.mu, 'b-', linewidth=4, label='True µ')
 plt.plot(mu_est_nsga2, 'g-', label='Estimated µ by NSGA-II')
-plt.plot(ESTIMATION_RESULTS.mu, 'r--', label='Estimated µ')
+#plt.plot(ESTIMATION_RESULTS.mu, 'r--', label='Estimated µ')
 plt.legend()
 plt.savefig('true_and_estimated_mu.png')
 plt.close()  # Cierra la primera figura
