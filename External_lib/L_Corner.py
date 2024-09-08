@@ -52,11 +52,11 @@ def l_corner(rho, eta, reg_param, U, s, b, method):
             lr = np.size(rho)
             reg_c = reg_param[lr-1]
             rho_c = rho[lr-1]
-            eta_c = eta[lr-1]
+            eta_c = eta[lr]
         else:
             f = s ** 2 / (s ** 2 + reg_c ** 2)
             eta_c = np.linalg.norm(f * xi)
-            rho_c = np.linalg.norm((1 - f) * beta[0:size(f)])
+            rho_c = np.linalg.norm((1 - f) * beta[0:np.size(f)])
             if m > n:
                 rho_c = np.sqrt(rho_c ** 2 + np.linalg.norm(b0) ** 2)
 

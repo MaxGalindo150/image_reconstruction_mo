@@ -62,7 +62,7 @@ def l_curve(U, sm, b, method, L, V):
     return  rho, eta, reg_corner, rho_c, eta_c, reg_param
 
 
-def plot_lc(rho, eta, reg_param, reg_corner, rho_c, eta_c):
+def plot_lc(rho, eta, reg_corner, rho_c, eta_c):
     """
     This function plots the L curve and marks the corner found.
     """
