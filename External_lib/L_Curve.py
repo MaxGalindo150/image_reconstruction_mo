@@ -58,7 +58,7 @@ def l_curve(U, sm, b, method, L, V):
 
     
     reg_corner, rho_c, eta_c = l_corner(rho, eta, reg_param, U, s, b, "Tikh")
-    print(f"(rho_c, eta_c): ({rho_c}, {eta_c})")
+    # print(f"(rho_c, eta_c): ({rho_c}, {eta_c})")
     return  rho, eta, reg_corner, rho_c, eta_c, reg_param
 
 

@@ -25,11 +25,11 @@ def regularized_estimation(
 
     # L curve method
     rho, eta, reg_corner_tikh, rho_c, eta_c, reg_param = l_curve(U, s, b, "Tikh", L, V)
-    plot_lc(rho, eta, reg_corner_tikh, rho_c, eta_c)
+    # plot_lc(rho, eta, reg_corner_tikh, rho_c, eta_c)
     d_est_tikh = tikhonov(H, b, reg_corner_tikh)
-    print("Tikhonov regularization d: ", d_est_tikh.flatten())
+    # print("Tikhonov regularization d: ", d_est_tikh.flatten())
     mu_est_tikh = mu_from_d(model, d_est_tikh)
-    print("tikhonov regularization mu: ", mu_est_tikh)
+    # print("tikhonov regularization mu: ", mu_est_tikh)
 
     return mu_est_tikh
 
