@@ -1,5 +1,5 @@
 import numpy as np
-from SSM.Generate_Linear_Model import generate_linear_model
+
 
 from pymoo.core.problem import Problem
 
