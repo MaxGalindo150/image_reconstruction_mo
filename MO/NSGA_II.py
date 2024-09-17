@@ -1,12 +1,16 @@
-import random
 import numpy as np
 import matplotlib.pyplot as plt
 from collections import defaultdict
-
 from tqdm import tqdm
-
-
 from pymoo.operators.sampling.rnd import FloatRandomSampling
+# from pymoo.util.random import set_random_seed
+
+# pymoo_seed = 42
+# numpy_seed = 42
+
+# np.random.seed(numpy_seed)
+# set_random_seed(pymoo_seed)
+
 
 class Individual:
     def __init__(self, point, problem):
@@ -19,13 +23,14 @@ class Individual:
 
 
 class NSGA2:
-    def __init__(self, generations, population_size, mutaition_rate, problem):
+    def __init__(self, generations, population_size, mutaition_rate, problem, objective1_threshold=None):
         self.population_size = population_size
         self.mutation_rate = mutaition_rate
         self.problem = problem
         self.n_var = self.problem.n_var
         self.n_obj = self.problem.n_obj
         self.sampling = FloatRandomSampling()
+        self.objective1_threshold = objective1_threshold
         self.run(generations)
         
     
@@ -122,9 +127,9 @@ class NSGA2:
         # Recorrer cada elemento en el punto
         for i in range(len(point)):
             # Aplicar la mutación con una probabilidad igual a mutation_rate
-            if random.random() < mutation_rate:
+            if np.random.rand() < mutation_rate:
                 # Añadir un pequeño número aleatorio al elemento
-                point[i] += random.uniform(-mutation_magnitude, mutation_magnitude)
+                point[i] += np.random.uniform(-mutation_magnitude, mutation_magnitude)
 
         # Crear un nuevo individuo con el punto mutado
         point = np.array(point)
@@ -168,6 +173,12 @@ class NSGA2:
             
             self.Q_t = self.generate_offspring(self.P_t, self.mutation_rate, t, generations)
 
+            # check if the first objective is below the objective1_threshold
+            if self.objective1_threshold is not None:
+                min_obj1 = min([individual.values[0] for individual in self.P_t])
+                if min_obj1 < self.objective1_threshold:
+                    print(f"First objective below threshold at generation {t} value: {min_obj1} is below {self.objective1_threshold}.")
+                    break
 
 
         # if self.n_obj == 2:
