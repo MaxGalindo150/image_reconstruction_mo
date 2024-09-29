@@ -4,11 +4,6 @@ import pandas as pd
 # Leer el archivo CSV
 data = pd.read_csv('results2.csv')
 
-# Imprimir las columnas específicas del DataFrame
-print(data['sigma'])
-print(data['lse'])
-print(data['tikhonov'])
-print(data['nsga2'])
 
 # Graficar las columnas del DataFrame
 plt.plot(data['sigma'], data['lse'], label='LSE', marker='o')
@@ -26,5 +21,5 @@ plt.title('Comparison of Methods')
 plt.legend()
 
 # Guardar la gráfica en un archivo
-plt.savefig('results2.png')
+plt.savefig('img/results2.png')
 

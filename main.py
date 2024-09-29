@@ -42,7 +42,7 @@ plt.figure()
 plt.scatter(x, y, c='red')
 plt.xlabel('f1')
 plt.ylabel('f2')
-plt.savefig('pareto_front.png')
+plt.savefig('img/pareto_front.png')
 
 # =================================================== Simulations ===================================================
 sigmas = [0.0, 1e-4, 1e-3, 1e-3, 1e-1, 1.0]
@@ -82,7 +82,7 @@ with open("results2.csv", mode='w', newline='') as file:
         plt.plot(mu_est_tikh, "k-", label="Estimated µ by Tikhonov")
         plt.legend()
         plt.title(f"Estimation Results for sigma={sigma}")
-        plt.savefig(f"true_and_estimated_mu_sigma_{sigma}.png")
+        plt.savefig(f"img/true_and_estimated_mu_sigma_{sigma}.png")
         plt.close()
 
         plt.figure()
@@ -91,5 +91,5 @@ with open("results2.csv", mode='w', newline='') as file:
         plt.legend()
         plt.grid(True)
         plt.title(f"Laser Signal Measurement for sigma={sigma}")
-        plt.savefig(f"laser_signal_measurement_signal_sigma_{sigma}.png")
+        plt.savefig(f"img/laser_signal_measurement_signal_sigma_{sigma}.png")
         plt.close()

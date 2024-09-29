@@ -83,5 +83,5 @@ def plot_lc(rho, eta, reg_corner, rho_c, eta_c):
                  textcoords="offset points", xytext=(10,-10), ha='center', color='red')
     
     plt.legend()
-    plt.savefig("L_curve.png")
+    plt.savefig("img/L_curve.png")
         

@@ -46,7 +46,10 @@ def generate_ssm_model(model: SimpleNamespace, probe: SimpleNamespace) -> Simple
 
     # Vector b for the finite difference scheme
     b = -probe.beta*probe.chi/(probe.Cp*model.dt)*d
-    b = np.concatenate((np.zeros((model.idx_l, 1)), b, np.zeros((model.Nz - model.idx_r, 1))))
+    b = np.concatenate((np.zeros((model.idx_l-1, 1)), b, np.zeros((model.Nz - model.idx_r + 1, 1))))
+
+
+
 
     # Vector f for the finite difference scheme
     f = M1_inv @ b

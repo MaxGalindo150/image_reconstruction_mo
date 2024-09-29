@@ -90,7 +90,7 @@ plt.legend()
 plt.grid(True)
 
 # Guardar la gráfica
-plt.savefig("impact_of_noise_on_rmse.png")
+plt.savefig("img/impact_of_noise_on_rmse.png")
 # plt.show()
 
 

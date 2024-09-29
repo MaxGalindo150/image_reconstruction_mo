@@ -26,6 +26,9 @@ def set_settings(
                 "regularization_term": 0,
             }
         )
+
+        model.idx_l += 1
+        model.idx_r += 1
         profile_nr = 2
         probe = SimpleNamespace(
             **{
@@ -48,8 +51,8 @@ def set_settings(
                 "dt": 1e-9,
                 "dz": 2e-5,
                 "Nz": 200,
-                "idx_l": 1,
-                "idx_r": 201,
+                "idx_l": 0,
+                "idx_r": 200,
                 "Nd": 200,
                 "Ny": 2000,
                 "sigma_q2": 1e-28,
@@ -57,6 +60,10 @@ def set_settings(
                 "regularization_term": 1.5e-11,
             }
         )
+
+        model.idx_l += 1
+        model.idx_r += 1
+
         profile_nr = 3
         probe = SimpleNamespace(
             **{

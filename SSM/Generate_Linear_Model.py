@@ -36,5 +36,5 @@ def generate_linear_model(model: SimpleNamespace, signal: SimpleNamespace, probe
         # Check if H has full rank
         if np.linalg.matrix_rank(model.H) < model.Nd:
             print('Matrix H has not full rank. Consider shortening vector d or regularization!')
-            exit()
+            #exit()
         return model
