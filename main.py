@@ -29,7 +29,7 @@ ESTIMATION_RESULTS = estimation(MODEL, SIGNAL)
 PROBLEM = ImageReconstructionProblem(MODEL, PROBE, SIGNAL)
 
 # NSGA-II
-nsga2 = NSGA2(generations=500, population_size=100, mutaition_rate=0.8, problem=PROBLEM)
+nsga2 = NSGA2(generations=460, population_size=100, mutaition_rate=0.8, problem=PROBLEM, objective1_threshold=0.01)
 x = [individual.values[0] for individual in nsga2.P_t]
 y = [individual.values[1] for individual in nsga2.P_t]
 
@@ -56,7 +56,7 @@ with open("results2.csv", mode='w', newline='') as file:
 
         # MO
         PROBLEM = ImageReconstructionProblem(MODEL, PROBE, SIGNAL)
-        nsga2 = NSGA2(generations=500, population_size=100, mutaition_rate=0.8, problem=PROBLEM)
+        nsga2 = NSGA2(generations=500, population_size=100, mutaition_rate=0.8, problem=PROBLEM, objective1_threshold=0.01)
         x = [individual.values[0] for individual in nsga2.P_t]
         y = [individual.values[1] for individual in nsga2.P_t]
         best_individual_nsga2 = min(nsga2.P_t, key=lambda p: p.values[0])
