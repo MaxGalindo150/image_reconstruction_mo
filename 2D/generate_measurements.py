@@ -77,9 +77,8 @@ P = np.block([
         [ZP_row]
     ])
 
-
 Ly, Lx = P.shape
-print(f'P shape: {P.shape}')
+
 
 # Create kx and ky vectors
 kx = (np.arange(Lx) / Lx) * np.pi
@@ -90,6 +89,10 @@ f = np.zeros((Lx, Ly))
 for kxi in range(Lx):
     for kyi in range(Ly):
         f[kxi, kyi] = np.sqrt(kx[kxi]**2 + ky[kyi]**2)
+
+
+
+
 
 # Simulate ideal acoustic waves without attenuation.
 Pdet = np.zeros((P.shape[0], len(f)))
@@ -156,12 +159,13 @@ plt.figure(1)
 plt.imshow(P_surf.T, aspect='auto')
 plt.xlabel('t', fontsize=fsize)
 plt.ylabel('y', fontsize=fsize)
+plt.xlim([0, 500])
+plt.ylim([0, 500])
 plt.gca().tick_params(axis='both', which='major', labelsize=fsize)
 plt.title('Measured surface temperature', fontsize=12)
 plt.colorbar()
 plt.savefig('img/2D/surface_temperature.png', dpi=300)
 
-print(f'P_surf: {P_surf}')
 
 # Save the data
 data = {
@@ -180,7 +184,7 @@ data = {
 }
 
 if signal_Nr == 5:
-    with open('./Data/pressure_dist_pulse.pkl', 'wb') as f:
+    with open('2D/Data/pressure_dist_pulse.pkl', 'wb') as f:
         pickle.dump(data, f)
 elif signal_Nr == 2:
     with open('./Data/pressure_dist_chirp.pkl', 'wb') as f:

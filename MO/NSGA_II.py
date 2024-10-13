@@ -23,9 +23,9 @@ class Individual:
 
 
 class NSGA2:
-    def __init__(self, generations, population_size, mutaition_rate, problem, objective1_threshold=None):
+    def __init__(self, generations, population_size, mutation_rate, problem, objective1_threshold=None):
         self.population_size = population_size
-        self.mutation_rate = mutaition_rate
+        self.mutation_rate = mutation_rate
         self.problem = problem
         self.n_var = self.problem.n_var
         self.n_obj = self.problem.n_obj
