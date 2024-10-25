@@ -3,14 +3,6 @@ import matplotlib.pyplot as plt
 from collections import defaultdict
 from tqdm import tqdm
 from pymoo.operators.sampling.rnd import FloatRandomSampling
-# from pymoo.util.random import set_random_seed
-
-# pymoo_seed = 42
-# numpy_seed = 42
-
-# np.random.seed(numpy_seed)
-# set_random_seed(pymoo_seed)
-
 
 class Individual:
     def __init__(self, point, problem):
@@ -21,9 +13,8 @@ class Individual:
         self.distance = 0
         self.values = problem.evaluate(point)
 
-
 class NSGA2:
-    def __init__(self, generations, population_size, mutation_rate, problem, objective1_threshold=None):
+    def __init__(self, generations, population_size, mutation_rate, problem, objective1_threshold=None, initial_solution=None):
         self.population_size = population_size
         self.mutation_rate = mutation_rate
         self.problem = problem
@@ -31,20 +22,25 @@ class NSGA2:
         self.n_obj = self.problem.n_obj
         self.sampling = FloatRandomSampling()
         self.objective1_threshold = objective1_threshold
+        self.initial_solution = initial_solution
+        self.best_solution = None
         self.run(generations)
         
-    
     def generate_population(self):
         X = self.sampling(self.problem, self.population_size).get("X")
+        population = [Individual(x, self.problem) for x in X]
+        
+        # Añadir la solución inicial a la población si se proporciona
+        if self.initial_solution is not None:
+            initial_individual = Individual(self.initial_solution, self.problem)
+            population.append(initial_individual)
+        
+        return population
 
-        return [Individual(x, self.problem) for x in X]
-
-    
     def dominates(self, p, q):
         return all(p_i <= q_i for p_i, q_i in zip(p, q)) and any(p_i < q_i for p_i, q_i in zip(p, q))
 
     def non_dominated_sort(self, individuals):
-
         F = defaultdict(list)
         for p in individuals:
             for q in individuals:
@@ -71,7 +67,6 @@ class NSGA2:
 
         return F
     
-    # =======================Crowding Distance===================
     def sort_by_objective(self, front, m):
         return sorted(front, key=lambda p: p.values[m])
 
@@ -88,12 +83,9 @@ class NSGA2:
             for i in range(1, l - 1):
                 I[i].distance += (I[i + 1].values[m] - I[i - 1].values[m])/(f_max - f_min)
         
-    
-        
     def sort_by_crowed_comparation(self, front):
         return sorted(front, key=lambda p: (-p.rank, p.distance), reverse=True)
     
-    # =============================GA=============================
     def binary_tournament_selection(self, P):
         winners = []
         while len(winners) < len(P)//2:
@@ -101,15 +93,12 @@ class NSGA2:
             winners.append(max(vs, key=lambda p: (-p.rank, p.distance)))
         return winners
 
-    
     def crossover(self, individual1, individual2):
         point1 = individual1.point.copy()
         point2 = individual2.point.copy()
 
-        # Generar un factor de mezcla aleatorio
         alpha = np.random.uniform(0, 1)
 
-        # Realizar un cruce aritmético con el factor de mezcla aleatorio
         new_point1 = alpha * point1 + (1 - alpha) * point2
         new_point2 = (1 - alpha) * point1 + alpha * point2
 
@@ -120,22 +109,24 @@ class NSGA2:
 
     def mutate(self, individual, mutation_rate, generation, max_generations):
         point = individual.point.copy()
+        mutation_magnitude = 1 * (1 - generation / max_generations)
 
-        # Calcular la magnitud de la mutación basada en la generación actual
-        mutation_magnitude = 100 * (1 - generation / max_generations)
+        if np.random.rand() < mutation_rate:
+            for i in range(len(point)):
+                # Mutación adaptativa y dirigida
+                direction = np.random.uniform(0, 1)
+                if direction < 0.5:
+                    point[i] += np.random.uniform(0, mutation_magnitude)
+                else:
+                    point[i] -= np.random.uniform(0, mutation_magnitude)
 
-        # Recorrer cada elemento en el punto
-        for i in range(len(point)):
-            # Aplicar la mutación con una probabilidad igual a mutation_rate
-            if np.random.rand() < mutation_rate:
-                # Añadir un pequeño número aleatorio al elemento
-                point[i] += np.random.uniform(-mutation_magnitude, mutation_magnitude)
-
-        # Crear un nuevo individuo con el punto mutado
-        point = np.array(point)
         new_individual = Individual(point, self.problem)
+        
+        # Asegurarse de que la mutación no empeore la solución
+        if self.best_solution is None or new_individual.values[0] < self.best_solution.values[0]:
+            self.best_solution = new_individual
+        
         return new_individual
-    
 
     def generate_offspring(self, P, mutation_rate, generation, max_generations):
         offspring = []
@@ -146,16 +137,14 @@ class NSGA2:
             offspring = [self.mutate(p, mutation_rate, generation, max_generations) for p in offspring]
         return offspring
     
-    
     def initialize(self):
         self.P_t = self.generate_population()
         F = self.non_dominated_sort(self.P_t)   
         for i in range(1, len(F)):
             self.crowding_distance_assignment(F[i])
         
-        self.Q_t = self.generate_offspring(self.P_t, self.mutation_rate,0,100)
+        self.Q_t = self.generate_offspring(self.P_t, self.mutation_rate, 0, 100)
         
-
     def run(self, generations):
         self.initialize()
 
@@ -180,7 +169,6 @@ class NSGA2:
                     print(f"First objective below threshold at generation {t} value: {min_obj1} is below {self.objective1_threshold}.")
                     break
 
-
         # if self.n_obj == 2:
         #     self.plot_pareto_front()
         # elif self.n_obj == 3:
@@ -193,7 +181,6 @@ class NSGA2:
         plt.scatter(x, y, c='red')
         plt.xlabel('f1')
         plt.ylabel('f2')
-        #plt.title('Pareto Front')
         plt.show()
     
     def plot_pareto_front_3d(self):

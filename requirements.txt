@@ -15,7 +15,7 @@ kiwisolver==1.4.5
 lazy_loader==0.4
 matplotlib==3.9.2
 networkx==3.3
-numpy==2.0.1
+numpy==2.0.0
 packaging==24.1
 pandas==2.2.2
 pillow==10.4.0

@@ -65,7 +65,9 @@ for i in range(data['P_surf'].shape[1]):
     #rho, eta, reg_corner_tikh, rho_c, eta_c, reg_param = l_curve(U, s, b, "Tikh", L, V)
     #d_est_tikh = tikhonov(data['MODEL'].H, b, 1/(20*data['SNR']), dim=2)
     #P_virt[:, i] = d_est_tikh.flatten()
-    d_est_nsga2 = nsga2_estimation(data['MODEL'], data['PROBE'], data['SIGNAL'], n_var=512, b=b).flatten()
+    d_est_nsga2 = nsga2_estimation(data['MODEL'], data['PROBE'], data['SIGNAL'], n_var=512, b=b.reshape(512,1), lambda_tikhonov=1/(20*data['SNR']))
+    print("NSGA-II d: ", d_est_nsga2.flatten())
+    #print("Tikhonov regularization d: ", tikhonov_aprox.flatten())
     P_virt[:, i] = d_est_nsga2.flatten()
     
 plt.figure(2)
@@ -124,5 +126,4 @@ plt.colorbar()
 plt.grid(True)
 plt.title('FSAFT-reconstruction without attenuation', fontsize=12)
 plt.savefig('/home/mgalindo/max/maestria/tesis/image_reconstruction_mo/img/2D/sFSAFT-reconstruction-without-attenuation.png', dpi=300)
-
 

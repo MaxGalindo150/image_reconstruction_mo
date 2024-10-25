@@ -8,7 +8,7 @@ from SSM.mu_from_d import mu_from_d
 
 
 def regularized_estimation(
-    model: SimpleNamespace, signal: SimpleNamespace
+    model: SimpleNamespace, signal: SimpleNamespace, dim: int
 ) :
     """
     This function estimates the vector d as well as the absorption profile
@@ -26,11 +26,14 @@ def regularized_estimation(
     # L curve method
     rho, eta, reg_corner_tikh, rho_c, eta_c, reg_param = l_curve(U, s, b, "Tikh", L, V)
     # plot_lc(rho, eta, reg_corner_tikh, rho_c, eta_c)
-    d_est_tikh = tikhonov(H, b, reg_corner_tikh, dim=1)
+    if dim == 1:
+        d_est_tikh = tikhonov(H, b, reg_corner_tikh, dim=1)
+    elif dim == 2:
+        d_est_tikh = tikhonov(H, b, reg_corner_tikh, dim=2)
     # print("Tikhonov regularization d: ", d_est_tikh.flatten())
-    mu_est_tikh = mu_from_d(model, d_est_tikh)
+    #mu_est_tikh = mu_from_d(model, d_est_tikh)
     # print("tikhonov regularization mu: ", mu_est_tikh)
 
-    return mu_est_tikh
+    return d_est_tikh #mu_est_tikh
 
 
