@@ -12,11 +12,11 @@ class ImageReconstructionProblem(Problem):
         self.n_obj = 2
         if tikhonov_aprox is not None:
             tikhonov_aprox = tikhonov_aprox.flatten()  # Asegurarse de que sea un vector de una dimensión
-            xl = tikhonov_aprox-1000
-            xu = tikhonov_aprox+10
+            xl = tikhonov_aprox-1e-3
+            xu = tikhonov_aprox+1e-3
         else:
-            xl = 800
-            xu = 2000
+            xl = 8000
+            xu = 20000
         Problem.__init__(self, n_var=self.n_var, n_obj=self.n_obj, n_constr=0, xl=xl, xu=xu)
         
     def f1(self, x):

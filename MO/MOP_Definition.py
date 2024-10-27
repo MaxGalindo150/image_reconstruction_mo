@@ -12,7 +12,7 @@ class ImageReconstructionProblem(Problem):
         self.SIGNAL = SIGNAL
         self.n_var = 20 if n_var is None else n_var
         self.n_obj = 2
-        Problem.__init__(self, n_var=self.n_var, n_obj=self.n_obj, n_constr=0, xl=tikhonov_aprox-1e-10, xu=tikhonov_aprox+1e-10)
+        Problem.__init__(self, n_var=self.n_var, n_obj=self.n_obj, n_constr=0, xl=800, xu=2000)
         
     def f1(self, x):
         if self.b is not None:
