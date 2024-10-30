@@ -76,7 +76,7 @@ plt.ylim(0, 500)
 plt.gca().invert_xaxis()
 plt.title('Surface measurements with attenuation', fontsize=12)
 #plt.colorbar()
-plt.savefig('/home/mgalindo/max/maestria/tesis/image_reconstruction_mo/img/2D/P_virt.png', dpi=300)
+plt.savefig('/home/mgalindo/max/maestria/tesis/image_reconstruction_mo/img/2D/P_virt_mu.png', dpi=300)
 
 
 # Applying the F-SAFT algorithm for recosntruction the pressure distribution the material
