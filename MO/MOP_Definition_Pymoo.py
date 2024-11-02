@@ -2,6 +2,7 @@ import numpy as np
 from pymoo.core.problem import Problem
 
 
+
 class ImageReconstructionProblem(Problem):
     def __init__(self, MODEL, PROBE, SIGNAL, n_var=None, b=None, tikhonov_aprox=None):
         self.b = b
@@ -12,11 +13,11 @@ class ImageReconstructionProblem(Problem):
         self.n_obj = 2
         if tikhonov_aprox is not None:
             tikhonov_aprox = tikhonov_aprox.flatten()  # Asegurarse de que sea un vector de una dimensión
-            xl = tikhonov_aprox-1e-3
-            xu = tikhonov_aprox+1e-3
+            xl = tikhonov_aprox - 1000 # Asegurarse de que los límites sean adecuados (-1000)
+            xu = tikhonov_aprox + 10# Asegurarse de que los límites sean adecuados (+10)
         else:
-            xl = 8000
-            xu = 20000
+            xl = 100
+            xu = 25000
         Problem.__init__(self, n_var=self.n_var, n_obj=self.n_obj, n_constr=0, xl=xl, xu=xu)
         
     def f1(self, x):
@@ -28,10 +29,12 @@ class ImageReconstructionProblem(Problem):
         return squared_error
 
     def f2(self, x):
-        # Penalizar la variación entre valores sucesivos en x
-        diffs = np.diff(x, axis=0)  # Calcular las diferencias sucesivas
-        variation_penalty = np.sum(diffs ** 2)  # Minimizar la suma de los cuadrados de las diferencias
-        return variation_penalty
+        return -np.linalg.norm(x, ord=2)
+    # def f2(self, x):
+    #     # Penalizar la variación entre valores sucesivos en x
+    #     diffs = np.diff(x, axis=0)  # Calcular las diferencias sucesivas
+    #     variation_penalty = np.sum(diffs ** 2)  # Minimizar la suma de los cuadrados de las diferencias
+    #     return variation_penalty
 
     def _evaluate(self, x, out, *args, **kwargs):
         f1_values = np.apply_along_axis(self.f1, 1, x)
