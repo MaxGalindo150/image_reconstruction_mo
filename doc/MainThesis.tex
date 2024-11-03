@@ -1,0 +1,110 @@
+\documentclass[12pt, a4paper]{report}
+\input{LaTexPackages.tex}
+\input{CustomFunctions.tex}
+\usepackage{amsmath}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\begin{document}
+\begin{titlepage}
+    \centering  
+    \title{Hybrid Optimization in Photoacoustic Image Reconstruction: Integrating NSGA-III and Tikhonov Regularization} 
+    \author{Maximiliano Galindo}
+    \qualifications{Author Qualifications}
+    \degree{Master of Science}
+    \institution{Universidad Nacional Autónoma de México}
+    \date{November 2021}
+\end{titlepage}
+
+\beginfrontmatter
+%%%%% --------- Abstract --------- %%%%%
+\frontmatter{Abstract}
+\input{000_abstract}
+
+%%%%% ----- Acknowledgements ----- %%%%%
+\frontmatter{Acknowledgements}
+\input{00_acknowledgements}
+
+%%%%% -- Contribution Statement -- %%%%%
+\frontmatter{Contribution statement}
+
+\subsection*{Declaration by author}\sectionisincomplete
+
+\subsection*{Supervisors}
+Title. Supervisor One\affil{1}, Title. Supervisor Two\affil{2}, Title. Supervisor Three\affil{1}, and Title. Supervisor Four\affil{3,4}
+
+\makelongaffil{1}{A \textit{long} affiliation (e.g., School)}{allows for three (e.g., Faculty)}{lines to be specified (e.g., Institution)}
+\makeshortaffil{2}{A \textit{short} affiliation (e.g., Department)}{only has two (e.g., Company)}
+\makeshortaffil{3}{A supervisor may have}{multiple affiliations}
+\makeshortaffil{4}{An affiliation may be used by}{multiple supervisors}
+
+
+%%%%% ----- Publications ----- %%%%%
+\frontmatter{List of publications}
+\sectionisincomplete
+
+\subsection*{Publications included in this thesis}
+\tobecompleted
+
+\subsection*{Submitted manuscripts included in this thesis}
+\tobecompleted
+
+\subsection*{Other publications during candidature}
+\tobecompleted
+
+
+% %%%%% ---- Ethics Statement ----- %%%%%
+% \frontmatter{Ethics approvals}
+% \sectionisincomplete
+
+%%%%% ---- Table of Contents ---- %%%%%
+\tableofcontents
+
+%%%%% ----- List of Figures ----- %%%%%
+\listoffigures
+
+%%%%% ----- List of Tables ------ %%%%%
+\listoftables
+
+%%%%% -- List of Abbreviations -- %%%%%
+\input{Abbreviations}
+\printnomenclature
+
+\beginmaincontent
+%%%%% ------ Introduction ------ %%%%%
+\maincontent{Introduction}
+\input{1_introduction}
+
+%%%%% ---- Literature Review ---- %%%%%
+\maincontent{Literature review}
+\input{2_LiteratureReview}
+
+%%%%% ------- Methodology ------- %%%%%
+\maincontent{Methodology}
+\input{3_Methodology}
+
+%%%%% ----- Experiments and Results ----- %%%%%
+\maincontent{Experiments and Results} 
+\input{4_Experiments}
+
+%%%%% -------- Analysis -------- %%%%%
+\maincontent{Analysis}
+\input{5_Analysis}
+
+%%%%% ------ Paper 4 ------ %%%%%
+% \maincontent{Congratulations, Doctor.}
+% \input{6_PaperFour}
+
+% %%%%% ------ Paper 5 ------ %%%%%
+% \maincontent{Okay, nobody likes a show-off}
+% \input{7_PaperFive}
+
+%%%%% ------ Conclusion ------ %%%%%
+\maincontent{Conclusion}
+\input{9_Conclusion}
+
+%%%%% ------ References ------ %%%%%
+\backmatter{References}
+\bibliography{references.bib} %%All bibtex references are in references.bib file
+\bibliographystyle{abbrv}
+
+\end{document}

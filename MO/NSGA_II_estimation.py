@@ -43,6 +43,21 @@ def nsga2_estimation(MODEL, PROBE, SIGNAL, n_var, b, lambda_tikhonov):
     # best_solution = solutions[min_index]
     # best_objective_values = objective_values[min_index]
     
+    #mu = mo_estimation(MODEL, tikhonov_aprox)
+    
 
     return tikhonov_aprox
 #best_solution
+
+def mo_estimation(MODEL,d_est):
+        mu_est_mo = np.zeros(MODEL.Nd)
+        vec_a_est_mo = np.zeros(MODEL.Nd)
+
+        mu_est_mo[0] = d_est[0]
+
+        for iter in range(1, MODEL.Nd):
+            vec_a_est_mo[iter - 1] = np.exp(-mu_est_mo[iter - 1] * MODEL.dz)
+            mu_est_mo[iter] = d_est[iter] / np.prod(vec_a_est_mo[:iter])
+
+
+        return mu_est_mo
