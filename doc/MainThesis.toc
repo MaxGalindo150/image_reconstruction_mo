@@ -22,15 +22,15 @@
 \contentsline {section}{\numberline {2.5}Limitations and Challenges in Photoacoustic Imaging Reconstruction}{5}{}%
 \contentsline {chapter}{\numberline {3}Methodology}{6}{}%
 \contentsline {section}{\numberline {3.1}Simulation and Experimental Setup}{6}{}%
-\contentsline {section}{\numberline {3.2}Regression Methods for Image Reconstruction}{6}{}%
-\contentsline {section}{\numberline {3.3}Multi-Objective Optimization for Image Reconstruction}{6}{}%
-\contentsline {section}{\numberline {3.4}Hybrid Optimization for Image Reconstruction}{6}{}%
-\contentsline {chapter}{\numberline {4}Experiments and Results}{7}{}%
-\contentsline {section}{\numberline {4.1}Experiments in one dimension}{7}{}%
-\contentsline {subsection}{\numberline {4.1.1}Regularized vs Multi-objective optimization}{7}{}%
-\contentsline {subsection}{\numberline {4.1.2}Regularized vs Hybrid optimization}{7}{}%
-\contentsline {section}{\numberline {4.2}Experiments in two dimensions}{7}{}%
-\contentsline {section}{\numberline {4.3}Something meaningful}{7}{}%
+\contentsline {section}{\numberline {3.2}Tikhonov Regularization for Image Reconstruction}{7}{}%
+\contentsline {section}{\numberline {3.3}Multi-Objective Optimization for Image Reconstruction}{7}{}%
+\contentsline {section}{\numberline {3.4}Hybrid Optimization for Image Reconstruction}{7}{}%
+\contentsline {chapter}{\numberline {4}Experiments and Results}{8}{}%
+\contentsline {section}{\numberline {4.1}Experiments in one dimension}{8}{}%
+\contentsline {subsection}{\numberline {4.1.1}Regularized vs Multi-objective optimization}{8}{}%
+\contentsline {subsection}{\numberline {4.1.2}Regularized vs Hybrid optimization}{8}{}%
+\contentsline {section}{\numberline {4.2}Experiments in two dimensions}{8}{}%
+\contentsline {section}{\numberline {4.3}Something meaningful}{8}{}%
 \contentsline {chapter}{\numberline {5}Analysis}{9}{}%
 \contentsline {section}{\numberline {5.1}Advantages and Limitations of the Regression and Regularization Approach}{9}{}%
 \contentsline {section}{\numberline {5.2}Advantages and Limitations of the Multi-objective Optimization Approach}{9}{}%

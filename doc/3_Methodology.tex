@@ -1,15 +1,66 @@
+In this section I will present the methodology used to evaluate and compare the proposed approaches.
+
 \section{Simulation and Experimental Setup} \label{sec:method}
 
-\section{Regression Methods for Image Reconstruction} \label{sec:method:first}
+The experiments I conducted are based on synthetic data, enabling precise control over the noise level and the number of samples. This setup provides valuable insights into the accuracy of the proposed methods for estimating $\mathbf{d}$ and the absorption profile $\mathbf{\mu}$. The simulations were generated using the Linear State Space Model described in Section \ref{sec:lit:two} and the forward model outlined in Section \ref{sec:lit:one}. The forward model relies on the photoacoustic effect—a physical phenomenon in which a material absorbs light and subsequently generates sound waves.
+
+As we see in Section \ref{sec:lit:two}, given the linear state space model we can estimate the absorption profile $\mathbf{\mu}$ by solving the following linear equation matrix:
+
+\begin{equation} \label{eq:linear}
+    \mathbf{y} = \mathbf{H} \mathbf{d} + \mathbf{w}
+\end{equation}
+
+After estimating $\mathbf{d}$, we can estimate $\mathbf{\mu}$ since from the linear state space model we have that:
+
+\begin{equation}
+    \mathbf{d} = \begin{bmatrix}
+                    d_1 \\
+                    d_2 \\
+                    d_3 \\
+                    \vdots \\
+                    d_{N_z}    
+                \end{bmatrix}
+             =
+                \begin{bmatrix}
+                    \mu_0 \\
+                    \mu_1 a_0 \\
+                    \mu_2 a_1 a_0 \\
+                    \vdots \\
+                    \mu_{N_z -1} a_{N_z - 2} a_{N_z - 3} \cdots a_1 a_0
+                \end{bmatrix}
+\end{equation}
+
+The equation \ref{eq:linear} could be solved for $\mathbf{d}$ using least squares regression, but typically the problem is ill-conditioned and the solution is unstable. To stabilize the solution, we can use regularization techniques. The problem can be formulated as follows:
+
+\begin{equation} \label{eq:regularization:one}
+    \hat{\mathbf{d}} = \argmin_{\mathbf{d}} \left\{ \left\| \mathbf{y} - \mathbf{H} \mathbf{d} \right\|_2^2 + \lambda \left\| \mathbf{d} \right\|_2^2 \right\}
+\end{equation}
+
+where $\lambda$ is the regularization parameter that controls the trade-off between the data fidelity term and the regularization term. The solution to this problem is given by:
+
+\begin{equation}
+    \hat{\mathbf{d}} = \left( \mathbf{H}^T \mathbf{H} + \lambda \mathbf{I} \right)^{-1} \mathbf{H}^T \mathbf{y}
+\end{equation}
+
+\section{Tikhonov Regularization for Image Reconstruction} \label{sec:method:first}
+
+The Tikhonov regularization technique is a popular method for stabilizing ill-conditioned reconstruction problems. It introduces a regularization term that penalizes large coefficients in the solution, thereby preventing overfitting and improving the stability of the reconstruction. The Tikhonov regularization problem solves the \label{eq:regularization} by adding a regularization term to the least squares objective function. 
+
+To find the optimal value of $\lambda$, we use the L-curve method, which plots the residual norm $\left\| \mathbf{y} - \mathbf{H} \hat{\mathbf{d}} \right\|_2$ against the regularization norm $\left\| \hat{\mathbf{d}} \right\|_2$. The optimal value of $\lambda$ corresponds to the corner of the L-curve, where the trade-off between data fidelity and regularization is balanced.
 
 \section{Multi-Objective Optimization for Image Reconstruction} \label{sec:method:second}
 
+Multi-objective optimization aims to find a set of solutions that optimize multiple objectives simultaneously. In the context of photoacoustic image reconstruction, the objectives are typically accuracy and efficiency. The NSGA-III algorithm is a popular method for solving multi-objective optimization problems. It uses a genetic algorithm to evolve a population of candidate solutions and maintain a diverse set of non-dominated solutions in the Pareto front.
+
+We use NSGA-III to estimate the data vector $\mathbf{d}$ and from it find the absorption profile $\mu$. The algorithm generates a set of solutions that represent the trade-off between minimizing the data residual $\left\| \mathbf{y} - \mathbf{H} \mathbf{d} \right\|_2$ and minimizing the regularization term $\left\| \mathbf{d} \right\|_2$. The solutions in the Pareto front provide a range of possible solutions that balance accuracy and stability in the reconstruction process.
+
+
 \section{Hybrid Optimization for Image Reconstruction} \label{sec:method:third}
 
+The hybrid optimization approach integrates NSGA-III and Tikhonov regularization to improve the accuracy and stability of the reconstruction process. The algorithm combines the benefits of multi-objective optimization and regularization techniques to find a set of solutions that balance accuracy and stability. The problem is the same as in \ref{eq:regularization:one}, but first we find an approximated solution using Tikhovon regularization and then we use NSGA-III to find a set of solutions that optimize the objectives. Using the first solutin provided by Tikhonov regularization as the initial population of NSGA-III, we can improve the convergence of the algorithm and obtain a more diverse set of solutions in the Pareto front. The best solution in the Pareto front could be more accurate and stable than the solution provided by Tikhonov regularization alone.
 
 
 
 
-\input{Figures/Chair}
 
-A chair!
+%\input{Figures/Chair}
