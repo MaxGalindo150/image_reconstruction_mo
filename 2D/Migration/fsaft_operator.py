@@ -32,7 +32,7 @@ def fsaft_operator(Ps, dt, dx, c0):
     # Interpolación lineal
     fs = 1 / dt  # Frecuencia de muestreo de las señales de ultrasonido
     f = (np.arange(-nt/2, nt/2) * fs / nt)
-    kx = np.arange(-ny/2, ny/2) / dx / ny
+    kx = (np.arange(-ny/2, ny/2)) / dx / ny
     kx, f = np.meshgrid(kx, f)
     fkz = c0 * np.sign(f) * np.sqrt(kx**2 + (f / c0)**2)
     nearestind, colind = nearest(f, fkz)
