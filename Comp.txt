@@ -1,0 +1,7 @@
+A nivel de ejecuccui comparar a nivel hypervolumen iteracion vs hypervolumen
+Tabla donde se tiene media y desviacion cada linea es una instancia 
+
+Comportamiento del algotimo search trajectory network 
+Local optima network analisar el problema el pasaije de aptitud del problema
+
+Hacer suma ponderada 

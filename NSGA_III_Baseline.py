@@ -10,6 +10,9 @@ from SSM.Set_Settings import set_settings
 from SSM.Regularized_Estimation import regularized_estimation
 import numpy as np
 from pymoo.core.evaluator import Evaluator
+from pymoo.operators.crossover.sbx import SBX
+from pymoo.operators.mutation.pm import PolynomialMutation
+from pymoo.operators.crossover.ux import UniformCrossover
 
 
 from MO.MOP_Definition_Pymoo import ImageReconstructionProblem
@@ -27,13 +30,17 @@ n_var = 20
 tikhonov_aprox = regularized_estimation(MODEL, SIGNAL, dim=1).reshape(n_var)  # Asegurarse de que sea un vector de una dimensión
 
 
-problem = ImageReconstructionProblem(MODEL, PROBE, SIGNAL, n_var, tikhonov_aprox=None)
+problem = ImageReconstructionProblem(MODEL, PROBE, SIGNAL, n_var, tikhonov_aprox=tikhonov_aprox)
 
 # Crear las direcciones de referencia para la optimización
 ref_dirs = get_reference_directions("das-dennis", problem.n_obj, n_partitions=12)
 
 # Crear el objeto del algoritmo
-algorithm = NSGA3(pop_size=500, ref_dirs=ref_dirs)
+algorithm = NSGA3(pop_size=500, 
+                  ref_dirs=ref_dirs,
+                  crossover=SBX(prob=0.9, eta=15),
+                  mutation=PolynomialMutation(prob=0.9, eta=25),
+                  eliminate_duplicates=True)
 
 
 
