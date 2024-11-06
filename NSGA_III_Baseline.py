@@ -16,6 +16,9 @@ from pymoo.operators.crossover.ux import UniformCrossover
 
 
 from MO.MOP_Definition_Pymoo import ImageReconstructionProblem
+from MO.custom_crossover import CustomCrossover
+from MO.custom_mutation import CustomMutation
+
 from pymoo.core.problem import StarmapParallelization
 
 import multiprocessing
@@ -30,16 +33,16 @@ n_var = 20
 tikhonov_aprox = regularized_estimation(MODEL, SIGNAL, dim=1).reshape(n_var)  # Asegurarse de que sea un vector de una dimensión
 
 
-problem = ImageReconstructionProblem(MODEL, PROBE, SIGNAL, n_var, tikhonov_aprox=tikhonov_aprox)
+problem = ImageReconstructionProblem(MODEL, PROBE, SIGNAL, n_var, tikhonov_aprox=None)
 
 # Crear las direcciones de referencia para la optimización
-ref_dirs = get_reference_directions("das-dennis", problem.n_obj, n_partitions=12)
+ref_dirs = get_reference_directions("das-dennis", problem.n_obj, n_partitions=15)
 
 # Crear el objeto del algoritmo
-algorithm = NSGA3(pop_size=500, 
+algorithm = NSGA3(pop_size=1000, 
                   ref_dirs=ref_dirs,
-                  crossover=SBX(prob=0.9, eta=15),
-                  mutation=PolynomialMutation(prob=0.9, eta=25),
+                  crossover=SBX(prob=0.9, eta=20),
+                  mutation=PolynomialMutation(prob=0.5, eta=30),
                   eliminate_duplicates=True)
 
 
@@ -49,7 +52,7 @@ res = minimize(problem,
                algorithm,
                seed=1,
                termination=('n_gen',1000),
-               verbose=True)  # Asignar el número de procesos aquí
+               verbose=True) 
 
 # Acceder a las soluciones y valores de las funciones objetivo
 solutions = res.X
