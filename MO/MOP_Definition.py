@@ -12,7 +12,14 @@ class ImageReconstructionProblem(Problem):
         self.SIGNAL = SIGNAL
         self.n_var = 20 if n_var is None else n_var
         self.n_obj = 2
-        Problem.__init__(self, n_var=self.n_var, n_obj=self.n_obj, n_constr=0, xl=800, xu=2000)
+        if tikhonov_aprox is not None:
+            tikhonov_aprox = tikhonov_aprox.flatten()
+            xl = np.maximum(0, tikhonov_aprox - 1000)  # Asegurar positividad
+            xu = tikhonov_aprox + 100
+        else:
+            xl = 750 # Establecer límite inferior en 0 para positividad
+            xu = 2000
+        Problem.__init__(self, n_var=self.n_var, n_obj=self.n_obj, n_constr=0, xl=xl, xu=xu)
         
     def f1(self, x):
         if self.b is not None:
@@ -24,12 +31,13 @@ class ImageReconstructionProblem(Problem):
         return squared
     
     def f2(self, x):
-        return -np.linalg.norm(x, ord=2)
+        return np.linalg.norm(x, ord=2)
 
     
     def evaluate(self, x):
         x = x.reshape(self.n_var, 1)
-        return np.array([self.f1(x), self.f2(x)])
+    
+        return np.array([self.f1(x)/40, self.f2(x)/50000])
     
     def mo_estimation(self, d_est):
         mu_est_mo = np.zeros(self.MODEL.Nd)

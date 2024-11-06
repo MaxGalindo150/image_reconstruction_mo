@@ -109,7 +109,7 @@ class NSGA2:
 
     def mutate(self, individual, mutation_rate, generation, max_generations):
         point = individual.point.copy()
-        mutation_magnitude = 1 * (1 - generation / max_generations)
+        mutation_magnitude = 2000 * (1 - generation / max_generations)
 
         if np.random.rand() < mutation_rate:
             for i in range(len(point)):

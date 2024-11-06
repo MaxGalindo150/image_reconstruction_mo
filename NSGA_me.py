@@ -8,6 +8,7 @@ from SSM.Generate_Measurements import generate_measurements
 from SSM.Generate_SSM_Model import generate_ssm_model
 from SSM.Set_Settings import set_settings
 from SSM.Regularized_Estimation import regularized_estimation
+from MO.NSGA_II import NSGA2
 import numpy as np
 from pymoo.core.evaluator import Evaluator
 from pymoo.operators.crossover.sbx import SBX
@@ -15,7 +16,7 @@ from pymoo.operators.mutation.pm import PolynomialMutation
 from pymoo.operators.crossover.ux import UniformCrossover
 
 
-from MO.MOP_Definition_Pymoo import ImageReconstructionProblem
+from MO.MOP_Definition import ImageReconstructionProblem
 from MO.custom_crossover import CustomCrossover
 from MO.custom_mutation import CustomMutation
 
@@ -33,37 +34,16 @@ n_var = 20
 tikhonov_aprox = regularized_estimation(MODEL, SIGNAL, dim=1).reshape(n_var)  # Asegurarse de que sea un vector de una dimensión
 
 
-problem = ImageReconstructionProblem(MODEL, PROBE, SIGNAL, n_var, tikhonov_aprox=None)
+problem = ImageReconstructionProblem(MODEL, PROBE, SIGNAL, n_var, tikhonov_aprox=tikhonov_aprox)
 
-# Crear las direcciones de referencia para la optimización
-ref_dirs = get_reference_directions("das-dennis", problem.n_obj, n_partitions=15)
+nsga2 = NSGA2(generations=500,population_size=100, mutation_rate=0.8, problem=problem)
 
-# Crear el objeto del algoritmo
-algorithm = NSGA3(pop_size=100, 
-                  ref_dirs=ref_dirs,
-                  crossover=CustomCrossover(0.5),
-                  mutation=CustomMutation(0.8, 500),
-                  eliminate_duplicates=True)
+x = [individual.values[0] for individual in nsga2.P_t]
+y = [individual.values[1] for individual in nsga2.P_t]
 
+best_individual_nsga2 = min(nsga2.P_t, key=lambda p: p.values[0])
+best_solution = best_individual_nsga2.point
 
-
-# Ejecutar la optimización
-res = minimize(problem,
-               algorithm,
-               seed=1,
-               termination=('n_gen',500),
-               verbose=True) 
-
-# Acceder a las soluciones y valores de las funciones objetivo
-solutions = res.X
-objective_values = res.F
-
-# Encontrar el índice de la solución con el menor valor en el objetivo 1
-min_index = np.argmin(objective_values[:, 0])
-
-# Obtener la solución correspondiente a ese índice
-best_solution = solutions[min_index]
-best_objective_values = objective_values[min_index]
 
 if np.allclose(best_solution, tikhonov_aprox, atol=1e-10):
     print('The best solution is the Tikhonov approximation')
@@ -85,8 +65,14 @@ plt.title('Comparison of mu Estimations', fontsize=16)
 plt.legend(fontsize=12)
 plt.grid(True)
 
-plt.savefig('img/nsga2_pro/mu_est_nsga2.png')
+plt.savefig('img/nsga2_pro/mu_est_nsga2_me.png')
 plt.close()
 
-# Visualizar el frente de Pareto
-Scatter().add(res.F).show().save('pareto_front.png')
+plt.figure()
+plt.scatter(x, y, c='red')
+plt.xlabel('f1')
+plt.ylabel('f2')
+plt.savefig('pareto_front_me.png')
+
+# # Visualizar el frente de Pareto
+# Scatter().add(res.F).show().save('pareto_front.png')

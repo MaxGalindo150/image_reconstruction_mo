@@ -8,13 +8,13 @@ class ImageReconstructionProblem(Problem):
         self.PROBE = PROBE
         self.SIGNAL = SIGNAL
         self.n_var = 20 if n_var is None else n_var
-        self.n_obj = 3  # Cambiar a 3 si añades un tercer objetivo
+        self.n_obj = 2  # Cambiar a 3 si añades un tercer objetivo
         if tikhonov_aprox is not None:
             tikhonov_aprox = tikhonov_aprox.flatten()
             xl = np.maximum(0, tikhonov_aprox - 1000)  # Asegurar positividad
             xu = tikhonov_aprox + 100
         else:
-            xl = 0 # Establecer límite inferior en 0 para positividad
+            xl = 750 # Establecer límite inferior en 0 para positividad
             xu = 25000
         Problem.__init__(self, n_var=self.n_var, n_obj=self.n_obj, n_constr=0, xl=xl, xu=xu)
         
@@ -28,10 +28,10 @@ class ImageReconstructionProblem(Problem):
 
     
 
-    def f3(self, x):
+    def f2(self, x):
         return np.linalg.norm(x, ord=2)
     
-    def f2(self, x):
+    def f3(self, x):
         diffs = np.diff(x, axis=0)
         smoothness_penalty = np.sum(diffs ** 2)
         return smoothness_penalty
@@ -54,7 +54,7 @@ class ImageReconstructionProblem(Problem):
         f2_values_normalized = f2_values / f2_max if f2_max != 0 else f2_values
         f3_values_normalized = f3_values / f3_max if f3_max != 0 else f3_values
         
-        out["F"] = np.column_stack([f1_values_normalized, f2_values_normalized, f3_values_normalized])
+        out["F"] = np.column_stack([f1_values_normalized, f2_values_normalized])
 
 
     def mo_estimation(self, d_est):
