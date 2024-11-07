@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from pymoo.algorithms.moo.nsga3 import NSGA3
+from pymoo.algorithms.moo.nsga2 import NSGA2
 from pymoo.optimize import minimize
 from pymoo.util.ref_dirs import get_reference_directions
 from pymoo.visualization.scatter import Scatter
@@ -33,16 +33,16 @@ n_var = 20
 tikhonov_aprox = regularized_estimation(MODEL, SIGNAL, dim=1).reshape(n_var)  # Asegurarse de que sea un vector de una dimensión
 
 
-problem = ImageReconstructionProblem(MODEL, PROBE, SIGNAL, n_var, tikhonov_aprox=None)
+problem = ImageReconstructionProblem(MODEL, PROBE, SIGNAL, n_var, tikhonov_aprox=tikhonov_aprox)
 
 # Crear las direcciones de referencia para la optimización
 ref_dirs = get_reference_directions("das-dennis", problem.n_obj, n_partitions=15)
 
 # Crear el objeto del algoritmo
-algorithm = NSGA3(pop_size=100, 
-                  ref_dirs=ref_dirs,
-                  crossover=CustomCrossover(0.5),
-                  mutation=CustomMutation(0.8, 500),
+algorithm = NSGA2(pop_size=200, 
+                  #ref_dirs=ref_dirs,
+                  crossover=CustomCrossover(prob=0.9),
+                  mutation=CustomMutation(prob=0.9, max_generations=1000),
                   eliminate_duplicates=True)
 
 
@@ -51,7 +51,7 @@ algorithm = NSGA3(pop_size=100,
 res = minimize(problem,
                algorithm,
                seed=1,
-               termination=('n_gen',500),
+               termination=('n_gen',1000),
                verbose=True) 
 
 # Acceder a las soluciones y valores de las funciones objetivo

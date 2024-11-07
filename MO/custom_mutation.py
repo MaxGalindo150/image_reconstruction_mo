@@ -10,7 +10,7 @@ class CustomMutation(Mutation):
         self.generation = 0
 
     def _do(self, problem, X, **kwargs):
-        self.generation += 0.5
+        self.generation += 0.3
 
         for i in range(X.shape[0]):  # Iterar sobre cada individuo
             if np.random.rand() < self.prob:

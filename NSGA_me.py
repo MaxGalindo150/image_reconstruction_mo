@@ -36,7 +36,7 @@ tikhonov_aprox = regularized_estimation(MODEL, SIGNAL, dim=1).reshape(n_var)  # 
 
 problem = ImageReconstructionProblem(MODEL, PROBE, SIGNAL, n_var, tikhonov_aprox=tikhonov_aprox)
 
-nsga2 = NSGA2(generations=500,population_size=100, mutation_rate=0.8, problem=problem)
+nsga2 = NSGA2(generations=450,population_size=100, mutation_rate=0.8, problem=problem)
 
 x = [individual.values[0] for individual in nsga2.P_t]
 y = [individual.values[1] for individual in nsga2.P_t]
