@@ -11,8 +11,8 @@ class ImageReconstructionProblem(Problem):
         self.n_obj = 2  # Cambiar a 3 si añades un tercer objetivo
         if tikhonov_aprox is not None:
             tikhonov_aprox = tikhonov_aprox.flatten()
-            xl = np.maximum(0, tikhonov_aprox - 1000)  # Asegurar positividad
-            xu = tikhonov_aprox + 100
+            xl = tikhonov_aprox - 1000  # Asegurar positividad
+            xu = tikhonov_aprox + 10
         else:
             xl = 750 # Establecer límite inferior en 0 para positividad
             xu = 25000

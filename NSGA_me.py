@@ -34,9 +34,9 @@ n_var = 20
 tikhonov_aprox = regularized_estimation(MODEL, SIGNAL, dim=1).reshape(n_var)  # Asegurarse de que sea un vector de una dimensión
 
 
-problem = ImageReconstructionProblem(MODEL, PROBE, SIGNAL, n_var, tikhonov_aprox=tikhonov_aprox)
+problem = ImageReconstructionProblem(MODEL, PROBE, SIGNAL, n_var, tikhonov_aprox=None)
 
-nsga2 = NSGA2(generations=450,population_size=100, mutation_rate=0.8, problem=problem)
+nsga2 = NSGA2(generations=450,population_size=100, mutation_rate=0.1, problem=problem)
 
 x = [individual.values[0] for individual in nsga2.P_t]
 y = [individual.values[1] for individual in nsga2.P_t]
@@ -61,7 +61,7 @@ plt.plot(mu_est_tikh, label='Tikhonov Estimation', linestyle='-.', color='r')
 
 plt.xlabel('Depth', fontsize=14)
 plt.ylabel('mu', fontsize=14)
-plt.title('Comparison of mu Estimations', fontsize=16)
+plt.title('Sin Informar a NSGA-II (me)', fontsize=16)
 plt.legend(fontsize=12)
 plt.grid(True)
 
@@ -70,6 +70,7 @@ plt.close()
 
 plt.figure()
 plt.scatter(x, y, c='red')
+plt.title('Pareto Front (me)')
 plt.xlabel('f1')
 plt.ylabel('f2')
 plt.savefig('pareto_front_me.png')

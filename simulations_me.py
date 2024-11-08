@@ -25,7 +25,7 @@ MODEL = generate_linear_model(model, signal, PROBE)
 
 # Valores de sigma (σ_w²) de 10^-10 a 10^-1
 sigmas = [0.0, 1e-4, 1e-3, 1e-2, 1e-1, 1.0]
-num_simulations = 1
+num_simulations = 10
 
 # Para almacenar los resultados
 avg_rmse_lsq = []
