@@ -79,7 +79,6 @@ def run_simulation(i, sigma):
     return (rmse_lsq, rmse_nsga2, rmse_tikhonov, rmse_tikhonov_nsga)
 
 
-# Ejecutar simulaciones en paralelo con barra de progreso
 with open("results.csv", mode='w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(["sigma", "lse", "nsga2", "tikhonov", "tikhonov_nsga"])

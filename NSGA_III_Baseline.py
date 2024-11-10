@@ -33,7 +33,7 @@ SIGNAL = generate_measurements(signal, MODEL, sigma=0)
 n_var = 20
 tikhonov_aprox = regularized_estimation(MODEL, SIGNAL, dim=1).reshape(n_var)  # Asegurarse de que sea un vector de una dimensión
 
-problem = ImageReconstructionProblem(MODEL, PROBE, SIGNAL, n_var, tikhonov_aprox=None)
+problem = ImageReconstructionProblem(MODEL, PROBE, SIGNAL, n_var, tikhonov_aprox=tikhonov_aprox)
 
 def binary_tournament(pop, P, **kwargs):
     # P define los torneos y los competidores
@@ -57,9 +57,8 @@ def binary_tournament(pop, P, **kwargs):
 
     return S
 
-# Configurar el algoritmo NSGA-II con la selección personalizada
 algorithm = NSGA2(
-    pop_size=1000,
+    pop_size=500,
     sampling=LHS(),
     crossover=CustomCrossover(prob=0.9),
     mutation=CustomMutation(prob=0.9, max_generations=1000),
@@ -67,36 +66,29 @@ algorithm = NSGA2(
     eliminate_duplicates=True
 )
 
-# Ejecutar la optimización
 res = minimize(problem,
                algorithm,
                seed=1,
                termination=('n_gen', 1000),
                verbose=True)
 
-# Acceder a las soluciones y valores de las funciones objetivo
 solutions = res.X
 objective_values = res.F
 
-# Encontrar el índice de la solución con el menor valor en el objetivo 1
 min_index = np.argmin(objective_values[:, 0])
 
-# Obtener la solución correspondiente a ese índice
 best_solution = solutions[min_index]
 best_objective_values = objective_values[min_index]
 
-# Verificar si la mejor solución es similar a la aproximación de Tikhonov
 if np.allclose(best_solution, tikhonov_aprox, atol=1e-10):
     print('The best solution is the Tikhonov approximation')
 
-# Obtener las estimaciones de mu
 mu_est_nsga2 = problem.mo_estimation(best_solution.reshape(20, 1))
 mu_est_tikh = problem.mo_estimation(tikhonov_aprox.reshape(20, 1))
 
 print(f'NSGA-II Estimation (mu): {mu_est_nsga2}')
 print(f'Tikhonov Estimation (mu): {mu_est_tikh}')
 
-# Graficar y guardar la comparación de estimaciones de mu
 plt.figure(figsize=(10, 6))
 plt.plot(mu_est_nsga2, label='NSGA-II Estimation', linestyle='-', color='b')
 plt.plot(PROBE.mu, label='True mu', linestyle='--', color='g')
@@ -108,7 +100,6 @@ plt.title('Sin informar a NSGA-II (pymoo)', fontsize=16)
 plt.legend(fontsize=12)
 plt.grid(True)
 
-# Guardar la gráfica
 plt.savefig('img/nsga2_pro/mu_est_nsga2.png')
 plt.close()
 

@@ -4,8 +4,7 @@ import csv
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from tqdm import tqdm
 from External_lib.rmse import rmse
-from MO.MOP_Definition_Pymoo import ImageReconstructionProblem
-from MO.NSGA_II import NSGA2
+
 from SSM.Estimation import estimation
 from SSM.Generate_Linear_Model import generate_linear_model
 from SSM.Generate_Measurements import generate_measurements
@@ -13,9 +12,38 @@ from SSM.Generate_SSM_Model import generate_ssm_model
 from SSM.Regularized_Estimation import regularized_estimation
 from SSM.Set_Settings import set_settings
 
-from pymoo.algorithms.moo.nsga3 import NSGA3
+from pymoo.algorithms.moo.nsga2 import NSGA2
 from pymoo.optimize import minimize
 from pymoo.util.ref_dirs import get_reference_directions
+from pymoo.operators.selection.tournament import TournamentSelection
+from pymoo.operators.sampling.lhs import LHS
+
+from MO.custom_crossover import CustomCrossover
+from MO.custom_mutation import CustomMutation
+from MO.MOP_Definition_Pymoo import ImageReconstructionProblem
+
+
+def binary_tournament(pop, P, **kwargs):
+    # P define los torneos y los competidores
+    n_tournaments, n_competitors = P.shape
+
+    if n_competitors != 2:
+        raise Exception("Only pressure=2 allowed for binary tournament!")
+
+    # Resultado que esta función debe devolver
+    S = np.full(n_tournaments, -1, dtype=int)
+
+    # Realizar todos los torneos
+    for i in range(n_tournaments):
+        a, b = P[i]
+
+        # Si el primer individuo es mejor, elígelo
+        if pop[a].F[0] < pop[b].F[0]:  
+            S[i] = a
+        else:
+            S[i] = b
+
+    return S
 
 # Configuración del modelo
 n_var = 20
@@ -43,12 +71,18 @@ def run_simulation(i, sigma):
     # Crear las direcciones de referencia para la optimización
     ref_dirs = get_reference_directions("das-dennis", problem.n_obj, n_partitions=12)
     # Crear el objeto del algoritmo
-    algorithm = NSGA3(pop_size=100, ref_dirs=ref_dirs)
-    # Ejecutar la optimización
+    algorithm = NSGA2(
+        pop_size=500,
+        sampling=LHS(),
+        crossover=CustomCrossover(prob=0.9),
+        mutation=CustomMutation(prob=0.9, max_generations=1000),
+        selection=TournamentSelection(func_comp=binary_tournament),
+        eliminate_duplicates=True
+    )
     res = minimize(problem,
                 algorithm,
                 seed=1,
-                termination=('n_gen', 2500))
+                termination=('n_gen', 1000))
     solutions = res.X
     objective_values = res.F
     # Encontrar el índice de la solución con el menor valor en el objetivo 1
@@ -71,12 +105,18 @@ def run_simulation(i, sigma):
     # Crear las direcciones de referencia para la optimización
     ref_dirs = get_reference_directions("das-dennis", problem.n_obj, n_partitions=12)
     # Crear el objeto del algoritmo
-    algorithm = NSGA3(pop_size=100, ref_dirs=ref_dirs)
-    # Ejecutar la optimización
+    algorithm = NSGA2(
+        pop_size=500,
+        sampling=LHS(),
+        crossover=CustomCrossover(prob=0.9),
+        mutation=CustomMutation(prob=0.9, max_generations=1000),
+        selection=TournamentSelection(func_comp=binary_tournament),
+        eliminate_duplicates=True
+    ) 
     res = minimize(problem,
                 algorithm,
                 seed=1,
-                termination=('n_gen', 2500))
+                termination=('n_gen', 1000))
     solutions = res.X
     objective_values = res.F
     # Encontrar el índice de la solución con el menor valor en el objetivo 1
@@ -142,4 +182,4 @@ plt.legend()
 plt.grid(True)
 
 # Guardar la gráfica
-plt.savefig("img/impact_of_noise_on_rmse.png")
+plt.savefig("img/impact_of_noise_on_rmse_2.png")
