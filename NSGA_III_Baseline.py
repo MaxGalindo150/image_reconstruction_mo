@@ -31,9 +31,9 @@ SIGNAL = generate_measurements(signal, MODEL, sigma=0)
 
 # Dimensión del vector a estimar
 n_var = 20
-tikhonov_aprox = regularized_estimation(MODEL, SIGNAL, dim=1).reshape(n_var)  # Asegurarse de que sea un vector de una dimensión
-
-problem = ImageReconstructionProblem(MODEL, PROBE, SIGNAL, n_var, tikhonov_aprox=tikhonov_aprox)
+tikhonov_aprox, _ = regularized_estimation(MODEL, SIGNAL, dim=1) # Asegurarse de que sea un vector de una dimensión
+tikhonov_aprox = tikhonov_aprox.flatten()
+problem = ImageReconstructionProblem(MODEL, PROBE, SIGNAL, n_var=n_var, tikhonov_aprox=None)
 
 def binary_tournament(pop, P, **kwargs):
     # P define los torneos y los competidores

@@ -14,7 +14,7 @@ class CustomMutation(Mutation):
 
         for i in range(X.shape[0]):  # Iterar sobre cada individuo
             if np.random.rand() < self.prob:
-                mutation_magnitude = 20000 * (1 - self.generation / self.max_generations)
+                mutation_magnitude = 1000 * (1 - self.generation / self.max_generations)
                 for j in range(X.shape[1]):  # Iterar sobre cada gen
                     direction = np.random.uniform(0, 1)
                     if direction < 0.5:

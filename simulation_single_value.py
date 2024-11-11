@@ -1,12 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import csv
-import pandas as pd
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from tqdm import tqdm
+
 from External_lib.rmse import rmse
+from External_lib.Tikhonov import tikhonov
 
-
+from SSM.mu_from_d import mu_from_d
 from SSM.Estimation import estimation
 from SSM.Generate_Linear_Model import generate_linear_model
 from SSM.Generate_Measurements import generate_measurements
@@ -19,10 +20,11 @@ from pymoo.optimize import minimize
 from pymoo.util.ref_dirs import get_reference_directions
 from pymoo.operators.selection.tournament import TournamentSelection
 from pymoo.operators.sampling.lhs import LHS
+from pymoo.operators.mutation.pm import PolynomialMutation
 
 from MO.custom_crossover import CustomCrossover
 from MO.custom_mutation import CustomMutation
-from MO.MOP_Definition_Pymoo import ImageReconstructionProblem
+from SingleValue.SingleValueProblem import SingleValueReconstructionProblem
 
 
 def binary_tournament(pop, P, **kwargs):
@@ -69,50 +71,52 @@ def run_simulation(i, sigma):
     SIGNAL = generate_measurements(signal, MODEL, sigma)
     
     # MO con NSGA-III
-    problem = ImageReconstructionProblem(MODEL=MODEL, PROBE=PROBE, SIGNAL=SIGNAL, n_var=n_var)
-    # Crear las direcciones de referencia para la optimización
-    ref_dirs = get_reference_directions("das-dennis", problem.n_obj, n_partitions=12)
-    # Crear el objeto del algoritmo
+    problem = SingleValueReconstructionProblem(MODEL=MODEL, SIGNAL=SIGNAL)
+    
     algorithm = NSGA2(
         pop_size=500,
         sampling=LHS(),
-        crossover=CustomCrossover(prob=0.9),
-        mutation=CustomMutation(prob=0.9, max_generations=1000),
-        selection=TournamentSelection(func_comp=binary_tournament),
+        crossover=CustomCrossover(prob=1.0),
+        mutation=PolynomialMutation(prob=0.83, eta=50),
+        #selection=TournamentSelection(func_comp=binary_tournament),
         eliminate_duplicates=True
     )
+    
     res = minimize(problem,
                 algorithm,
                 seed=1,
                 termination=('n_gen', 1000))
+    
     solutions = res.X
-    objective_values = res.F
-    # Encontrar el índice de la solución con el menor valor en el objetivo 1
-    min_index = np.argmin(objective_values[:, 0])
-    # Obtener la solución correspondiente a ese índice
-    d_est_nsga = solutions[min_index]
-    best_objective_values = objective_values[min_index]
-    mu_est_nsga = problem.mo_estimation(d_est_nsga.reshape(20,1))
+    objectives = res.F
+    
+
+    min_index = np.argmin(objectives[:, 0])
+
+    lambda_first_obj = solutions[min_index]
+    best_objective_values = objectives[min_index]
+    
+    # L-Curve
+    d_est_l_curve, l_curve_sol = regularized_estimation(MODEL, SIGNAL, dim=1)
+    # NSGA-II
+    d_est_nsga2 = tikhonov(MODEL.H, SIGNAL.y, lambda_first_obj, dim=1)
     
     # LSQ
     ESTIMATION_RESULTS = estimation(MODEL, SIGNAL)
     mu_est_lsq = ESTIMATION_RESULTS.mu
 
-    # Tikhonov
-    d_est_tikh = regularized_estimation(MODEL, SIGNAL, dim=1).reshape(n_var, 1)
-    mu_est_tikh = problem.mo_estimation(d_est_tikh.reshape(20,1))
-
+    mu_est_nsga2 = problem.mo_estimation(d_est_nsga2)
+    mu_est_l_curve = problem.mo_estimation(d_est_l_curve)
+    
     #Thikonov and NSGA
-    problem = ImageReconstructionProblem(MODEL=MODEL, PROBE=PROBE, SIGNAL=SIGNAL, n_var=n_var, tikhonov_aprox=d_est_tikh)
+    problem = SingleValueReconstructionProblem(MODEL=MODEL, SIGNAL=SIGNAL, l_curve_sol=l_curve_sol)
     # Crear las direcciones de referencia para la optimización
-    ref_dirs = get_reference_directions("das-dennis", problem.n_obj, n_partitions=12)
-    # Crear el objeto del algoritmo
     algorithm = NSGA2(
         pop_size=500,
         sampling=LHS(),
-        crossover=CustomCrossover(prob=0.9),
-        mutation=CustomMutation(prob=0.9, max_generations=1000),
-        selection=TournamentSelection(func_comp=binary_tournament),
+        crossover=CustomCrossover(prob=1.0),
+        mutation=PolynomialMutation(prob=0.83, eta=50),
+        #selection=TournamentSelection(func_comp=binary_tournament),
         eliminate_duplicates=True
     ) 
     res = minimize(problem,
@@ -120,28 +124,28 @@ def run_simulation(i, sigma):
                 seed=1,
                 termination=('n_gen', 1000))
     solutions = res.X
-    objective_values = res.F
+    objectives = res.F
     # Encontrar el índice de la solución con el menor valor en el objetivo 1
-    min_index = np.argmin(objective_values[:, 0])
+    min_index = np.argmin(objectives[:, 0])
     # Obtener la solución correspondiente a ese índice
-    d_est_nsga = solutions[min_index]
-    best_objective_values = objective_values[min_index]
-    mu_est_tikh_nsga = problem.mo_estimation(d_est_nsga.reshape(20,1))
-    
+    lambda_first_obj = solutions[min_index]
+    best_objective_values = objectives[min_index]
+    d_est_nsga_l_curve = tikhonov(MODEL.H, SIGNAL.y, lambda_first_obj, dim=1)
+    mu_est_nsga_l_curve = problem.mo_estimation(d_est_nsga_l_curve) 
 
     # Calcular RMSE para cada método
     rmse_lsq = rmse(PROBE.mu, mu_est_lsq)
-    rmse_nsga2 = rmse(PROBE.mu, mu_est_nsga)
-    rmse_tikhonov = rmse(PROBE.mu, mu_est_tikh)
-    rmse_tikhonov_nsga = rmse(PROBE.mu, mu_est_tikh_nsga)
+    rmse_nsga2 = rmse(PROBE.mu, mu_est_nsga2)
+    rmse_l_curve = rmse(PROBE.mu, mu_est_l_curve)
+    rmse_nsga2_l_curve = rmse(PROBE.mu, mu_est_nsga_l_curve)
 
-    return (rmse_lsq, rmse_nsga2, rmse_tikhonov, rmse_tikhonov_nsga)
+    return (rmse_lsq, rmse_nsga2, rmse_l_curve, rmse_nsga2_l_curve)
 
 
 # Ejecutar simulaciones en paralelo con barra de progreso
 with open("results.csv", mode='w', newline='') as file:
     writer = csv.writer(file)
-    writer.writerow(["sigma", "lse", "nsga2", "tikhonov", "tikhonov_nsga"])
+    writer.writerow(["sigma", "lse", "nsga2", "l_curve", "nsga2_l_curve"])
     
     for sigma in sigmas:
         rmse_lsq_list = []
@@ -184,4 +188,4 @@ plt.legend()
 plt.grid(True)
 
 # Guardar la gráfica
-plt.savefig("img/impact_of_noise_on_rmse_2.png")
+plt.savefig("img/impact_of_noise_on_rmse_single.png")

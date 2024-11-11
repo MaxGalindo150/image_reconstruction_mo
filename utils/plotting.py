@@ -36,13 +36,11 @@ def plot_pareto_front(F, archive=None, img_dir=None, tikhonov_sol=None, from_loa
     scatter_plot.save(f"{img_dir}/pareto_front.png")
 
     # Graficar el frente de Pareto global (archivo externo)
-    # final_archive_objectives = np.array([sol["F"] for sol in archive])
-    # scatter_plot = Scatter().add(final_archive_objectives, label="Global Pareto Front")
-    # scatter_plot.add(tikhonov_sol, label="Tikhonov Solution", color="red")
-
-    # Guardar la gráfica con un nombre diferente si es desde un archivo cargado
+    final_archive_objectives = np.array([sol["F"] for sol in archive])
+    scatter_plot = Scatter().add(final_archive_objectives, label="Global Pareto Front")
+    scatter_plot.add(tikhonov_sol, label="Tikhonov Solution", color="red")
     file_suffix = "_loaded" if from_loaded else ""
-    scatter_plot.save(f"{img_dir}/pareto_front{file_suffix}.png")
+    scatter_plot.save(f"{img_dir}/pareto_front{file_suffix}_archive.png")
 
 
 def plot_best_solution(img_dir, PROBE, mu_est_nsga2, mu_est_tikh, from_loaded=False):

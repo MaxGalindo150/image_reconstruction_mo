@@ -34,6 +34,6 @@ def regularized_estimation(
     #mu_est_tikh = mu_from_d(model, d_est_tikh)
     # print("tikhonov regularization mu: ", mu_est_tikh)
 
-    return d_est_tikh #mu_est_tikh
+    return d_est_tikh, reg_corner_tikh
 
 
