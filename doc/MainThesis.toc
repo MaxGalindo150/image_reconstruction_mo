@@ -1,7 +1,7 @@
 \contentsline {chapter}{\numberline {1}Introduction}{2}{}%
 \contentsline {section}{\numberline {1.1}Photoacoustic Imaging}{3}{}%
 \contentsline {subsection}{\numberline {1.1.1}Research Questions}{3}{}%
-\contentsline {subsection}{\numberline {1.1.2}Contributions}{3}{}%
+\contentsline {subsection}{\numberline {1.1.2}Contributions}{4}{}%
 \contentsline {section}{\numberline {1.2}Image Reconstruction}{4}{}%
 \contentsline {section}{\numberline {1.3}Multi-Objective Optimization}{4}{}%
 \contentsline {section}{\numberline {1.4}Overview}{4}{}%
@@ -17,7 +17,7 @@
 \contentsline {subsubsection}{Tikhonov Regularization}{5}{}%
 \contentsline {section}{\numberline {2.3}Multi-Objective Optimization for Image Reconstruction}{5}{}%
 \contentsline {subsection}{\numberline {2.3.1}Introduction to Multi-Objective Optimization}{5}{}%
-\contentsline {subsection}{\numberline {2.3.2}NSGA-III}{5}{}%
+\contentsline {subsection}{\numberline {2.3.2}NSGA-II}{5}{}%
 \contentsline {section}{\numberline {2.4}Hybrid Optimization}{5}{}%
 \contentsline {section}{\numberline {2.5}Limitations and Challenges in Photoacoustic Imaging Reconstruction}{5}{}%
 \contentsline {chapter}{\numberline {3}Methodology}{6}{}%
@@ -25,14 +25,13 @@
 \contentsline {section}{\numberline {3.2}Tikhonov Regularization for Image Reconstruction}{7}{}%
 \contentsline {section}{\numberline {3.3}Multi-Objective Optimization for Image Reconstruction}{7}{}%
 \contentsline {section}{\numberline {3.4}Hybrid Optimization for Image Reconstruction}{7}{}%
-\contentsline {chapter}{\numberline {4}Experiments and Results}{8}{}%
-\contentsline {section}{\numberline {4.1}Experiments in one dimension}{8}{}%
-\contentsline {subsection}{\numberline {4.1.1}Regularized vs Multi-objective optimization}{8}{}%
-\contentsline {subsection}{\numberline {4.1.2}Regularized vs Hybrid optimization}{8}{}%
-\contentsline {section}{\numberline {4.2}Experiments in two dimensions}{8}{}%
-\contentsline {section}{\numberline {4.3}Something meaningful}{8}{}%
-\contentsline {chapter}{\numberline {5}Analysis}{9}{}%
-\contentsline {section}{\numberline {5.1}Advantages and Limitations of the Regression and Regularization Approach}{9}{}%
-\contentsline {section}{\numberline {5.2}Advantages and Limitations of the Multi-objective Optimization Approach}{9}{}%
-\contentsline {section}{\numberline {5.3}Advantages and Limitations of the Hybrid Optimization Approach}{9}{}%
-\contentsline {chapter}{\numberline {6}Conclusion}{10}{}%
+\contentsline {chapter}{\numberline {4}Experiments and Results}{9}{}%
+\contentsline {section}{\numberline {4.1}Experiments in one dimension}{9}{}%
+\contentsline {subsection}{\numberline {4.1.1}Regularized vs Hybrid optimization}{9}{}%
+\contentsline {section}{\numberline {4.2}Experiments in two dimensions}{9}{}%
+\contentsline {section}{\numberline {4.3}Something meaningful}{9}{}%
+\contentsline {chapter}{\numberline {5}Analysis}{10}{}%
+\contentsline {section}{\numberline {5.1}Advantages and Limitations of the Regression and Regularization Approach}{10}{}%
+\contentsline {section}{\numberline {5.2}Advantages and Limitations of the Multi-objective Optimization Approach}{10}{}%
+\contentsline {section}{\numberline {5.3}Advantages and Limitations of the Hybrid Optimization Approach}{10}{}%
+\contentsline {chapter}{\numberline {6}Conclusion}{11}{}%
