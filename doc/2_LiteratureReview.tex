@@ -1,40 +1,48 @@
-\section{Photoacoustic Imaging} \label{sec:lit}
+\section{Revisión de Literatura} \label{sec:lit}
 
-\subsection{Fundamentals of Photoacoustic Imaging Reconstruction} \label{sec:lit:one}
-% Here, introduce the basic concepts of photoacoustic imaging and its applications, followed by a description of the reconstruction process and underlying physical models.
+\subsection{Reconstrucción de Imágenes Fotoacústicas} \label{sec:lit:one}
 
-\subsection{Linear State Space Model for Photoacoustic Imaging Reconstruction} \label{sec:lit:two}
-% This section describes how linear state space models are applied in the context of photoacoustic image reconstruction, including equations and the mathematical justification.
+La imagen fotoacústica combina los principios de la óptica y la acústica para generar imágenes a partir de señales ultrasónicas. Estas señales son producidas por materiales que absorben pulsos de luz, lo que genera un aumento de temperatura y ondas de presión mecánica detectables por transductores ultrasónicos. Esta técnica es ampliamente utilizada en aplicaciones biomédicas, como la evaluación de tejidos arteriales, la monitorización de oxigenación tisular y estudios cerebrales in vivo en modelos animales \cite{Xu2015}.
 
-\section{Regression Methods} \label{sec:lit:first}
+El proceso de reconstrucción de imágenes implica la captura y análisis de las señales registradas por sensores. Entre los métodos clásicos se encuentran \textit{Time Reversal} y \textit{Delay and Sum}, conocidos por su rapidez pero limitados frente a ruido y problemas mal condicionados. En este contexto, la regularización de Tikhonov se ha convertido en una herramienta esencial para estabilizar los problemas mal planteados \cite{Tikhonov1963}.
 
-\subsection{Least Squares Regression} \label{sec:lit:first:one}
-% Introduce the basic least squares method, highlighting its simplicity and limitations in high-dimensional reconstruction problems.
+\subsection{Modelo de Espacio de Estados Lineales para la Reconstrucción Fotoacústica} \label{sec:lit:two}
 
-\subsection{Ridge Regression} \label{sec:lit:first:two}
-% Discuss how ridge regression addresses overfitting issues by introducing a regularization penalty.
+El problema de reconstrucción puede formularse como:
+\begin{equation}
+    \mathbf{y} = \mathbf{H} \mathbf{d} + \mathbf{w},
+\end{equation}
+donde $\mathbf{y}$ representa las mediciones, $\mathbf{H}$ es la matriz de propagación acústica, $\mathbf{d}$ el vector de absorción y $\mathbf{w}$ un término de ruido. Resolver este sistema frecuentemente requiere técnicas avanzadas debido a su sensibilidad al ruido y a la naturaleza mal condicionada de $\mathbf{H}$ \cite{Candes2006}.
 
-\subsection{Regularization} \label{sec:lit:first:three}
-% Explain various regularization techniques essential for stabilizing the reconstruction problem.
+\subsection{Regularización de Tikhonov y el Método de la Curva L} \label{sec:lit:tikhonov}
 
-\subsubsection{Lasso} \label{sec:lit:first:three:one}
-% Emphasize how Lasso imposes a penalty that encourages sparsity in coefficients.
+La regularización de Tikhonov introduce un término de penalización para estabilizar la solución:
+\begin{equation}
+    \hat{\mathbf{d}} = \argmin_{\mathbf{d}} \left\{ \| \mathbf{y} - \mathbf{H} \mathbf{d} \|_2^2 + \lambda \| \mathbf{d} \|_2^2 \right\},
+\end{equation}
+donde $\lambda$ controla el equilibrio entre fidelidad a los datos y estabilidad de la solución \cite{Tikhonov1963}.
 
-\subsubsection{Tikhonov Regularization} \label{sec:lit:first:three:two}
-% Describe the Tikhonov regularization technique, a popular method for stabilizing ill-conditioned reconstruction problems.
+El método de la curva L selecciona $\lambda$ graficando la norma del residuo contra la norma de regularización en escala logarítmica. El vértice de la curva representa el mejor compromiso entre ambos criterios \cite{Hansen1992}. Sin embargo, esta metodología puede ser subjetiva y computacionalmente costosa en problemas de alta dimensionalidad.
 
-\section{Multi-Objective Optimization for Image Reconstruction} \label{sec:lit:second}
+\section{Métodos de Optimización Multi-Objetivo} \label{sec:lit:second}
 
-\subsection{Introduction to Multi-Objective Optimization} \label{sec:lit:second:one}
-% Describe the principles of multi-objective optimization in the context of photoacoustic image reconstruction, emphasizing the balance between accuracy and efficiency.
+\subsection{Introducción a la Optimización Multi-Objetivo} \label{sec:lit:second:one}
 
-\subsection{NSGA-II} \label{sec:lit:second:two}
-% Dive into NSGA-II and its advantages for solving multi-objective problems in this study.
+La optimización multi-objetivo busca soluciones que equilibren múltiples criterios simultáneamente. En la reconstrucción fotoacústica, los objetivos típicos incluyen minimizar el residuo y garantizar la estabilidad de la solución, generando un frente de Pareto que representa compromisos entre estos objetivos \cite{Boyd2004}.
 
-\section{Hybrid Optimization} \label{sec:lit:second:three}
-% Discuss the integration of NSGA-III and Tikhonov regularization for improved photoacoustic image reconstruction.
+\subsection{NSGA-II en la Reconstrucción Fotoacústica} \label{sec:lit:second:two}
 
-\section{Limitations and Challenges in Photoacoustic Imaging Reconstruction}
-% Discuss current limitations of the presented methods and algorithms, potential improvements, and future challenges in the field.
+NSGA-II es un algoritmo evolutivo diseñado para problemas multi-objetivo. Este método clasifica soluciones en términos de dominancia y promueve la diversidad del frente de Pareto \cite{Deb2002}. Su capacidad para manejar múltiples objetivos simultáneamente lo hace ideal para explorar alternativas en la estimación del parámetro de regularización y mejorar la reconstrucción.
 
-% \lipsum[1-4] % Placeholder text if additional context or descriptions are needed.
+\section{Desafíos y Limitaciones} \label{sec:lit:third}
+
+A pesar de los avances, la reconstrucción de imágenes fotoacústicas enfrenta desafíos significativos:
+\begin{itemize}
+    \item Sensibilidad al ruido en las mediciones.
+    \item Dificultad para determinar un valor óptimo de $\lambda$ en escenarios complejos.
+    \item Limitaciones computacionales en técnicas tradicionales como la curva L.
+\end{itemize}
+
+Este trabajo aborda estas limitaciones mediante el uso de NSGA-II para explorar un conjunto de soluciones que optimizan objetivos múltiples, incluyendo la positividad y la estabilidad, superando las limitaciones de métodos tradicionales como el de la curva L.
+
+

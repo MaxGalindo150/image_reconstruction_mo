@@ -1,37 +1,40 @@
 \contentsline {chapter}{\numberline {1}Introduction}{2}{}%
-\contentsline {section}{\numberline {1.1}Photoacoustic Imaging}{3}{}%
-\contentsline {subsection}{\numberline {1.1.1}Research Questions}{3}{}%
-\contentsline {subsection}{\numberline {1.1.2}Contributions}{4}{}%
-\contentsline {section}{\numberline {1.2}Image Reconstruction}{4}{}%
-\contentsline {section}{\numberline {1.3}Multi-Objective Optimization}{4}{}%
-\contentsline {section}{\numberline {1.4}Overview}{4}{}%
+\contentsline {section}{\numberline {1.1}Imágenes Fotoacústicas}{2}{}%
+\contentsline {subsection}{\numberline {1.1.1}Preguntas de Investigación}{2}{}%
+\contentsline {subsection}{\numberline {1.1.2}Contribuciones}{3}{}%
+\contentsline {section}{\numberline {1.2}Reconstrucción de Imágenes}{3}{}%
+\contentsline {section}{\numberline {1.3}Optimización Multiobjetivo}{4}{}%
+\contentsline {section}{\numberline {1.4}Visión General}{4}{}%
 \contentsline {chapter}{\numberline {2}Literature review}{5}{}%
-\contentsline {section}{\numberline {2.1}Photoacoustic Imaging}{5}{}%
-\contentsline {subsection}{\numberline {2.1.1}Fundamentals of Photoacoustic Imaging Reconstruction}{5}{}%
-\contentsline {subsection}{\numberline {2.1.2}Linear State Space Model for Photoacoustic Imaging Reconstruction}{5}{}%
-\contentsline {section}{\numberline {2.2}Regression Methods}{5}{}%
-\contentsline {subsection}{\numberline {2.2.1}Least Squares Regression}{5}{}%
-\contentsline {subsection}{\numberline {2.2.2}Ridge Regression}{5}{}%
-\contentsline {subsection}{\numberline {2.2.3}Regularization}{5}{}%
-\contentsline {subsubsection}{Lasso}{5}{}%
-\contentsline {subsubsection}{Tikhonov Regularization}{5}{}%
-\contentsline {section}{\numberline {2.3}Multi-Objective Optimization for Image Reconstruction}{5}{}%
-\contentsline {subsection}{\numberline {2.3.1}Introduction to Multi-Objective Optimization}{5}{}%
-\contentsline {subsection}{\numberline {2.3.2}NSGA-II}{5}{}%
-\contentsline {section}{\numberline {2.4}Hybrid Optimization}{5}{}%
-\contentsline {section}{\numberline {2.5}Limitations and Challenges in Photoacoustic Imaging Reconstruction}{5}{}%
-\contentsline {chapter}{\numberline {3}Methodology}{6}{}%
-\contentsline {section}{\numberline {3.1}Simulation and Experimental Setup}{6}{}%
-\contentsline {section}{\numberline {3.2}Tikhonov Regularization for Image Reconstruction}{7}{}%
-\contentsline {section}{\numberline {3.3}Multi-Objective Optimization for Image Reconstruction}{7}{}%
-\contentsline {section}{\numberline {3.4}Hybrid Optimization for Image Reconstruction}{7}{}%
-\contentsline {chapter}{\numberline {4}Experiments and Results}{9}{}%
-\contentsline {section}{\numberline {4.1}Experiments in one dimension}{9}{}%
-\contentsline {subsection}{\numberline {4.1.1}Regularized vs Hybrid optimization}{9}{}%
-\contentsline {section}{\numberline {4.2}Experiments in two dimensions}{9}{}%
-\contentsline {section}{\numberline {4.3}Something meaningful}{9}{}%
-\contentsline {chapter}{\numberline {5}Analysis}{10}{}%
-\contentsline {section}{\numberline {5.1}Advantages and Limitations of the Regression and Regularization Approach}{10}{}%
-\contentsline {section}{\numberline {5.2}Advantages and Limitations of the Multi-objective Optimization Approach}{10}{}%
-\contentsline {section}{\numberline {5.3}Advantages and Limitations of the Hybrid Optimization Approach}{10}{}%
-\contentsline {chapter}{\numberline {6}Conclusion}{11}{}%
+\contentsline {section}{\numberline {2.1}Revisión de Literatura}{5}{}%
+\contentsline {subsection}{\numberline {2.1.1}Reconstrucción de Imágenes Fotoacústicas}{5}{}%
+\contentsline {subsection}{\numberline {2.1.2}Modelo de Espacio de Estados Lineales para la Reconstrucción Fotoacústica}{5}{}%
+\contentsline {subsection}{\numberline {2.1.3}Regularización de Tikhonov y el Método de la Curva L}{5}{}%
+\contentsline {section}{\numberline {2.2}Métodos de Optimización Multi-Objetivo}{6}{}%
+\contentsline {subsection}{\numberline {2.2.1}Introducción a la Optimización Multi-Objetivo}{6}{}%
+\contentsline {subsection}{\numberline {2.2.2}NSGA-II en la Reconstrucción Fotoacústica}{6}{}%
+\contentsline {section}{\numberline {2.3}Desafíos y Limitaciones}{6}{}%
+\contentsline {chapter}{\numberline {3}Methodology}{7}{}%
+\contentsline {section}{\numberline {3.1}Generación de Datos Sintéticos}{7}{}%
+\contentsline {subsection}{\numberline {3.1.1}Regularización de Tikhonov}{7}{}%
+\contentsline {subsection}{\numberline {3.1.2}Optimización Multi-Objetivo para \( \lambda \)}{8}{}%
+\contentsline {subsection}{\numberline {3.1.3}Comparación con el Método de la Curva L}{8}{}%
+\contentsline {subsection}{\numberline {3.1.4}Evaluación Experimental}{8}{}%
+\contentsline {subsection}{\numberline {3.1.5}Implementación Experimental}{9}{}%
+\contentsline {chapter}{\numberline {4}Experiments and Results}{10}{}%
+\contentsline {section}{\numberline {4.1}Experimentos y Resultados}{10}{}%
+\contentsline {subsection}{\numberline {4.1.1}Configuración Experimental}{10}{}%
+\contentsline {subsection}{\numberline {4.1.2}Resultados del Frente de Pareto}{10}{}%
+\contentsline {subsection}{\numberline {4.1.3}Comparación entre NSGA-II y la Curva L}{11}{}%
+\contentsline {subsection}{\numberline {4.1.4}Reconstrucción del Perfil de Absorción \( \mathbf {\mu } \)}{11}{}%
+\contentsline {subsection}{\numberline {4.1.5}Análisis de Correlación entre Objetivos}{12}{}%
+\contentsline {subsection}{\numberline {4.1.6}Impacto del Nivel de Ruido}{12}{}%
+\contentsline {subsection}{\numberline {4.1.7}Discusión de los Resultados}{13}{}%
+\contentsline {chapter}{\numberline {5}Analysis}{15}{}%
+\contentsline {section}{\numberline {5.1}Análisis de los Resultados}{15}{}%
+\contentsline {subsection}{\numberline {5.1.1}Interpretación del Frente de Pareto}{15}{}%
+\contentsline {subsection}{\numberline {5.1.2}Correlaciones entre Objetivos}{15}{}%
+\contentsline {subsection}{\numberline {5.1.3}Impacto del Nivel de Ruido}{16}{}%
+\contentsline {subsection}{\numberline {5.1.4}Comparación con la Curva L}{16}{}%
+\contentsline {subsection}{\numberline {5.1.5}Conclusiones del Análisis}{16}{}%
+\contentsline {chapter}{\numberline {6}Conclusion}{17}{}%

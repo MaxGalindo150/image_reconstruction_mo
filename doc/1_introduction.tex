@@ -1,60 +1,79 @@
-\lipsum[1-4]
-\lipsum[6]
+\section{Imágenes Fotoacústicas} \label{sec:intro}
 
-\section{Photoacoustic Imaging} \label{sec:intro}
+La generación de imágenes utilizando el efecto fotoacústico se ha establecido como una técnica no invasiva valiosa para investigar la composición y estructura de diversos materiales. Este método combina el alto contraste de las imágenes ópticas con la penetración profunda de la detección ultrasónica, lo que lo hace especialmente relevante en aplicaciones biomédicas. El efecto fotoacústico ocurre cuando un material fotoabsorbente absorbe pulsos de luz, lo que genera aumentos localizados de temperatura y, posteriormente, cambios de presión mecánica. Estas ondas de presión se propagan como señales fotoacústicas, las cuales son detectadas por transductores ultrasónicos para crear imágenes.
 
-The generation of images using the photoacoustic effect has been established as a valuable non-invasive technique for investigating the composition and structure of various materials. This phenomenon occurs when a photo-absorbing material interacts with light pulses, generating increases in temperature and mechanical pressure that propagate as photoacoustic signals. These signals are detected by ultrasonic transducers, enabling the creation of photoacoustic images, which are particularly relevant in biomedical applications such as the assessment of arterial structures, tissue oxygenation monitoring, gastrointestinal endoscopies, molecular imaging, and in vivo brain studies in experimental animals.
+Las aplicaciones de las imágenes fotoacústicas abarcan diversos campos, con especial importancia en la investigación y el diagnóstico biomédico. Se utilizan ampliamente para evaluar estructuras arteriales, monitorear los niveles de oxigenación tisular, realizar endoscopias gastrointestinales y llevar a cabo imágenes \textit{in vivo} de procesos moleculares y celulares en modelos experimentales. Además, las imágenes fotoacústicas han demostrado ser útiles para estudiar el cerebro y sus funciones en animales, proporcionando información tanto en estados saludables como patológicos.
 
-The reconstruction of photoacoustic images is carried out by capturing and analyzing the photoacoustic waves recorded by sensors placed on the surface of the investigated material. Among the most widely used reconstruction methods are Time Reversal, Delay and Sum, and Regularization techniques.
+La reconstrucción de imágenes a partir de señales fotoacústicas requiere un modelado preciso y técnicas computacionales avanzadas. Métodos como la Reversión Temporal, el algoritmo de Retardo y Suma, y las técnicas de Regularización son ampliamente utilizados. Sin embargo, estos métodos enfrentan desafíos debido a la naturaleza mal condicionada del problema de reconstrucción, donde pequeños errores en los datos pueden resultar en grandes desviaciones en las imágenes reconstruidas.
 
-This study focuses on an innovative approach that combines an exploratory and multi-objective perspective with evolutionary algorithms. This methodology allows for the exploration of diverse solutions without the need to determine an optimal regularization term, and by carefully selecting objectives, it facilitates the reconciliation of different constraints for image reconstruction.
+Esta investigación introduce un enfoque novedoso para la reconstrucción de imágenes fotoacústicas, cambiando el enfoque de los métodos tradicionales de regularización hacia la optimización multiobjetivo. Al aprovechar algoritmos evolutivos, este enfoque explora un conjunto diverso de soluciones sin la necesidad de predefinir un parámetro de regularización óptimo. La cuidadosa selección de los objetivos permite equilibrar restricciones en competencia, como la precisión, la estabilidad y el realismo físico en el proceso de reconstrucción.
 
-\subsection{Research Questions}\label{sec:ques}
+\subsection{Preguntas de Investigación} \label{sec:ques}
 
-This research will investigate \lipsum[][1]. Specifically, this research will provide a foundation for \lipsum[][2]. From this foundation, \lipsum[][3].
-
-
-The research question is as follows:
+La naturaleza mal condicionada del problema de reconstrucción en las imágenes fotoacústicas plantea preguntas críticas sobre cómo equilibrar mejor las compensaciones entre precisión, estabilidad y plausibilidad física de las soluciones. Esta investigación busca responder a la siguiente pregunta principal:
 
 \begin{quote}
-    \textit{\lipsum[][4]}
+    \textit{¿Cómo puede la optimización multiobjetivo mejorar la estimación de los parámetros de regularización en la reconstrucción de imágenes fotoacústicas, y cómo se compara esto con los métodos tradicionales como la curva-L?}
 \end{quote}
 
-\lipsum[][5-6]
-As such, this research has been discretised as to be addressed in the following sub-questions:
+A partir de esta pregunta, el estudio aborda las siguientes subpreguntas:
 
 \begin{enumerate}[start=1,label={RQ\arabic*:},wide = 0pt, leftmargin = 3em]
-    \item \textit{\lipsum[][1]}
-    \item \textit{\lipsum[][2]}
-    \item \textit{\lipsum[][3]}
-    \item \textit{\lipsum[][4]}
+    \item \textit{¿Cuáles son las limitaciones del método de la curva-L para estimar parámetros de regularización óptimos en la reconstrucción de imágenes fotoacústicas?}
+    \item \textit{¿Cómo pueden los algoritmos de optimización multiobjetivo como NSGA-II mejorar la estimación del parámetro de regularización \( \lambda \)?}
+    \item \textit{¿Qué impacto tiene la introducción de objetivos adicionales, como la penalización de la negatividad, en la calidad de las imágenes reconstruidas?}
+    \item \textit{¿Cómo se comparan las soluciones obtenidas mediante optimización multiobjetivo en rendimiento e interpretabilidad con las derivadas de métodos tradicionales de un solo objetivo?}
 \end{enumerate}
 
-\lipsum[5-6]
+\subsection{Contribuciones} \label{sec:cont}
 
-\subsection{Contributions} \label{sec:cont}
+Esta investigación aporta las siguientes contribuciones clave:
 
-This research provides the following contributions to knowledge: 
 \begin{enumerate}[start=1,label={C\arabic*:},wide = 0pt, leftmargin = 3em]
-	\item \lipsum[][1]. 
-	\item \lipsum[][2]. 
-	\item \lipsum[][3]. 
-	\item \lipsum[][4]. 
-	\item \lipsum[][5]. 
-	\item \lipsum[][6]. 
+    \item Desarrollo de un marco de optimización multiobjetivo para estimar el parámetro de regularización \( \lambda \) en la reconstrucción de imágenes fotoacústicas.
+    \item Introducción y análisis de objetivos adicionales, como la penalización de valores negativos en la solución reconstruida, para mejorar el realismo físico.
+    \item Análisis comparativo de las soluciones basadas en NSGA-II frente a los métodos tradicionales de la curva-L, destacando fortalezas y debilidades.
+    \item Evaluación integral de frentes de Pareto para visualizar las compensaciones entre objetivos en competencia en la reconstrucción de imágenes.
+    \item Implementación de un \textit{pipeline} reproducible para la generación de datos sintéticos y evaluación de métodos de reconstrucción.
+    \item Identificación de correlaciones y dependencias entre objetivos de reconstrucción, guiando mejoras algorítmicas futuras.
 \end{enumerate}
 
+\section{Reconstrucción de Imágenes} \label{sec:back}
 
-\section{Image Reconstruction} \label{sec:back}
+\subsection*{Desafíos de Problemas Mal Condicionados}
 
-\section{Multi-Objective Optimization} \label{sec:back}
+Se discuten los desafíos matemáticos al resolver \( \mathbf{y} = \mathbf{H} \mathbf{d} + \mathbf{w} \), particularmente cuando \( \mathbf{H} \) está mal condicionada. Se resalta el papel de la regularización para estabilizar las soluciones.
 
-\section{Overview} \label{sec:thes}
-The format of this thesis is by publication, so I will be also attempting to publish this research as the following papers:
-\begin{enumerate}[start=1,label={P\arabic*:},wide = 0pt, leftmargin = 3em]
-	\item This is the full title of my first paper (RQ1; C1)
-	\item This is where I would put my second paper \textit{\textbf{if I had any}} (RQ2; C2, C3)
-	\item You get the idea (RQ3; C4, C5)
-	\item ... (RQ4; C6)
+\subsection*{Métodos Existentes}
+
+Se proporciona una visión general de la regularización de Tikhonov, el método de la curva-L y sus limitaciones en aplicaciones prácticas.
+
+\section{Optimización Multiobjetivo} \label{sec:back}
+
+\subsection*{Algoritmos Evolutivos en Problemas Inversos}
+
+Se introduce NSGA-II y su aplicabilidad en la optimización multiobjetivo. Se discute cómo genera soluciones diversas que representan compensaciones entre objetivos en competencia.
+
+\subsection*{Objetivos en Imágenes Fotoacústicas}
+
+Se detallan los objetivos utilizados en esta investigación:
+
+\begin{itemize}
+    \item Minimización del residual.
+    \item Regularización para la estabilidad de la solución.
+    \item Penalización de valores negativos.
+\end{itemize}
+
+\section{Visión General} \label{sec:thes}
+
+Este reporte organiza los avances logrados en la aplicación de la optimización multiobjetivo a la reconstrucción de imágenes fotoacústicas en los siguientes capítulos:
+
+\begin{enumerate}[start=1,label={Capítulo \arabic*:},wide = 0pt, leftmargin = 3em]
+    \item Introducción a la Reconstrucción de Imágenes Fotoacústicas y Metodologías de Optimización Multiobjetivo.
+    \item Optimización Multiobjetivo para la Estimación del Parámetro de Regularización en Reconstrucción de Imágenes Fotoacústicas.
+    \item Análisis Comparativo de NSGA-II y Métodos Tradicionales de Curva-L.
+    \item Correlación y Dependencia entre Objetivos en Reconstrucción de Imágenes Fotoacústicas.
 \end{enumerate}
+
+Cada capítulo desarrolla de manera detallada los métodos, análisis y resultados relacionados con su respectivo enfoque, integrando el marco teórico con los experimentos realizados y discutiendo las implicaciones de los hallazgos.
 

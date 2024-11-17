@@ -1,65 +1,79 @@
-\section{Simulation and Experimental Setup} \label{sec:method}
+% \section{Metodología} \label{sec:method}
 
-The experiments conducted in this study are based on synthetic data, allowing precise control over the noise levels and the number of samples. This approach provides valuable insights into the accuracy and stability of the proposed methods for estimating \( \mathbf{d} \) and the absorption profile \( \mathbf{\mu} \). The simulations were generated using the Linear State Space Model described in Section \ref{sec:lit:two} and the forward model outlined in Section \ref{sec:lit:one}, which relies on the photoacoustic effect—a phenomenon where light absorption by a material generates sound waves.
+\section{Generación de Datos Sintéticos} \label{sec:method:data}
 
-As discussed in Section \ref{sec:lit:two}, the linear state space model allows the estimation of the absorption profile \( \mathbf{\mu} \) by solving the following linear matrix equation:
+Los experimentos realizados en este estudio se basan en datos sintéticos generados utilizando el Modelo de Espacio de Estados Lineales descrito en la Sección \ref{sec:lit:two}. Este enfoque permite controlar de manera precisa el nivel de ruido (\( \sigma \)) y la cantidad de muestras, proporcionando un entorno controlado para evaluar la efectividad de los métodos propuestos.
 
-\begin{equation} \label{eq:linear}
+El problema subyacente de reconstrucción se formula como:
+\begin{equation}
     \mathbf{y} = \mathbf{H} \mathbf{d} + \mathbf{w},
 \end{equation}
+donde:
+\begin{itemize}
+    \item \( \mathbf{y} \): Mediciones simuladas obtenidas a partir del modelo,
+    \item \( \mathbf{H} \): Matriz del sistema que modela la propagación acústica,
+    \item \( \mathbf{d} \): Vector que describe las propiedades de absorción,
+    \item \( \mathbf{w} \): Ruido con distribución \( \mathcal{N}(0, \sigma^2) \).
+\end{itemize}
 
-where \( \mathbf{y} \) represents the measurements, \( \mathbf{H} \) is the system matrix derived from experimental data, \( \mathbf{d} \) is the data vector, and \( \mathbf{w} \) is the noise term with distribution \( \mathcal{N}(0, \sigma^2) \). From the linear state space model, \( \mathbf{\mu} \) can be computed using the relationship:
+El vector \( \mathbf{\mu} \), que describe el perfil de absorción, se calcula a partir de \( \mathbf{d} \) utilizando relaciones del modelo físico descritas en la Sección \ref{sec:lit:two}.
 
+\subsection{Regularización de Tikhonov} \label{sec:method:tikhonov}
+
+La regularización de Tikhonov se emplea para estabilizar la solución de este problema mal condicionado. La formulación matemática se expresa como:
 \begin{equation}
-    \mathbf{d} = \begin{bmatrix}
-                    d_1 \\
-                    d_2 \\
-                    d_3 \\
-                    \vdots \\
-                    d_{N_z}    
-                \end{bmatrix}
-             =
-                \begin{bmatrix}
-                    \mu_0 \\
-                    \mu_1 a_0 \\
-                    \mu_2 a_1 a_0 \\
-                    \vdots \\
-                    \mu_{N_z -1} a_{N_z - 2} a_{N_z - 3} \cdots a_1 a_0
-                \end{bmatrix}.
+    \hat{\mathbf{d}} = \argmin_{\mathbf{d}} \left\{ \| \mathbf{y} - \mathbf{H} \mathbf{d} \|_2^2 + \lambda \| \mathbf{d} \|_2^2 \right\},
 \end{equation}
+donde:
+\begin{itemize}
+    \item \( \| \mathbf{y} - \mathbf{H} \mathbf{d} \|_2^2 \): Término de fidelidad de los datos,
+    \item \( \| \mathbf{d} \|_2^2 \): Término de regularización que penaliza soluciones inestables,
+    \item \( \lambda \): Parámetro de regularización que equilibra estos dos términos.
+\end{itemize}
 
-The equation \ref{eq:linear} can theoretically be solved for \( \mathbf{d} \) using least squares regression. However, due to the ill-conditioned nature of the problem, this approach often results in unstable solutions. To stabilize the solution, regularization techniques are applied, leading to the following optimization problem:
+El valor de \( \lambda \) es crucial para garantizar una solución estable y precisa. Métodos como la curva L identifican un único \( \lambda \) óptimo graficando el residuo \( \| \mathbf{y} - \mathbf{H} \hat{\mathbf{d}} \|_2 \) frente a la norma de regularización \( \| \hat{\mathbf{d}} \|_2 \). En este trabajo, NSGA-II se utiliza como una alternativa para explorar múltiples valores de \( \lambda \) simultáneamente.
 
-\begin{equation} \label{eq:regularization:one}
-    \hat{\mathbf{d}} = \argmin_{\mathbf{d}} \left\{ \left\| \mathbf{y} - \mathbf{H} \mathbf{d} \right\|_2^2 + \lambda \left\| \mathbf{d} \right\|_2^2 \right\},
-\end{equation}
+\subsection{Optimización Multi-Objetivo para \( \lambda \)} \label{sec:method:nsga}
 
-where \( \lambda \) is the regularization parameter that controls the trade-off between the data fidelity term and the regularization term. The solution to this problem is given by:
+NSGA-II se emplea para optimizar directamente el parámetro \( \lambda \) considerando múltiples objetivos. Los objetivos definidos son:
+\begin{enumerate}
+    \item Minimización del residuo: \( \| \mathbf{y} - \mathbf{H} \mathbf{d} \|_2^2 \),
+    \item Minimización del término de regularización: \( \| \mathbf{d} \|_2^2 \),
+    \item Penalización de valores negativos en \( \mathbf{d} \), para garantizar soluciones físicamente significativas.
+\end{enumerate}
 
-\begin{equation}
-    \hat{\mathbf{d}} = \left( \mathbf{H}^T \mathbf{H} + \lambda \mathbf{I} \right)^{-1} \mathbf{H}^T \mathbf{y}.
-\end{equation}
+El algoritmo genera un frente de Pareto que representa múltiples valores de \( \lambda \) y sus respectivas soluciones \( \hat{\mathbf{d}} \), proporcionando un conjunto de compromisos entre los objetivos definidos. Este enfoque permite analizar cómo diferentes valores de \( \lambda \) afectan tanto la precisión como la estabilidad de las soluciones.
 
-\section{Tikhonov Regularization for Image Reconstruction} \label{sec:method:first}
+\subsection{Comparación con el Método de la Curva L} \label{sec:method:comparison}
 
-Tikhonov regularization is a widely used technique for stabilizing ill-conditioned problems. By introducing a regularization term that penalizes large coefficients, it prevents overfitting and enhances the stability of the solution. In the context of image reconstruction, this method solves equation \ref{eq:regularization:one} by balancing data fidelity and regularization.
+El método de la curva L se utiliza como referencia para evaluar las soluciones obtenidas mediante NSGA-II. Para ello:
+\begin{itemize}
+    \item Se calcula el vértice de la curva L para identificar el \( \lambda \) óptimo según este método.
+    \item Se evalúan las soluciones obtenidas por NSGA-II en términos de los mismos objetivos (residuo y regularización).
+    \item Se analiza la relación entre el conjunto de soluciones generadas por NSGA-II y el valor único de \( \lambda \) propuesto por la curva L.
+\end{itemize}
 
-The choice of the regularization parameter \( \lambda \) is crucial. The L-curve method, which plots the residual norm \( \left\| \mathbf{y} - \mathbf{H} \hat{\mathbf{d}} \right\|_2 \) against the regularization norm \( \left\| \hat{\mathbf{d}} \right\|_2 \), helps identify the optimal \( \lambda \). The corner of the L-curve represents the best trade-off between accuracy and stability.
+Este análisis permite comparar la flexibilidad y diversidad de soluciones proporcionadas por NSGA-II frente al enfoque tradicional.
 
-However, Tikhonov regularization typically provides a single solution, which may not fully capture the range of possible trade-offs between objectives. This limitation motivates the use of multi-objective optimization.
+\subsection{Evaluación Experimental} \label{sec:method:evaluation}
 
-\section{Multi-Objective Optimization for Image Reconstruction} \label{sec:method:second}
+Los experimentos incluyen:
+\begin{enumerate}
+    \item Simulación de datos con diferentes niveles de ruido (\( \sigma = 0, 0.05, 0.1 \)).
+    \item Generación del frente de Pareto utilizando NSGA-II para explorar \( \lambda \).
+    \item Comparación de los perfiles de absorción \( \mathbf{\mu} \) reconstruidos con los métodos de la curva L y NSGA-II.
+    \item Análisis de la correlación entre los objetivos para interpretar los compromisos en el frente de Pareto.
+\end{enumerate}
 
-Multi-objective optimization enhances the reconstruction process by providing a diverse set of solutions, each capturing a unique trade-off between competing objectives. In the context of ill-posed regularization problems, these objectives are typically the accuracy of the data fit, quantified by \( \left\| \mathbf{y} - \mathbf{H} \mathbf{d} \right\|_2 \), and the stability of the solution, measured by \( \left\| \mathbf{d} \right\|_2 \).
+Se utilizaron herramientas de visualización para graficar el frente de Pareto y comparar las soluciones obtenidas por ambos métodos en términos de fidelidad de los datos, estabilidad y positividad.
 
-We use NSGA-II to estimate the data vector \( \mathbf{d} \) and subsequently derive the absorption profile \( \mathbf{\mu} \). The algorithm generates a Pareto front of solutions, offering a diverse set of trade-offs between accuracy and stability. Unlike traditional approaches that yield a single solution, the Pareto front allows users to select the solution that best aligns with specific application requirements or constraints.
+\subsection{Implementación Experimental} \label{sec:method:implementation}
 
-The choice of objectives is inspired by the L-curve method, where the optimal regularization parameter \( \lambda \) balances data fidelity and regularization. Minimizing \( \left\| \mathbf{d} \right\|_2 \) aligns with Tikhonov regularization, ensuring solution stability while mitigating numerical instabilities and overfitting. Each solution in the Pareto front corresponds to a unique balance between these objectives, enabling a comprehensive exploration of the trade-offs involved.
+La implementación se realizó utilizando Python y bibliotecas avanzadas de optimización, incluyendo Pymoo. Los experimentos consistieron en:
+\begin{itemize}
+    \item Implementación del algoritmo NSGA-II para generar soluciones multi-objetivo.
+    \item Aplicación de Tikhonov para calcular \( \hat{\mathbf{d}} \) y \( \mathbf{\mu} \) utilizando los valores de \( \lambda \) generados.
+    \item Comparación gráfica y numérica entre los perfiles reconstruidos por los métodos.
+\end{itemize}
 
-\section{Hybrid Optimization for Image Reconstruction} \label{sec:method:third}
-
-The hybrid optimization approach combines Tikhonov regularization and NSGA-II to leverage the strengths of both techniques. Tikhonov regularization provides an initial estimate of \( \mathbf{d} \), offering a stable starting point for the optimization process. NSGA-II then refines this estimate, exploring a broader solution space and generating a diverse set of solutions in the Pareto front.
-
-By using the Tikhonov solution as the initial population for NSGA-II, the algorithm achieves faster convergence and produces a more diverse Pareto front. This approach not only improves the quality of the reconstruction but also enables the selection of solutions tailored to specific trade-offs between accuracy and stability. 
-
-The Pareto front generated by this hybrid method offers a comprehensive range of solutions. Users can evaluate and choose the most suitable solution based on application-specific requirements, such as prioritizing higher accuracy or enhanced stability. This flexibility represents a significant advantage over single-solution methods, which may not adequately address the diverse needs of real-world applications.
+Este diseño experimental asegura una evaluación rigurosa de las capacidades de NSGA-II para explorar valores de \( \lambda \) en comparación con métodos tradicionales como la curva L.

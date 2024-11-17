@@ -1,3 +1,44 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{1}
+
+\bibitem{Beard2011}
+P.~Beard.
+\newblock Biomedical photoacoustic imaging.
+\newblock {\em Interface Focus}, 1(4):602--631, 2011.
+
+\bibitem{Boyd2004}
+S.~Boyd and L.~Vandenberghe.
+\newblock {\em Convex Optimization}.
+\newblock Cambridge University Press, 2004.
+
+\bibitem{Candes2006}
+E.~J. Cand{\`e}s and T.~Tao.
+\newblock Stable signal recovery from incomplete and inaccurate measurements.
+\newblock {\em Communications on Pure and Applied Mathematics},
+  59(8):1207--1223, 2006.
+
+\bibitem{Deb2002}
+K.~Deb, A.~Pratap, S.~Agarwal, and T.~Meyarivan.
+\newblock A fast and elitist multiobjective genetic algorithm: Nsga-ii.
+\newblock {\em IEEE Transactions on Evolutionary Computation}, 6(2):182--197,
+  2002.
+
+\bibitem{Hansen1992}
+P.~C. Hansen.
+\newblock {\em Analysis of Discrete Ill-Posed Problems by Means of the
+  L-Curve}, volume~34.
+\newblock SIAM Review, 1992.
+\newblock Provides a comprehensive analysis of the L-curve method.
+
+\bibitem{Tikhonov1963}
+A.~Tikhonov.
+\newblock Solution of incorrectly formulated problems and the regularization
+  method.
+\newblock {\em Soviet Math Doklady}, 4:1035--1038, 1963.
+
+\bibitem{Wang2012}
+L.~V. Wang and S.~Hu.
+\newblock Photoacoustic tomography of the human brain: A literature review.
+\newblock {\em IEEE Transactions on Biomedical Engineering}, 57(4):985--993,
+  2012.
 
 \end{thebibliography}

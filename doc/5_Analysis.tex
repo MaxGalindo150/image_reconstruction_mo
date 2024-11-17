@@ -1,8 +1,46 @@
-\sectionnote{Here I could write something to provide some meta-information for an annual review, if I wanted to.}
+\section{Análisis de los Resultados} \label{sec:analysis}
 
+\subsection{Interpretación del Frente de Pareto} \label{sec:analysis:pareto}
+El frente de Pareto generado por NSGA-II proporciona una visualización de los compromisos entre fidelidad, regularización y positividad de las soluciones. En particular:
+\begin{itemize}
+    \item Las soluciones cercanas a la esquina inferior izquierda representan configuraciones donde la fidelidad y la regularización están equilibradas, pero podrían comprometer la positividad.
+    \item Las soluciones en la parte superior derecha indican regularización excesiva, lo que resulta en pérdida de fidelidad.
+\end{itemize}
 
+El análisis de las distribuciones en el frente de Pareto revela que el uso de NSGA-II permite explorar un rango más amplio de soluciones en comparación con la curva L, que se limita a una única solución.
 
-\section{Advantages and Limitations of the Regression and Regularization Approach}
-\section{Advantages and Limitations of the Multi-objective Optimization Approach}
-\section{Advantages and Limitations of the Hybrid Optimization Approach}
+\subsection{Correlaciones entre Objetivos} \label{sec:analysis:correlations}
+La correlación entre los objetivos revela cómo interactúan los compromisos entre fidelidad (\( f_1 \)), regularización (\( f_2 \)) y positividad (\( f_3 \)). La matriz de correlación (Figura \ref{fig:correlation_matrix}) destaca:
+\begin{itemize}
+    \item Una fuerte correlación negativa entre \( f_1 \) y \( f_3 \), lo que sugiere que las soluciones con menor negatividad tienden a tener menor fidelidad.
+    \item Una correlación positiva entre \( f_2 \) y \( f_3 \), indicando que soluciones con mayor regularización también mejoran la positividad, aunque con una posible penalización en fidelidad.
+\end{itemize}
 
+Estos resultados proporcionan una base para priorizar objetivos dependiendo de los requisitos de la aplicación.
+
+\subsection{Impacto del Nivel de Ruido} \label{sec:analysis:noise}
+El nivel de ruido afecta significativamente el desempeño de NSGA-II. Como se observa en la Figura \ref{fig:pareto_noise}, niveles más altos de ruido desplazan el frente de Pareto hacia soluciones menos precisas, destacando:
+\begin{itemize}
+    \item NSGA-II mantiene su capacidad para generar soluciones robustas frente a niveles moderados de ruido (\( \sigma = 0.05 \)).
+    \item La curva L, en comparación, es más sensible al ruido, lo que puede limitar su utilidad en escenarios altamente ruidosos.
+\end{itemize}
+
+\subsection{Comparación con la Curva L} \label{sec:analysis:lcurve}
+Aunque la curva L proporciona una solución directa y computacionalmente eficiente, los resultados muestran que NSGA-II ofrece:
+\begin{itemize}
+    \item Soluciones adaptables a múltiples objetivos y restricciones.
+    \item Mejor manejo de restricciones físicas, como la positividad.
+    \item Flexibilidad para analizar la sensibilidad del problema al variar el nivel de ruido.
+\end{itemize}
+
+Esto sugiere que NSGA-II no solo complementa, sino que puede superar las limitaciones del enfoque basado únicamente en la curva L.
+
+\subsection{Conclusiones del Análisis} \label{sec:analysis:conclusions}
+Este análisis destaca la eficacia de NSGA-II para abordar problemas de regularización en la reconstrucción de imágenes fotoacústicas. En comparación con la curva L, NSGA-II:
+\begin{itemize}
+    \item Proporciona una herramienta poderosa para explorar un rango más amplio de soluciones.
+    \item Incorpora objetivos adicionales que mejoran la calidad física y matemática de las soluciones.
+    \item Permite una mayor adaptabilidad a condiciones experimentales, como el ruido y las restricciones específicas de la aplicación.
+\end{itemize}
+
+Futuras investigaciones podrían enfocarse en optimizar la selección de objetivos y analizar la robustez del enfoque para escenarios más complejos y dimensionalidades mayores.
