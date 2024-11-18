@@ -98,3 +98,33 @@ class SingleValueReconstructionProblem(Problem):
             mu_est_mo[iter] = d_est[iter] / np.prod(vec_a_est_mo[:iter])
 
         return mu_est_mo
+    
+    def select_best_solution(self, F, weights=None):
+        """
+        Select the best solution from the Pareto front based on a weighted score.
+
+        Args:
+            F (ndarray): The objective values of the solutions in the Pareto front, normalized.
+            weights (list or ndarray): Weights for each objective. Should sum to 1. Defaults to equal weights.
+
+        Returns:
+            int: Index of the best solution in the Pareto front.
+            ndarray: The best solution in terms of the objectives.
+        """
+        # Set default weights to equal importance if not provided
+        if weights is None:
+            weights = np.ones(F.shape[1]) / F.shape[1]
+
+        # Ensure weights are normalized
+        weights = np.array(weights)
+        if not np.isclose(np.sum(weights), 1):
+            weights /= np.sum(weights)
+
+        # Calculate the weighted score for each solution
+        scores = np.dot(F, weights)
+
+        # Find the index of the solution with the minimum score
+        best_index = np.argmin(scores)
+
+        # Return the index and the corresponding objective values
+        return best_index, F[best_index]

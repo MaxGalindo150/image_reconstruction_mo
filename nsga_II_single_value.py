@@ -31,7 +31,7 @@ from SingleValue.SingleValueProblem import SingleValueReconstructionProblem
 model, PROBE, signal = set_settings(example=1)
 model = generate_ssm_model(model, PROBE)
 MODEL = generate_linear_model(model, signal, PROBE)
-SIGNAL = generate_measurements(signal, MODEL, sigma=1)
+SIGNAL = generate_measurements(signal, MODEL, sigma=0.05)
 d_est_l_curve, l_curv_sol = regularized_estimation(MODEL, SIGNAL, dim=1)
 d_est_l_curve = d_est_l_curve.flatten()
 

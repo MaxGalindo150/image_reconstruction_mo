@@ -6,9 +6,9 @@
   (generated)
   "MainThesis.bbl"
   "MainThesis.blg"
-["pdflatex"] 1731880348 "/home/mgalindo/max/maestria/tesis/image_reconstruction_mo/doc/MainThesis.tex" "MainThesis.pdf" "MainThesis" 1731880348
+["pdflatex"] 1731948332 "/home/mgalindo/max/maestria/tesis/image_reconstruction_mo/doc/MainThesis.tex" "MainThesis.pdf" "MainThesis" 1731948332
   "/etc/texmf/web2c/texmf.cnf" 1730674954 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/mgalindo/max/maestria/tesis/image_reconstruction_mo/doc/MainThesis.tex" 1731878725 2979 719ffb1bd07503e047ac17fd8f0385ad ""
+  "/home/mgalindo/max/maestria/tesis/image_reconstruction_mo/doc/MainThesis.tex" 1731948332 2979 719ffb1bd07503e047ac17fd8f0385ad ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm" 1136768653 960 379cc0019370a9e0208a0a3f949f847a ""
@@ -117,12 +117,12 @@
   "Abbreviations.tex" 1730675330 110 d3e8447e8a58397029de0b6cab7629cc ""
   "CustomFunctions.tex" 1730675330 1941 ed8d85168bcccfec4eb001344d298e35 ""
   "LaTexPackages.tex" 1730675330 447 dcbf9b98cb18cf0f73670d9dbcc71a83 ""
-  "MainThesis.aux" 1731880348 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "MainThesis.aux" 1731948332 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
   "MainThesis.bbl" 1731877748 1364 dcca2ab718e6baa759d09070b5c8eca8 "bibtex MainThesis"
   "MainThesis.lof" 0 -1 0 "pdflatex"
   "MainThesis.lot" 0 -1 0 "pdflatex"
   "MainThesis.nls" 0 -1 0 ""
-  "MainThesis.tex" 1731878725 2979 719ffb1bd07503e047ac17fd8f0385ad ""
+  "MainThesis.tex" 1731948332 2979 719ffb1bd07503e047ac17fd8f0385ad ""
   "MainThesis.toc" 0 -1 0 "pdflatex"
   "correlation_matrix.png" 0 -1 0 ""
   "pareto_front_noise.png" 0 -1 0 ""

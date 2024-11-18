@@ -19,28 +19,67 @@ def plot_hypervolume(hv_values, img_dir, from_loaded=False):
 
 
 
-def plot_pareto_front(F, archive=None, img_dir=None, tikhonov_sol=None, from_loaded=False):
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+
+
+def plot_pareto_front(F, archive=None, img_dir=None, lcurv_sol=None, best_sol=None):
     """
-    Grafica el frente de Pareto y las estimaciones.
+    Grafica el frente de Pareto, la solución L-Curve y la mejor solución seleccionada con matplotlib.
 
     Args:
         F (ndarray): Valores de los objetivos actuales del algoritmo.
         archive (list): Archivo externo con soluciones no dominadas.
         img_dir (str): Directorio donde guardar las imágenes.
-        tikhonov_sol (ndarray): Solución obtenida con Tikhonov.
-        from_loaded (bool): Si es True, indica que los datos fueron cargados.
+        lcurv_sol (ndarray): Solución obtenida con Tikhonov.
+        best_sol (ndarray): Mejor solución seleccionada en el frente de Pareto.
     """
-    # Graficar el frente de Pareto actual
-    scatter_plot = Scatter().add(F, label="Pareto Front")
-    scatter_plot.add(tikhonov_sol, label="Tikhonov Solution", color="red")
-    scatter_plot.save(f"{img_dir}/pareto_front.png")
+    # Preparar figura en 3D
+    fig = plt.figure(figsize=(10, 8))
+    ax = fig.add_subplot(111, projection='3d', azim=45, elev=30)
 
-    # Graficar el frente de Pareto global (archivo externo)
-    final_archive_objectives = np.array([sol["F"] for sol in archive])
-    scatter_plot = Scatter().add(final_archive_objectives, label="Global Pareto Front")
-    scatter_plot.add(tikhonov_sol, label="Tikhonov Solution", color="red")
-    file_suffix = "_loaded" if from_loaded else ""
-    scatter_plot.save(f"{img_dir}/pareto_front{file_suffix}_archive.png")
+    # Estilo para el frente de Pareto
+    ax.scatter(
+        F[:, 0], F[:, 1], F[:, 2],
+        c="blue", label="Pareto Front", alpha=0.3, marker="o", s=50
+    )
+
+    # Agregar solución de la curva L
+    if lcurv_sol is not None:
+        lcurv_sol = lcurv_sol.reshape(1, -1)
+        ax.scatter(
+            lcurv_sol[0, 0], lcurv_sol[0, 1], lcurv_sol[0, 2],
+            c="red", label="L-Curve Solution", marker="*", s=200, edgecolor="k"
+        )
+
+    # Agregar la mejor solución seleccionada
+    if best_sol is not None:
+        best_sol = best_sol.reshape(1, -1)
+        ax.scatter(
+            best_sol[0, 0], best_sol[0, 1], best_sol[0, 2],
+            c="green", label="Best NSGA-II Solution", marker="^", s=200, edgecolor="k"
+        )
+
+
+    # Configurar etiquetas de los ejes
+    ax.set_xlabel("f1 (Residual)", fontsize=12, labelpad=15)
+    ax.set_ylabel("f2 (Regularization)", fontsize=12, labelpad=15)
+    ax.set_zlabel("f3 (Negativity Penalty)", fontsize=12, labelpad=15)
+    ax.set_title("Pareto Front with L-Curve and Best NSGA-II Solution", fontsize=14, fontweight="bold", pad=20)
+
+    # Ajustar límites para una mejor visualización
+    ax.set_xlim([F[:, 0].min() - 0.1, F[:, 0].max() + 0.1])
+    ax.set_ylim([F[:, 1].min() - 0.1, F[:, 1].max() + 0.1])
+    ax.set_zlim([F[:, 2].min() - 0.1, F[:, 2].max() + 0.1])
+
+    # Agregar una cuadrícula y leyenda
+    ax.grid(color="gray", linestyle="--", linewidth=0.5, alpha=0.7)
+    ax.legend(fontsize=12, loc="upper right")
+
+    # Guardar la figura
+    if img_dir is not None:
+        plt.savefig(f"{img_dir}/pareto_front_with_best_solution.png", dpi=300, bbox_inches="tight")
 
 
 def plot_best_solution(img_dir, PROBE, mu_est_nsga2, mu_est_tikh, from_loaded=False):
