@@ -27,6 +27,9 @@ from MO.custom_mutation import CustomMutation
 from SingleValue.SingleValueProblem import SingleValueReconstructionProblem
 
 
+from utils.plotting import plot_rmse_vs_noise
+
+
 def binary_tournament(pop, P, **kwargs):
     # P define los torneos y los competidores
     n_tournaments, n_competitors = P.shape
@@ -57,13 +60,12 @@ MODEL = generate_linear_model(model, signal, PROBE)
 
 # Valores de sigma (σ_w²) de 10^-10 a 10^-1
 sigmas = [0.0, 1e-4, 1e-3, 1e-2, 1e-1, 1.0]
-num_simulations = 10
+num_simulations = 100
 
 # Para almacenar los resultados
 avg_rmse_lsq = []
 avg_rmse_nsga2 = []
 avg_rmse_tikhonov = []
-avg_rmse_tikhonov_nsga = []
 
 # Función que corre una simulación
 def run_simulation(i, sigma):
@@ -90,68 +92,45 @@ def run_simulation(i, sigma):
     solutions = res.X
     objectives = res.F
     
-
+    #weights = [0.5, 0.25, 0.25]
+    #min_index, best_sol_values = problem.select_best_solution(objectives, weights=weights)
+    
     min_index = np.argmin(objectives[:, 0])
 
     lambda_first_obj = solutions[min_index]
-    best_objective_values = objectives[min_index]
     
     # L-Curve
     d_est_l_curve, l_curve_sol = regularized_estimation(MODEL, SIGNAL, dim=1)
     # NSGA-II
     d_est_nsga2 = tikhonov(MODEL.H, SIGNAL.y, lambda_first_obj, dim=1)
     
-    # LSQ
-    ESTIMATION_RESULTS = estimation(MODEL, SIGNAL)
-    mu_est_lsq = ESTIMATION_RESULTS.mu
 
     mu_est_nsga2 = problem.mo_estimation(d_est_nsga2)
     mu_est_l_curve = problem.mo_estimation(d_est_l_curve)
     
-    #Thikonov and NSGA
-    problem = SingleValueReconstructionProblem(MODEL=MODEL, SIGNAL=SIGNAL, l_curve_sol=l_curve_sol)
-    # Crear las direcciones de referencia para la optimización
-    algorithm = NSGA2(
-        pop_size=500,
-        sampling=LHS(),
-        crossover=CustomCrossover(prob=1.0),
-        mutation=PolynomialMutation(prob=0.83, eta=50),
-        #selection=TournamentSelection(func_comp=binary_tournament),
-        eliminate_duplicates=True
-    ) 
-    res = minimize(problem,
-                algorithm,
-                seed=1,
-                termination=('n_gen', 1000))
-    solutions = res.X
-    objectives = res.F
-    # Encontrar el índice de la solución con el menor valor en el objetivo 1
-    min_index = np.argmin(objectives[:, 0])
-    # Obtener la solución correspondiente a ese índice
-    lambda_first_obj = solutions[min_index]
-    best_objective_values = objectives[min_index]
-    d_est_nsga_l_curve = tikhonov(MODEL.H, SIGNAL.y, lambda_first_obj, dim=1)
-    mu_est_nsga_l_curve = problem.mo_estimation(d_est_nsga_l_curve) 
+    
+    
+    # LSQ
+    ESTIMATION_RESULTS = estimation(MODEL, SIGNAL)
+    mu_est_lsq = ESTIMATION_RESULTS.mu
 
     # Calcular RMSE para cada método
     rmse_lsq = rmse(PROBE.mu, mu_est_lsq)
     rmse_nsga2 = rmse(PROBE.mu, mu_est_nsga2)
     rmse_l_curve = rmse(PROBE.mu, mu_est_l_curve)
-    rmse_nsga2_l_curve = rmse(PROBE.mu, mu_est_nsga_l_curve)
-
-    return (rmse_lsq, rmse_nsga2, rmse_l_curve, rmse_nsga2_l_curve)
+    
+    return (rmse_lsq, rmse_nsga2, rmse_l_curve)
 
 
 # Ejecutar simulaciones en paralelo con barra de progreso
 with open("results.csv", mode='w', newline='') as file:
     writer = csv.writer(file)
-    writer.writerow(["sigma", "lse", "nsga2", "l_curve", "nsga2_l_curve"])
+    writer.writerow(["sigma", "lse", "nsga2", "l_curve"])
     
     for sigma in sigmas:
         rmse_lsq_list = []
         rmse_nsga2_list = []
         rmse_tikhonov_list = []
-        rmse_tikhonov_nsga_list = []
         
         # Crear el pool de procesos
         with ProcessPoolExecutor() as executor:
@@ -160,32 +139,17 @@ with open("results.csv", mode='w', newline='') as file:
             
             # tqdm as_completed para mostrar progreso de las simulaciones completadas
             for future in tqdm(as_completed(futures), total=num_simulations, desc=f"Simulaciones para sigma={sigma}"):
-                rmse_lsq, rmse_nsga2, rmse_tikhonov, rmse_tikhonov_nsga = future.result()
+                rmse_lsq, rmse_nsga2, rmse_tikhonov = future.result()
                 rmse_lsq_list.append(rmse_lsq)
                 rmse_nsga2_list.append(rmse_nsga2)
                 rmse_tikhonov_list.append(rmse_tikhonov)
-                rmse_tikhonov_nsga_list.append(rmse_tikhonov_nsga)
 
         # Promediar los RMSE de las simulaciones
         avg_rmse_lsq.append(np.mean(rmse_lsq_list))
         avg_rmse_nsga2.append(np.mean(rmse_nsga2_list))
         avg_rmse_tikhonov.append(np.mean(rmse_tikhonov_list))
-        avg_rmse_tikhonov_nsga.append(np.mean(rmse_tikhonov_nsga_list))
-
-        writer.writerow([sigma, avg_rmse_lsq[-1], avg_rmse_nsga2[-1], avg_rmse_tikhonov[-1], avg_rmse_tikhonov_nsga[-1]])    
+        
+        writer.writerow([sigma, avg_rmse_lsq[-1], avg_rmse_nsga2[-1], avg_rmse_tikhonov[-1]])    
 
 # Graficar los resultados
-plt.figure()
-plt.plot(sigmas, avg_rmse_lsq, label='LSQ', marker='o')
-plt.plot(sigmas, avg_rmse_nsga2, label='NSGA-II', marker='x')
-plt.plot(sigmas, avg_rmse_tikhonov, label='Tikhonov', marker='s')
-plt.plot(sigmas, avg_rmse_tikhonov_nsga, label='Tikhonov + NSGA-III', marker='d')
-plt.xscale('log')
-plt.yscale('log')
-plt.xlabel(r'$\sigma_w^2$')
-plt.ylabel('Average RMSE')
-plt.legend()
-plt.grid(True)
-
-# Guardar la gráfica
-plt.savefig("img/impact_of_noise_on_rmse_single.png")
+plot_rmse_vs_noise(sigmas, avg_rmse_lsq, avg_rmse_nsga2, avg_rmse_tikhonov, img_dir="img")

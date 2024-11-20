@@ -130,7 +130,7 @@ def get_best_solution(objectives,
                       problem, 
                       MODEL, 
                       SIGNAL):
-    weights = [0.5, 0.3, 0.2]  # Example weights for objectives
+    weights = [0.99, 0.0001, 0.0001]  # Example weights for objectives
     best_index, best_solution_values = problem.select_best_solution(objectives, weights=weights)
     best_solution = solutions[best_index]
     d_est_nsga2 = tikhonov(MODEL.H, SIGNAL.y, best_solution, dim=1)

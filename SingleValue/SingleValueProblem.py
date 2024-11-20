@@ -111,7 +111,7 @@ class SingleValueReconstructionProblem(Problem):
             int: Index of the best solution in the Pareto front.
             ndarray: The best solution in terms of the objectives.
         """
-        # Set default weights to equal importance if not provided
+        #Set default weights to equal importance if not provided
         if weights is None:
             weights = np.ones(F.shape[1]) / F.shape[1]
 
@@ -128,3 +128,9 @@ class SingleValueReconstructionProblem(Problem):
 
         # Return the index and the corresponding objective values
         return best_index, F[best_index]
+        
+
+        # min_index = np.argmin(F[:, 0])
+
+        
+        # return min_index, F[min_index]
