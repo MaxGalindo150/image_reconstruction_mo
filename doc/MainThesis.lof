@@ -5,6 +5,6 @@
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Frente de Pareto generado por NSGA-II para \( \lambda \). El punto naranja representa la solución obtenida mediante la curva L.}}{11}{}%
 \contentsline {figure}{\numberline {4.2}{\ignorespaces Perfiles de absorción \( \mathbf {\mu } \) reconstruidos. La curva azul corresponde a NSGA-II, mientras que la roja representa la solución de la curva L.}}{12}{}%
 \contentsline {figure}{\numberline {4.3}{\ignorespaces Matriz de correlación entre los objetivos \( f_1 \), \( f_2 \) y \( f_3 \).}}{13}{}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Efecto del nivel de ruido (\( \sigma \)) en el frente de Pareto.}}{14}{}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Impacto del ruido en el RMSE promedio para diferentes valores de \( \lambda \).}}{14}{}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

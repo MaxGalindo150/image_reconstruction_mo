@@ -16,7 +16,7 @@ def main():
     img_dir = "img/nsga2_pro/single"
 
     # Configurar el problema
-    problem, PROBE, MODEL, SIGNAL, d_lcurve, lambda_lcurve = setup_problem(example=1, sigma=1)
+    problem, PROBE, MODEL, SIGNAL, d_lcurve, lambda_lcurve = setup_problem(example=1, sigma=0.1)
 
     # Ejecutar la optimización
     res, archive, hv_values = run_optimization(problem, ref_point, archive_file, img_dir)

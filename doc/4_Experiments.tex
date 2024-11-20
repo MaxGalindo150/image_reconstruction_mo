@@ -78,12 +78,14 @@ Los resultados destacan que \( f_1 \) y \( f_2 \) están altamente correlacionad
 
 \subsection{Impacto del Nivel de Ruido} \label{sec:results:noise}
 
-Los experimentos realizados con diferentes niveles de ruido (\( \sigma = 0, 0.05, 0.1 \)) resaltan la robustez de NSGA-II frente al ruido. A medida que \( \sigma \) aumenta, el frente de Pareto se desplaza, reflejando soluciones con menor fidelidad y mayor regularización. La Figura \ref{fig:pareto_noise} muestra cómo el nivel de ruido afecta el frente de Pareto.
+Los experimentos realizados con diferentes niveles de ruido (\( \sigma_{w}^{2} = 0.0, 10^{-4}, 10^{-3}, 10^{-2}, 10^{-1}, 1.0 \)) destacan la robustez de NSGA-II frente al ruido.
+
+Se realizaron 100 simulaciones para cada nivel de ruido, promediando el RMSE de cada una de las 100 estimaciones obtenidas mediante los métodos de mínimos cuadrados, regularización de Tikhonov con el parámetro de regularización $\lambda$ determinado por el método de la curva L, y regularización de Tikhonov con el parámetro $\lambda$ determinado por NSGA-II. El parámetro $\lambda$ proporcionado por NSGA-II se seleccionó en base a una ponderación, asignando un 80\% de importancia al objetivo $f_1$, y un 10\% a $f_2$ y $f_3$.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{pareto_front_noise.png}
-    \caption{Efecto del nivel de ruido (\( \sigma \)) en el frente de Pareto.}
+    \includegraphics[width=0.8\textwidth]{Images/impact_of_noise_on_rmse_single.png}
+    \caption{Impacto del ruido en el RMSE promedio para diferentes valores de \( \lambda \).}
     \label{fig:pareto_noise}
 \end{figure}
 
