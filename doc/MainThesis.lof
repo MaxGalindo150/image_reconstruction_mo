@@ -1,10 +1,18 @@
+\babel@toc {spanish}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Frente de Pareto generado por NSGA-II para \( \lambda \). El punto naranja representa la solución obtenida mediante la curva L.}}{11}{}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Perfiles de absorción \( \mathbf {\mu } \) reconstruidos. La curva azul corresponde a NSGA-II, mientras que la roja representa la solución de la curva L.}}{12}{}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Matriz de correlación entre los objetivos \( f_1 \), \( f_2 \) y \( f_3 \).}}{13}{}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Impacto del ruido en el RMSE promedio para diferentes valores de \( \lambda \).}}{14}{}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Frente de Pareto generado por NSGA-II para \( \lambda \). Cada punto representa un compromiso entre los objetivos.}}{12}{}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Frente de Pareto generado por MOEA/D para \( \lambda \). Cada punto representa un compromiso entre los objetivos.}}{13}{}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Clustering del frente de Pareto generado por NSGA-II. Cada color representa un grupo de soluciones con características similares.}}{14}{}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Clustering del frente de Pareto generado por MOEA/D. Cada color representa un grupo de soluciones con características similares.}}{14}{}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Perfiles de absorción reconstruidos utilizando NSGA-II. La curva azul representa el perfil real y la curva roja corresponde a la solución reconstruida.}}{15}{}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Perfiles de absorción reconstruidos utilizando MOEA/D. La curva azul representa el perfil real y la curva verde corresponde a la solución reconstruida.}}{16}{}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Impacto del ruido en el RMSE promedio utilizando NSGA-II para diferentes valores de \( \sigma ^2 \).}}{17}{}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Impacto del ruido en el RMSE promedio utilizando MOEA/D para diferentes valores de \( \sigma ^2 \).}}{18}{}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Matriz de correlación entre las funciones objetivo \( f_1 \), \( f_2 \), y \( f_3 \).}}{19}{}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Proyecciones en 2D entre los objetivos \( f_1 \), \( f_2 \) y \( f_3 \) para NSGA-II. Cada subgráfica representa la relación entre dos objetivos, mientras que las distribuciones marginales se encuentran en la diagonal.}}{20}{}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Proyecciones en 2D entre los objetivos \( f_1 \), \( f_2 \) y \( f_3 \) para MOEA/D. Las distribuciones marginales están en la diagonal principal, mientras que las relaciones entre pares de objetivos se muestran en las subgráficas.}}{21}{}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

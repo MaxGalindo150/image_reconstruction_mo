@@ -2,54 +2,66 @@
 \input{LaTexPackages.tex}
 \input{CustomFunctions.tex}
 \usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage[spanish]{babel} % Para configurar el idioma a español
+
+%%%%% ---- Redefinir nombres en español ---- %%%%%
+\addto\captionsspanish{
+  \renewcommand{\contentsname}{Índice}
+  \renewcommand{\listfigurename}{Lista de Figuras}
+  \renewcommand{\listtablename}{Lista de Tablas}
+}
 \DeclareMathOperator*{\argmin}{arg\,min}
 
 \begin{document}
 \begin{titlepage}
     \centering  
-    \title{Hybrid Optimization in Photoacoustic Image Reconstruction: Integrating NSGA-III and Tikhonov Regularization} 
+    \title{RESUMEN DE AVANCE DE COLOQUIO DE INVESTIGACION II SEMESTRE 2025-I} 
     \author{Maximiliano Galindo}
-    \qualifications{Author Qualifications}
-    \degree{Master of Science}
+    \qualifications{maximilianogalindo7@gmail.com}
+    \degree{Optimizacion Multi-Objetivo para tratar el problema de regularizacion en la reconstruccion de imagenes fotoacusticas}
     \institution{Universidad Nacional Autónoma de México}
-    \date{November 2021}
+    \date{Noviembre 2021}
 \end{titlepage}
+
+
+
 
 \beginfrontmatter
 %%%%% --------- Abstract --------- %%%%%
-\frontmatter{Abstract}
-\input{000_abstract}
+% \frontmatter{Abstract}
+% \input{000_abstract}
 
 %%%%% ----- Acknowledgements ----- %%%%%
-\frontmatter{Acknowledgements}
-\input{00_acknowledgements}
+% \frontmatter{Acknowledgements}
+% \input{00_acknowledgements}
 
 %%%%% -- Contribution Statement -- %%%%%
-\frontmatter{Contribution statement}
+%\frontmatter{Contribution statement}
 
-\subsection*{Declaration by author}\sectionisincomplete
+%\subsection*{Declaration by author}\sectionisincomplete
 
-\subsection*{Supervisors}
-Title. Supervisor One\affil{1}, Title. Supervisor Two\affil{2}, Title. Supervisor Three\affil{1}, and Title. Supervisor Four\affil{3,4}
+\subsection*{Supervisores}
+Dr. Luis Agustín Alvarez-Icaza Longoria\affil{1} y Dr. Roberto Giovanni Ramírez Chavarría\affil{2}
 
-\makelongaffil{1}{A \textit{long} affiliation (e.g., School)}{allows for three (e.g., Faculty)}{lines to be specified (e.g., Institution)}
-\makeshortaffil{2}{A \textit{short} affiliation (e.g., Department)}{only has two (e.g., Company)}
-\makeshortaffil{3}{A supervisor may have}{multiple affiliations}
-\makeshortaffil{4}{An affiliation may be used by}{multiple supervisors}
+\makelongaffil{1}{Investigador Titular C}{Coordinación de Eléctrica y Computación}{Universidad Nacional Autónoma de México (UNAM)}
+\makeshortaffil{2}{Investigador Asociado C}{Facultad de Ingeniería, UNAM}
+
 
 
 %%%%% ----- Publications ----- %%%%%
-\frontmatter{List of publications}
-\sectionisincomplete
+% \frontmatter{List of publications}
+% \sectionisincomplete
 
-\subsection*{Publications included in this thesis}
-\tobecompleted
+% \subsection*{Publications included in this thesis}
+% \tobecompleted
 
-\subsection*{Submitted manuscripts included in this thesis}
-\tobecompleted
+% \subsection*{Submitted manuscripts included in this thesis}
+% \tobecompleted
 
-\subsection*{Other publications during candidature}
-\tobecompleted
+% \subsection*{Other publications during candidature}
+% \tobecompleted
 
 
 % %%%%% ---- Ethics Statement ----- %%%%%
@@ -71,23 +83,23 @@ Title. Supervisor One\affil{1}, Title. Supervisor Two\affil{2}, Title. Superviso
 
 \beginmaincontent
 %%%%% ------ Introduction ------ %%%%%
-\maincontent{Introduction}
+\maincontent{Introducción}
 \input{1_introduction}
 
 %%%%% ---- Literature Review ---- %%%%%
-\maincontent{Literature review}
+\maincontent{Revisión de la Literatura}
 \input{2_LiteratureReview}
 
 %%%%% ------- Methodology ------- %%%%%
-\maincontent{Methodology}
+\maincontent{Metodología}
 \input{3_Methodology}
 
 %%%%% ----- Experiments and Results ----- %%%%%
-\maincontent{Experiments and Results} 
+\maincontent{Experimentos y Resultados} 
 \input{4_Experiments}
 
 %%%%% -------- Analysis -------- %%%%%
-\maincontent{Analysis}
+\maincontent{Análisis de los Resultados}
 \input{5_Analysis}
 
 %%%%% ------ Paper 4 ------ %%%%%
@@ -99,12 +111,12 @@ Title. Supervisor One\affil{1}, Title. Supervisor Two\affil{2}, Title. Superviso
 % \input{7_PaperFive}
 
 %%%%% ------ Conclusion ------ %%%%%
-\maincontent{Conclusion}
+\maincontent{Conclusiones}
 \input{9_Conclusion}
 
 %%%%% ------ References ------ %%%%%
-\backmatter{References}
+%\backmatter{Referencias}
 \bibliographystyle{plain}
-\bibliography{bibliography}
+\bibliography{references}
 
 \end{document}

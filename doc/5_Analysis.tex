@@ -1,46 +1,71 @@
-\section{Análisis de los Resultados} \label{sec:analysis}
 
-\subsection{Interpretación del Frente de Pareto} \label{sec:analysis:pareto}
-El frente de Pareto generado por NSGA-II proporciona una visualización de los compromisos entre fidelidad, regularización y positividad de las soluciones. En particular:
+\section{Interpretación del Frente de Pareto} \label{sec:analysis:pareto}
+
+Los frentes de Pareto generados por NSGA-II y MOEA/D ofrecen perspectivas valiosas sobre los compromisos entre los objetivos de fidelidad (\( f_1 \)), regularización (\( f_2 \)) y positividad (\( f_3 \)). 
+
+Para NSGA-II:
 \begin{itemize}
-    \item Las soluciones cercanas a la esquina inferior izquierda representan configuraciones donde la fidelidad y la regularización están equilibradas, pero podrían comprometer la positividad.
-    \item Las soluciones en la parte superior derecha indican regularización excesiva, lo que resulta en pérdida de fidelidad.
+    \item Las soluciones cercanas a la esquina inferior izquierda representan configuraciones óptimas en fidelidad y regularización, pero con una posible disminución en la positividad de las soluciones.
+    \item En contraste, las soluciones hacia la parte superior derecha del frente implican un énfasis excesivo en la regularización, lo que compromete la fidelidad.
 \end{itemize}
 
-El análisis de las distribuciones en el frente de Pareto revela que el uso de NSGA-II permite explorar un rango más amplio de soluciones en comparación con la curva L, que se limita a una única solución.
-
-\subsection{Correlaciones entre Objetivos} \label{sec:analysis:correlations}
-La correlación entre los objetivos revela cómo interactúan los compromisos entre fidelidad (\( f_1 \)), regularización (\( f_2 \)) y positividad (\( f_3 \)). La matriz de correlación (Figura \ref{fig:correlation_matrix}) destaca:
+Para MOEA/D:
 \begin{itemize}
-    \item Una fuerte correlación negativa entre \( f_1 \) y \( f_3 \), lo que sugiere que las soluciones con menor negatividad tienden a tener menor fidelidad.
-    \item Una correlación positiva entre \( f_2 \) y \( f_3 \), indicando que soluciones con mayor regularización también mejoran la positividad, aunque con una posible penalización en fidelidad.
+    \item Las soluciones están distribuidas de manera más uniforme en el frente de Pareto, con compromisos mejor equilibrados entre los tres objetivos.
+    \item Esto sugiere que MOEA/D es más efectivo para garantizar que todas las regiones del frente sean exploradas, lo que es especialmente útil cuando los objetivos son igualmente importantes.
 \end{itemize}
 
-Estos resultados proporcionan una base para priorizar objetivos dependiendo de los requisitos de la aplicación.
+El uso de estos algoritmos supera significativamente la limitación de la curva L, que solo identifica un único punto en el espacio de soluciones.
 
-\subsection{Impacto del Nivel de Ruido} \label{sec:analysis:noise}
-El nivel de ruido afecta significativamente el desempeño de NSGA-II. Como se observa en la Figura \ref{fig:pareto_noise}, niveles más altos de ruido desplazan el frente de Pareto hacia soluciones menos precisas, destacando:
+\section{Correlaciones entre Objetivos} \label{sec:analysis:correlations}
+
+El análisis de correlaciones entre los objetivos muestra interacciones clave que influyen en el desempeño de las soluciones obtenidas. La Figura \ref{fig:correlation_matrix} para NSGA-II destaca:
 \begin{itemize}
-    \item NSGA-II mantiene su capacidad para generar soluciones robustas frente a niveles moderados de ruido (\( \sigma = 0.05 \)).
-    \item La curva L, en comparación, es más sensible al ruido, lo que puede limitar su utilidad en escenarios altamente ruidosos.
+    \item Una correlación negativa moderada entre \( f_1 \) (fidelidad) y \( f_3 \) (positividad), lo que indica que la mejora en fidelidad tiende a comprometer la positividad.
+    \item Una correlación positiva significativa entre \( f_2 \) (regularización) y \( f_3 \), sugiriendo que las soluciones con mayor regularización tienden a reducir la negatividad.
 \end{itemize}
 
-\subsection{Comparación con la Curva L} \label{sec:analysis:lcurve}
-Aunque la curva L proporciona una solución directa y computacionalmente eficiente, los resultados muestran que NSGA-II ofrece:
+Para MOEA/D, las correlaciones muestran:
 \begin{itemize}
-    \item Soluciones adaptables a múltiples objetivos y restricciones.
-    \item Mejor manejo de restricciones físicas, como la positividad.
-    \item Flexibilidad para analizar la sensibilidad del problema al variar el nivel de ruido.
+    \item Una relación más definida entre \( f_1 \) y \( f_2 \), lo que refleja que este algoritmo gestiona de manera más estructurada los compromisos entre fidelidad y regularización.
+    \item Una menor variabilidad en las correlaciones, lo que indica una exploración más balanceada del espacio de objetivos.
 \end{itemize}
 
-Esto sugiere que NSGA-II no solo complementa, sino que puede superar las limitaciones del enfoque basado únicamente en la curva L.
+Estos resultados subrayan la importancia de comprender las correlaciones para orientar la selección de soluciones dependiendo de los requisitos específicos de la aplicación.
 
-\subsection{Conclusiones del Análisis} \label{sec:analysis:conclusions}
-Este análisis destaca la eficacia de NSGA-II para abordar problemas de regularización en la reconstrucción de imágenes fotoacústicas. En comparación con la curva L, NSGA-II:
+\section{Impacto del Nivel de Ruido} \label{sec:analysis:noise}
+
+El nivel de ruido en los datos (\( \sigma^2 \)) influye significativamente en el desempeño de NSGA-II y MOEA/D, como se ilustra en las Figuras \ref{fig:rmse_nsga2} y \ref{fig:rmse_moead}:
 \begin{itemize}
-    \item Proporciona una herramienta poderosa para explorar un rango más amplio de soluciones.
-    \item Incorpora objetivos adicionales que mejoran la calidad física y matemática de las soluciones.
-    \item Permite una mayor adaptabilidad a condiciones experimentales, como el ruido y las restricciones específicas de la aplicación.
+    \item NSGA-II mantiene un RMSE estable para valores de ruido moderado (\( \sigma^2 \leq 10^{-2} \)), lo que lo hace adecuado para aplicaciones con mediciones moderadamente ruidosas.
+    \item MOEA/D muestra una mayor robustez para niveles de ruido bajo y medio, pero presenta una sensibilidad ligeramente mayor a niveles de ruido elevados (\( \sigma^2 > 10^{-1} \)).
 \end{itemize}
 
-Futuras investigaciones podrían enfocarse en optimizar la selección de objetivos y analizar la robustez del enfoque para escenarios más complejos y dimensionalidades mayores.
+Ambos algoritmos superan al método de la curva L, que es considerablemente más sensible al ruido, limitando su aplicabilidad en entornos experimentales realistas.
+
+\section{Comparación entre NSGA-II y MOEA/D} \label{sec:analysis:comparison}
+
+La comparación entre NSGA-II y MOEA/D resalta diferencias significativas:
+\begin{itemize}
+    \item NSGA-II prioriza la diversidad en el frente de Pareto, generando soluciones en regiones dominadas por \( f_1 \) (fidelidad).
+    \item MOEA/D ofrece una distribución más equilibrada de soluciones, lo que facilita la selección en problemas con objetivos igualmente importantes.
+    \item En términos de sensibilidad al ruido, NSGA-II es más adaptable en escenarios adversos, mientras que MOEA/D sobresale en problemas con restricciones definidas.
+\end{itemize}
+
+Esta comparación destaca que ambos algoritmos son complementarios, dependiendo de los requisitos específicos del problema.
+
+\section{Conclusiones del Análisis} \label{sec:analysis:conclusions}
+
+Este análisis demuestra la efectividad de NSGA-II y MOEA/D en problemas de regularización para reconstrucción de imágenes fotoacústicas. En comparación con la curva L, ambos algoritmos:
+\begin{itemize}
+    \item Proporcionan un rango más amplio de soluciones que reflejan compromisos bien definidos entre fidelidad, regularización y positividad.
+    \item Incorporan objetivos adicionales que mejoran la calidad física y matemática de las soluciones.
+    \item Ofrecen una mayor flexibilidad para analizar la sensibilidad del problema a diferentes niveles de ruido y restricciones.
+\end{itemize}
+
+\section{Trabajo Futuro} \label{sec:analysis:future}
+\begin{itemize}
+    \item Extender la reconstrucción a dominios 2D para evaluar la escalabilidad de los algoritmos.
+    \item Optimizar los hiperparámetros de los algoritmos multiobjetivo para mejorar su desempeño en exploración y convergencia.
+    \item Analizar más a fondo las interacciones entre objetivos para guiar el diseño de algoritmos específicos para aplicaciones biomédicas.
+\end{itemize}

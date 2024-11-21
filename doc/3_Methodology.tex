@@ -1,79 +1,65 @@
-% \section{Metodología} \label{sec:method}
+\section{Optimización Multi-Objetivo para \( \lambda \)} \label{sec:method:multiobj}
 
-\section{Generación de Datos Sintéticos} \label{sec:method:data}
+Para abordar la estimación del parámetro \( \lambda \) de manera más robusta, este trabajo emplea algoritmos de optimización multi-objetivo avanzados, específicamente NSGA-II y MOEA/D. Ambos métodos están diseñados para explorar y optimizar soluciones en escenarios con objetivos múltiples y en competencia.
 
-Los experimentos realizados en este estudio se basan en datos sintéticos generados utilizando el Modelo de Espacio de Estados Lineales descrito en la Sección \ref{sec:lit:two}. Este enfoque permite controlar de manera precisa el nivel de ruido (\( \sigma \)) y la cantidad de muestras, proporcionando un entorno controlado para evaluar la efectividad de los métodos propuestos.
-
-El problema subyacente de reconstrucción se formula como:
-\begin{equation}
-    \mathbf{y} = \mathbf{H} \mathbf{d} + \mathbf{w},
-\end{equation}
-donde:
-\begin{itemize}
-    \item \( \mathbf{y} \): Mediciones simuladas obtenidas a partir del modelo,
-    \item \( \mathbf{H} \): Matriz del sistema que modela la propagación acústica,
-    \item \( \mathbf{d} \): Vector que describe las propiedades de absorción,
-    \item \( \mathbf{w} \): Ruido con distribución \( \mathcal{N}(0, \sigma^2) \).
-\end{itemize}
-
-El vector \( \mathbf{\mu} \), que describe el perfil de absorción, se calcula a partir de \( \mathbf{d} \) utilizando relaciones del modelo físico descritas en la Sección \ref{sec:lit:two}.
-
-\subsection{Regularización de Tikhonov} \label{sec:method:tikhonov}
-
-La regularización de Tikhonov se emplea para estabilizar la solución de este problema mal condicionado. La formulación matemática se expresa como:
-\begin{equation}
-    \hat{\mathbf{d}} = \argmin_{\mathbf{d}} \left\{ \| \mathbf{y} - \mathbf{H} \mathbf{d} \|_2^2 + \lambda \| \mathbf{d} \|_2^2 \right\},
-\end{equation}
-donde:
-\begin{itemize}
-    \item \( \| \mathbf{y} - \mathbf{H} \mathbf{d} \|_2^2 \): Término de fidelidad de los datos,
-    \item \( \| \mathbf{d} \|_2^2 \): Término de regularización que penaliza soluciones inestables,
-    \item \( \lambda \): Parámetro de regularización que equilibra estos dos términos.
-\end{itemize}
-
-El valor de \( \lambda \) es crucial para garantizar una solución estable y precisa. Métodos como la curva L identifican un único \( \lambda \) óptimo graficando el residuo \( \| \mathbf{y} - \mathbf{H} \hat{\mathbf{d}} \|_2 \) frente a la norma de regularización \( \| \hat{\mathbf{d}} \|_2 \). En este trabajo, NSGA-II se utiliza como una alternativa para explorar múltiples valores de \( \lambda \) simultáneamente.
-
-\subsection{Optimización Multi-Objetivo para \( \lambda \)} \label{sec:method:nsga}
-
-NSGA-II se emplea para optimizar directamente el parámetro \( \lambda \) considerando múltiples objetivos. Los objetivos definidos son:
+\subsubsection{NSGA-II} \label{sec:method:nsga}
+NSGA-II se utiliza para generar un frente de Pareto que representa las posibles soluciones para \( \lambda \), optimizando los siguientes objetivos:
 \begin{enumerate}
     \item Minimización del residuo: \( \| \mathbf{y} - \mathbf{H} \mathbf{d} \|_2^2 \),
     \item Minimización del término de regularización: \( \| \mathbf{d} \|_2^2 \),
-    \item Penalización de valores negativos en \( \mathbf{d} \), para garantizar soluciones físicamente significativas.
+    \item Penalización de valores negativos en \( \mathbf{d} \): \( \sum |\mathbf{d}_i| \text{ para } \mathbf{d}_i < 0 \).
 \end{enumerate}
 
-El algoritmo genera un frente de Pareto que representa múltiples valores de \( \lambda \) y sus respectivas soluciones \( \hat{\mathbf{d}} \), proporcionando un conjunto de compromisos entre los objetivos definidos. Este enfoque permite analizar cómo diferentes valores de \( \lambda \) afectan tanto la precisión como la estabilidad de las soluciones.
+El enfoque de NSGA-II permite generar un conjunto diverso de soluciones que reflejan los compromisos entre los objetivos definidos. Cada punto del frente de Pareto representa un valor de \( \lambda \) y su correspondiente reconstrucción \( \hat{\mathbf{d}} \).
 
-\subsection{Comparación con el Método de la Curva L} \label{sec:method:comparison}
+\subsubsection{MOEA/D} \label{sec:method:moead}
+MOEA/D, por otro lado, adopta un enfoque basado en la descomposición del problema multi-objetivo en múltiples subproblemas de optimización escalar. Cada subproblema se resuelve utilizando una combinación lineal ponderada de los objetivos:
 
-El método de la curva L se utiliza como referencia para evaluar las soluciones obtenidas mediante NSGA-II. Para ello:
+\begin{equation}
+    f_{\text{scalar}} = \omega_1 \| \mathbf{y} - \mathbf{H} \mathbf{d} \|_2^2 + \omega_2 \| \mathbf{d} \|_2^2 + \omega_3 \sum |\mathbf{d}_i| \text{ para } \mathbf{d}_i < 0,
+\end{equation}
+
+donde \( \omega_1, \omega_2, \omega_3 \) son pesos que determinan la importancia relativa de cada objetivo.
+
+\textbf{Ventajas de MOEA/D:}
 \begin{itemize}
-    \item Se calcula el vértice de la curva L para identificar el \( \lambda \) óptimo según este método.
-    \item Se evalúan las soluciones obtenidas por NSGA-II en términos de los mismos objetivos (residuo y regularización).
-    \item Se analiza la relación entre el conjunto de soluciones generadas por NSGA-II y el valor único de \( \lambda \) propuesto por la curva L.
+    \item Generación más eficiente del frente de Pareto al enfocarse en subproblemas individuales.
+    \item Mayor flexibilidad para explorar regiones específicas del espacio de soluciones.
+    \item Escalabilidad superior en problemas con un número elevado de objetivos.
 \end{itemize}
 
-Este análisis permite comparar la flexibilidad y diversidad de soluciones proporcionadas por NSGA-II frente al enfoque tradicional.
+El uso combinado de MOEA/D y NSGA-II permite evaluar las diferencias en la diversidad y calidad de las soluciones generadas, así como el tiempo computacional requerido para cada algoritmo.
 
-\subsection{Evaluación Experimental} \label{sec:method:evaluation}
+\section{Comparación con el Método de la Curva L} \label{sec:method:comparison}
 
-Los experimentos incluyen:
+El método de la curva L proporciona un único valor óptimo de \( \lambda \) que equilibra la fidelidad de los datos y la regularización. Sin embargo, su naturaleza unidimensional limita su capacidad para explorar soluciones alternativas. La integración de MOEA/D y NSGA-II permite:
+\begin{itemize}
+    \item Identificar un conjunto diverso de soluciones con diferentes compromisos entre objetivos.
+    \item Incorporar restricciones adicionales, como la positividad de \( \mathbf{d} \), para mejorar la plausibilidad física de las soluciones.
+    \item Analizar cómo diferentes configuraciones de \( \lambda \) afectan la reconstrucción del perfil de absorción \( \mathbf{\mu} \).
+\end{itemize}
+
+\section{Evaluación Experimental con MOEA/D y NSGA-II} \label{sec:method:moead_eval}
+
+Los experimentos realizados con MOEA/D y NSGA-II incluyen:
 \begin{enumerate}
-    \item Simulación de datos con diferentes niveles de ruido (\( \sigma = 0, 0.05, 0.1 \)).
-    \item Generación del frente de Pareto utilizando NSGA-II para explorar \( \lambda \).
-    \item Comparación de los perfiles de absorción \( \mathbf{\mu} \) reconstruidos con los métodos de la curva L y NSGA-II.
-    \item Análisis de la correlación entre los objetivos para interpretar los compromisos en el frente de Pareto.
+    \item Simulación de datos con diferentes niveles de ruido (\( \sigma^2 = 0.0, 10^{-4}, 10^{-3}, 10^{-2}, 10^{-1}, 1.0 \)), donde \( \sigma^2 \) representa la varianza del ruido agregado a las mediciones.
+    \item Generación del frente de Pareto utilizando MOEA/D y NSGA-II para explorar configuraciones óptimas del parámetro \( \lambda \).
+    \item Comparación de las soluciones generadas con las obtenidas mediante el método de la curva L en términos de fidelidad de los datos, estabilidad de la solución y plausibilidad física.
+    \item Visualización y análisis del frente de Pareto, incluyendo la evaluación de la correlación entre los objetivos y el impacto del ruido en las soluciones generadas.
 \end{enumerate}
 
-Se utilizaron herramientas de visualización para graficar el frente de Pareto y comparar las soluciones obtenidas por ambos métodos en términos de fidelidad de los datos, estabilidad y positividad.
+Los niveles de \( \sigma^2 \) fueron seleccionados para simular condiciones prácticas y analizar la robustez de cada método frente a diferentes niveles de ruido. Esto permite evaluar la efectividad de MOEA/D y NSGA-II en escenarios donde el ruido afecta significativamente la calidad de las mediciones y, por ende, la reconstrucción del perfil de absorción \( \mathbf{\mu} \).
 
-\subsection{Implementación Experimental} \label{sec:method:implementation}
+Los resultados destacan que MOEA/D tiende a generar soluciones más equilibradas y robustas en presencia de altos niveles de ruido, mientras que NSGA-II ofrece una mayor diversidad en el frente de Pareto en niveles de ruido bajos.
 
-La implementación se realizó utilizando Python y bibliotecas avanzadas de optimización, incluyendo Pymoo. Los experimentos consistieron en:
+\section{Implementación Experimental con MOEA/D y NSGA-II} \label{sec:method:implementation}
+
+La implementación experimental incluye:
 \begin{itemize}
-    \item Implementación del algoritmo NSGA-II para generar soluciones multi-objetivo.
-    \item Aplicación de Tikhonov para calcular \( \hat{\mathbf{d}} \) y \( \mathbf{\mu} \) utilizando los valores de \( \lambda \) generados.
-    \item Comparación gráfica y numérica entre los perfiles reconstruidos por los métodos.
+    \item Uso de Pymoo para implementar MOEA/D y NSGA-II.
+    \item Comparación gráfica y numérica entre los perfiles de absorción \( \mathbf{\mu} \) reconstruidos con cada método.
+    \item Análisis de la diversidad de las soluciones generadas, considerando métricas como el hipervolumen y la cobertura del frente de Pareto.
 \end{itemize}
 
-Este diseño experimental asegura una evaluación rigurosa de las capacidades de NSGA-II para explorar valores de \( \lambda \) en comparación con métodos tradicionales como la curva L.
+Este diseño experimental asegura una comparación justa y rigurosa entre MOEA/D, NSGA-II y la curva L, proporcionando una evaluación integral de los métodos multi-objetivo para la reconstrucción de imágenes fotoacústicas.

@@ -37,34 +37,12 @@ d_est_l_curve = d_est_l_curve.flatten()
 
 # Definir el problema
 problem = SingleValueReconstructionProblem(MODEL, SIGNAL, l_curve_sol=None)
-def binary_tournament(pop, P, **kwargs):
-    # P define los torneos y los competidores
-    n_tournaments, n_competitors = P.shape
-
-    if n_competitors != 2:
-        raise Exception("Only pressure=2 allowed for binary tournament!")
-
-    # Resultado que esta función debe devolver
-    S = np.full(n_tournaments, -1, dtype=int)
-
-    # Realizar todos los torneos
-    for i in range(n_tournaments):
-        a, b = P[i]
-
-        # Si el primer individuo es mejor, elígelo
-        if pop[a].F[0] < pop[b].F[0]:  
-            S[i] = a
-        else:
-            S[i] = b
-
-    return S
 
 algorithm = NSGA2(
     pop_size=500,
     sampling=LHS(),
     crossover=CustomCrossover(prob=1.0),
     mutation=PolynomialMutation(prob=0.83, eta=50),
-    #selection=TournamentSelection(func_comp=binary_tournament),
     eliminate_duplicates=True
 )
 
