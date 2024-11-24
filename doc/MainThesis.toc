@@ -18,24 +18,31 @@
 \contentsline {section}{\numberline {3.2}Comparación con el Método de la Curva L}{9}{}%
 \contentsline {section}{\numberline {3.3}Evaluación Experimental con MOEA/D y NSGA-II}{9}{}%
 \contentsline {section}{\numberline {3.4}Implementación Experimental con MOEA/D y NSGA-II}{10}{}%
-\contentsline {chapter}{\numberline {4}Experimentos y Resultados}{11}{}%
-\contentsline {section}{\numberline {4.1}Configuración Experimental}{11}{}%
-\contentsline {section}{\numberline {4.2}Resultados del Frente de Pareto}{11}{}%
-\contentsline {section}{\numberline {4.3}Análisis de Clustering de los Frentes de Pareto}{13}{}%
-\contentsline {section}{\numberline {4.4}Reconstrucción del Perfil de Absorción}{15}{}%
-\contentsline {section}{\numberline {4.5}Comparación entre NSGA-II, MOEA/D y la Curva L}{16}{}%
-\contentsline {section}{\numberline {4.6}Impacto del Ruido en el RMSE}{17}{}%
-\contentsline {section}{\numberline {4.7}Correlaciones entre Objetivos y Proyecciones en 2D}{18}{}%
-\contentsline {subsubsection}{Correlaciones entre Objetivos}{18}{}%
-\contentsline {section}{\numberline {4.8}Proyecciones en 2D de los Objetivos}{19}{}%
-\contentsline {subsection}{\numberline {4.8.1}Proyecciones en 2D de los Objetivos (NSGA-II)}{19}{}%
-\contentsline {subsection}{\numberline {4.8.2}Proyecciones en 2D de los Objetivos (MOEA/D)}{21}{}%
-\contentsline {subsection}{\numberline {4.8.3}Comparación entre NSGA-II y MOEA/D}{22}{}%
-\contentsline {chapter}{\numberline {5}Análisis de los Resultados}{23}{}%
-\contentsline {section}{\numberline {5.1}Interpretación del Frente de Pareto}{23}{}%
-\contentsline {section}{\numberline {5.2}Correlaciones entre Objetivos}{23}{}%
-\contentsline {section}{\numberline {5.3}Impacto del Nivel de Ruido}{24}{}%
-\contentsline {section}{\numberline {5.4}Comparación entre NSGA-II y MOEA/D}{24}{}%
-\contentsline {section}{\numberline {5.5}Conclusiones del Análisis}{25}{}%
-\contentsline {section}{\numberline {5.6}Trabajo Futuro}{25}{}%
-\contentsline {chapter}{\numberline {6}Conclusiones}{26}{}%
+\contentsline {subsection}{\numberline {3.4.1}Herramientas de Implementación}{10}{}%
+\contentsline {subsection}{\numberline {3.4.2}Configuración de los Experimentos}{10}{}%
+\contentsline {subsection}{\numberline {3.4.3}Métricas de Evaluación}{10}{}%
+\contentsline {subsection}{\numberline {3.4.4}Pipeline Experimental}{11}{}%
+\contentsline {subsection}{\numberline {3.4.5}Visualización y Análisis}{11}{}%
+\contentsline {subsection}{\numberline {3.4.6}Conclusión de la Implementación}{12}{}%
+\contentsline {chapter}{\numberline {4}Experimentos y Resultados}{13}{}%
+\contentsline {section}{\numberline {4.1}Configuración Experimental}{13}{}%
+\contentsline {section}{\numberline {4.2}Resultados del Frente de Pareto}{13}{}%
+\contentsline {section}{\numberline {4.3}Análisis de Clustering de los Frentes de Pareto}{15}{}%
+\contentsline {section}{\numberline {4.4}Reconstrucción del Perfil de Absorción}{17}{}%
+\contentsline {section}{\numberline {4.5}Resultados del Hipervolumen}{18}{}%
+\contentsline {section}{\numberline {4.6}Comparación entre NSGA-II, MOEA/D y la Curva L}{20}{}%
+\contentsline {section}{\numberline {4.7}Impacto del Ruido en el RMSE}{21}{}%
+\contentsline {section}{\numberline {4.8}Correlaciones entre Objetivos y Proyecciones en 2D}{22}{}%
+\contentsline {subsubsection}{Correlaciones entre Objetivos}{22}{}%
+\contentsline {section}{\numberline {4.9}Proyecciones en 2D de los Objetivos}{23}{}%
+\contentsline {subsection}{\numberline {4.9.1}Proyecciones en 2D de los Objetivos (NSGA-II)}{23}{}%
+\contentsline {subsection}{\numberline {4.9.2}Proyecciones en 2D de los Objetivos (MOEA/D)}{25}{}%
+\contentsline {subsection}{\numberline {4.9.3}Comparación entre NSGA-II y MOEA/D}{26}{}%
+\contentsline {chapter}{\numberline {5}Análisis de los Resultados}{27}{}%
+\contentsline {section}{\numberline {5.1}Interpretación del Frente de Pareto}{27}{}%
+\contentsline {section}{\numberline {5.2}Correlaciones entre Objetivos}{27}{}%
+\contentsline {section}{\numberline {5.3}Impacto del Nivel de Ruido}{28}{}%
+\contentsline {section}{\numberline {5.4}Comparación entre NSGA-II y MOEA/D}{28}{}%
+\contentsline {section}{\numberline {5.5}Conclusiones del Análisis}{29}{}%
+\contentsline {section}{\numberline {5.6}Trabajo Futuro}{29}{}%
+\contentsline {chapter}{\numberline {6}Conclusiones}{30}{}%

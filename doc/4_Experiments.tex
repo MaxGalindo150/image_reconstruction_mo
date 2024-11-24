@@ -85,6 +85,37 @@ Las Figuras \ref{fig:reconstruction_profiles_nsga2} y \ref{fig:reconstruction_pr
 
 Ambos métodos producen reconstrucciones físicamente consistentes en comparación con el método de la curva L, pero MOEA/D genera perfiles más estables en condiciones de ruido elevado.
 
+\section{Resultados del Hipervolumen} \label{sec:results:hypervolume}
+
+El hipervolumen se utilizó como una métrica clave para evaluar la calidad y la diversidad del frente de Pareto generado por NSGA-II y MOEA/D para \( \sigma^2 = 10^{-1} \). Este indicador mide el espacio objetivo dominado por las soluciones en el frente de Pareto en relación con un punto de referencia (\( [10,10,10] \)). Por lo tanto, un mayor hipervolumen indica una mejor representación y diversidad del frente.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/hypervolume_nsga2.png}
+    \caption{Convergencia del hipervolumen a lo largo de generaciones para NSGA-II.}
+    \label{fig:hypervolume_nsga2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/hypervolume_moead.png}
+    \caption{Convergencia del hipervolumen a lo largo de generaciones para MOEA/D.}
+    \label{fig:hypervolume_moead}
+\end{figure}
+
+\textbf{Observaciones}
+
+\textbf{NSGA-II:} La Figura \ref{fig:hypervolume_nsga2} muestra que el hipervolumen generado por NSGA-II converge rápidamente a un valor máximo alrededor de las primeras 50 generaciones. Esto indica que NSGA-II es capaz de explorar eficientemente el espacio objetivo y alcanzar un frente de Pareto de alta calidad en pocas iteraciones. Además, la variación inicial del hipervolumen refleja la diversidad de soluciones generadas durante las primeras generaciones, lo que sugiere un enfoque efectivo para equilibrar los objetivos definidos.
+
+\textbf{MOEA/D:} Por otro lado, la Figura \ref{fig:hypervolume_moead} presenta un comportamiento notablemente constante del hipervolumen a lo largo de todas las generaciones. Aunque este patrón podría interpretarse inicialmente como una falta de progreso, el análisis de las soluciones generadas revela que MOEA/D produce frentes de Pareto altamente uniformes y equilibrados desde el inicio de la ejecución. Este comportamiento destaca la eficiencia de MOEA/D para mantener una representación estable del espacio objetivo, aunque su dinámica de convergencia requiere un análisis más detallado para comprender completamente sus implicaciones.
+
+\textbf{Consideraciones Finales:}
+
+El comportamiento del hipervolumen en MOEA/D, aunque constante, no debe ser interpretado como una deficiencia en su desempeño. Por el contrario, las soluciones generadas por MOEA/D muestran una alta calidad y diversidad, lo que sugiere que el algoritmo logra rápidamente un equilibrio óptimo en el frente de Pareto. Este comportamiento podría deberse a la naturaleza de su enfoque basado en descomposición, que prioriza soluciones distribuidas de manera uniforme en el espacio objetivo desde el inicio.
+
+En contraste, NSGA-II presenta una convergencia más dinámica, lo que refleja su capacidad para explorar y refinar continuamente el frente de Pareto. Ambos algoritmos ofrecen ventajas complementarias, y su uso debe ser considerado en función de las necesidades específicas del problema, como la rapidez en la convergencia o la uniformidad de las soluciones.
+
+
 \section{Comparación entre NSGA-II, MOEA/D y la Curva L} \label{sec:results:comparison}
 
 En esta sección se evalúan las soluciones obtenidas mediante NSGA-II, MOEA/D y la solución propuesta por la curva L. La Tabla \ref{tab:comparison_algorithms} resume los valores de los objetivos normalizados para cada metodología para \( \sigma^2 = 10^{-1} \).

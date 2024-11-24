@@ -55,11 +55,59 @@ Los resultados destacan que MOEA/D tiende a generar soluciones más equilibradas
 
 \section{Implementación Experimental con MOEA/D y NSGA-II} \label{sec:method:implementation}
 
-La implementación experimental incluye:
+La implementación experimental se diseñó para evaluar la efectividad de los algoritmos multiobjetivo MOEA/D y NSGA-II en la selección del parámetro de regularización \( \lambda \) en la reconstrucción de imágenes fotoacústicas. Este enfoque comparativo se estructuró en los siguientes componentes clave:
+
+\subsection{Herramientas de Implementación}
+Se utilizó la biblioteca Pymoo para implementar MOEA/D y NSGA-II debido a su flexibilidad para diseñar algoritmos evolutivos y personalizar operadores genéticos. Las características específicas incluyeron:
 \begin{itemize}
-    \item Uso de Pymoo para implementar MOEA/D y NSGA-II.
-    \item Comparación gráfica y numérica entre los perfiles de absorción \( \mathbf{\mu} \) reconstruidos con cada método.
-    \item Análisis de la diversidad de las soluciones generadas, considerando métricas como el hipervolumen y la cobertura del frente de Pareto.
+    \item Implementación de MOEA/D con particiones de pesos uniformes (\textit{reference directions}) para explorar de manera equitativa todo el frente de Pareto.
+    \item Configuración de NSGA-II para maximizar la diversidad del frente mediante operadores de selección basados en dominancia y mantenimiento de diversidad con \textit{crowding distance}.
+    \item Personalización de operadores de cruce y mutación para mejorar la exploración del espacio de soluciones:
+    \begin{itemize}
+        \item \textbf{Cruce Simulado de Binarios (SBX):} Utilizado en ambos algoritmos para generar soluciones variadas respetando los límites del problema.
+        \item \textbf{Mutación Polinomial:} Configurada con una probabilidad de 0.8 para asegurar una exploración constante del espacio de búsqueda.
+    \end{itemize}
 \end{itemize}
 
-Este diseño experimental asegura una comparación justa y rigurosa entre MOEA/D, NSGA-II y la curva L, proporcionando una evaluación integral de los métodos multi-objetivo para la reconstrucción de imágenes fotoacústicas.
+\subsection{Configuración de los Experimentos}
+Se realizaron simulaciones utilizando datos sintéticos generados con base en el modelo de espacio de estados lineales descrito en la Sección \ref{sec:lit:two}. Las configuraciones específicas incluyeron:
+\begin{itemize}
+    \item Población inicial generada mediante un muestreo Latin Hypercube para asegurar una distribución uniforme de las soluciones iniciales en el espacio de diseño.
+    \item Definición de tres objetivos principales para cada algoritmo:
+    \begin{enumerate}
+        \item Minimización del residuo \( \| \mathbf{y} - \mathbf{H} \mathbf{d} \|_2^2 \).
+        \item Minimización del término de regularización \( \| \mathbf{d} \|_2^2 \).
+        \item Penalización de la negatividad para garantizar soluciones físicamente significativas.
+    \end{enumerate}
+    \item Configuración del número de generaciones (\( n_{gen} \)) en 500 y tamaños de población (\( pop\_size \)) de 300 para ambos algoritmos.
+\end{itemize}
+
+\subsection{Métricas de Evaluación}
+Para evaluar los algoritmos MOEA/D y NSGA-II, se consideraron las siguientes métricas:
+\begin{itemize}
+    \item \textbf{Hipervolumen:} Calculado respecto a un punto de referencia común para medir la calidad y diversidad del frente de Pareto.
+    \item \textbf{Distribución en el Frente:} Análisis visual y cuantitativo de la uniformidad de las soluciones generadas.
+    \item \textbf{Reconstrucción del Perfil de Absorción (\( \mathbf{\mu} \)):} Comparación gráfica de los perfiles obtenidos con los valores de \( \lambda \) seleccionados por cada algoritmo.
+    \item \textbf{Comparación con la Curva L:} Evaluación de las soluciones obtenidas por ambos algoritmos en comparación con el parámetro \( \lambda \) propuesto por la curva L.
+\end{itemize}
+
+\subsection{Pipeline Experimental}
+El pipeline experimental incluyó los siguientes pasos:
+\begin{enumerate}
+    \item \textbf{Generación de Datos:} Se simularon señales fotoacústicas con diferentes niveles de ruido (\( \sigma^2 = 0.0, 10^{-4}, 10^{-3}, 10^{-2}, 10^{-1}, 1.0 \)).
+    \item \textbf{Ejecución de Algoritmos:} Se ejecutaron MOEA/D y NSGA-II para cada nivel de ruido, optimizando los tres objetivos definidos.
+    \item \textbf{Reconstrucción de Imágenes:} Se seleccionaron las mejores soluciones basadas en un puntaje ponderado de los objetivos (\( w_1 = 0.6 \) para \( f_1 \), \( w_2 = 0.1 \) para \( f_2 \), y \( w_3 = 0.3 \) para \( f_3 \)).
+    \item \textbf{Evaluación del Frente de Pareto:} Se analizaron las métricas de hipervolumen, distribución y correlaciones entre objetivos.
+    \item \textbf{Análisis Comparativo:} Se compararon los resultados de MOEA/D y NSGA-II con la solución propuesta por la curva L, considerando fidelidad, regularización y penalización de negatividad.
+\end{enumerate}
+
+\subsection{Visualización y Análisis}
+Las soluciones generadas se visualizan mediante:
+\begin{itemize}
+    \item Diagramas de dispersión 2D y 3D de los frentes de Pareto para interpretar los compromisos entre objetivos.
+    \item Gráficas de convergencia del hipervolumen para analizar la estabilidad de los algoritmos a lo largo de las generaciones.
+    \item Comparación gráfica de los perfiles de absorción reconstruidos con los valores de \( \lambda \) obtenidos.
+\end{itemize}
+
+\subsection{Conclusión de la Implementación}
+Este diseño experimental asegura una evaluación justa y robusta de MOEA/D y NSGA-II en comparación con la curva L. Los resultados destacan la capacidad de ambos algoritmos para generar soluciones diversas y físicamente consistentes, proporcionando un marco flexible para la selección del parámetro de regularización en problemas mal condicionados como la reconstrucción de imágenes fotoacústicas.
