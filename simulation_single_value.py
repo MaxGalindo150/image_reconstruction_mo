@@ -7,7 +7,6 @@ from tqdm import tqdm
 from External_lib.rmse import rmse
 from External_lib.Tikhonov import tikhonov
 
-from SSM.mu_from_d import mu_from_d
 from SSM.Estimation import estimation
 from SSM.Generate_Linear_Model import generate_linear_model
 from SSM.Generate_Measurements import generate_measurements
@@ -17,40 +16,17 @@ from SSM.Set_Settings import set_settings
 
 from pymoo.algorithms.moo.nsga2 import NSGA2
 from pymoo.optimize import minimize
-from pymoo.util.ref_dirs import get_reference_directions
-from pymoo.operators.selection.tournament import TournamentSelection
+
 from pymoo.operators.sampling.lhs import LHS
 from pymoo.operators.mutation.pm import PolynomialMutation
 
 from MO.custom_crossover import CustomCrossover
-from MO.custom_mutation import CustomMutation
 from SingleValue.SingleValueProblem import SingleValueReconstructionProblem
 
 
 from utils.plotting import plot_rmse_vs_noise
 
 
-def binary_tournament(pop, P, **kwargs):
-    # P define los torneos y los competidores
-    n_tournaments, n_competitors = P.shape
-
-    if n_competitors != 2:
-        raise Exception("Only pressure=2 allowed for binary tournament!")
-
-    # Resultado que esta función debe devolver
-    S = np.full(n_tournaments, -1, dtype=int)
-
-    # Realizar todos los torneos
-    for i in range(n_tournaments):
-        a, b = P[i]
-
-        # Si el primer individuo es mejor, elígelo
-        if pop[a].F[0] < pop[b].F[0]:  
-            S[i] = a
-        else:
-            S[i] = b
-
-    return S
 
 # Configuración del modelo
 n_var = 20
@@ -80,7 +56,6 @@ def run_simulation(i, sigma):
         sampling=LHS(),
         crossover=CustomCrossover(prob=1.0),
         mutation=PolynomialMutation(prob=0.83, eta=50),
-        #selection=TournamentSelection(func_comp=binary_tournament),
         eliminate_duplicates=True
     )
     

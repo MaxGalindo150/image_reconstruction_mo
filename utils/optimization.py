@@ -5,6 +5,12 @@ from pymoo.optimize import minimize
 from pymoo.operators.mutation.pm import PolynomialMutation
 from pymoo.operators.sampling.lhs import LHS
 from pymoo.indicators.hv import HV
+from pymoo.algorithms.moo.nsga3 import NSGA3
+from pymoo.algorithms.moo.moead import MOEAD
+from pymoo.util.ref_dirs import get_reference_directions
+#from pymoo.decomposition.pbi import PenaltyBoundaryIntersection
+
+
 
 from MO.custom_crossover import CustomCrossover
 
@@ -20,11 +26,110 @@ from SSM.mu_from_d import mu_from_d
 from SingleValue.SingleValueProblem import SingleValueReconstructionProblem
 
 
+
 from utils.archive import update_archive, save_archive_pickle, limit_archive_size
 
 
+def run_optimization_nsga3(
+    problem,
+    ref_point,
+    archive_file,
+    img_dir,
+    pop_size=500,
+    n_gen=500,
+    mutation_prob=0.83,
+    eta=50
+):
+    """Execute the NSGA-III algorithm"""
+    
+    # Generar direcciones de referencia para NSGA-III
+    ref_dirs = get_reference_directions("das-dennis", problem.n_obj, n_partitions=30)
+    
+    algorithm = NSGA3(
+        ref_dirs=ref_dirs,
+        #sampling=LHS(),
+        mutation=PolynomialMutation(prob=mutation_prob, eta=eta),
+        eliminate_duplicates=True
+    )
 
-def run_optimization(
+    # Inicializar variables
+    archive = []
+    hv_values = []
+
+    # Callback para actualizar el archivo y registrar el hipervolumen
+    def callback(algorithm):
+        nonlocal archive
+        archive = record_hv_and_archive(algorithm, archive, hv_values, ref_point)
+
+    # Ejecutar la optimización
+    res = minimize(
+        problem,
+        algorithm,
+        seed=1,
+        termination=("n_gen", n_gen),
+        verbose=True,
+        callback=callback,
+    )
+
+    # Guardar el archivo externo
+    save_archive_pickle(archive, archive_file)
+
+    return res, archive, hv_values
+
+
+def run_optimization_moead(
+    problem,
+    ref_point,
+    archive_file,
+    img_dir,
+    pop_size=496, 
+    n_gen=500,
+    mutation_prob=0.83,
+    eta=10,
+    neighbors=20
+):
+    """Execute the MOEA/D algorithm"""
+
+    # Generar direcciones de referencia con un número válido de puntos
+    ref_dirs = get_reference_directions("uniform", problem.n_obj, n_points=pop_size)
+
+    # Crear instancia del algoritmo MOEA/D
+    algorithm = MOEAD(
+        ref_dirs=ref_dirs,
+        n_neighbors=neighbors,
+        prob_neighbor_mating=0.9,
+        sampling=LHS(),
+        mutation=PolynomialMutation(prob=mutation_prob, eta=eta),
+        crossover=CustomCrossover(prob=0.9),
+    )
+
+    # Inicializar variables
+    archive = []
+    hv_values = []
+
+    # Callback para actualizar el archivo y registrar el hipervolumen
+    def callback(algorithm):
+        nonlocal archive
+        archive = record_hv_and_archive(algorithm, archive, hv_values, ref_point)
+
+    # Ejecutar la optimización
+    res = minimize(
+        problem,
+        algorithm,
+        seed=1,
+        termination=("n_gen", n_gen),
+        verbose=True,
+        callback=callback,
+    )
+
+    # Guardar el archivo externo
+    save_archive_pickle(archive, archive_file)
+
+    return res, archive, hv_values
+
+
+
+def run_optimization_nsga2(
     problem, 
     ref_point, 
     archive_file, 
@@ -129,8 +234,8 @@ def get_best_solution(objectives,
                       lambda_lcurve, 
                       problem, 
                       MODEL, 
-                      SIGNAL):
-    weights = [0.99, 0.0001, 0.0001]  # Example weights for objectives
+                      SIGNAL,
+                      weights=[0.6, 0.1, 0.3]):
     best_index, best_solution_values = problem.select_best_solution(objectives, weights=weights)
     best_solution = solutions[best_index]
     d_est_nsga2 = tikhonov(MODEL.H, SIGNAL.y, best_solution, dim=1)
@@ -141,3 +246,4 @@ def get_best_solution(objectives,
     l_curve_sol_values = problem.evaluate_l_curve_solution(lambda_lcurve)
     
     return l_curve_sol_values, best_solution_values, mu_est_l_curve, mu_est_nsga2, best_index
+

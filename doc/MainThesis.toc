@@ -1,40 +1,48 @@
-\contentsline {chapter}{\numberline {1}Introduction}{2}{}%
+\babel@toc {spanish}{}\relax 
+\contentsline {chapter}{\numberline {1}Introducción}{2}{}%
 \contentsline {section}{\numberline {1.1}Imágenes Fotoacústicas}{2}{}%
-\contentsline {subsection}{\numberline {1.1.1}Preguntas de Investigación}{2}{}%
-\contentsline {subsection}{\numberline {1.1.2}Contribuciones}{3}{}%
-\contentsline {section}{\numberline {1.2}Reconstrucción de Imágenes}{3}{}%
-\contentsline {section}{\numberline {1.3}Optimización Multiobjetivo}{4}{}%
-\contentsline {section}{\numberline {1.4}Visión General}{4}{}%
-\contentsline {chapter}{\numberline {2}Literature review}{5}{}%
-\contentsline {section}{\numberline {2.1}Revisión de Literatura}{5}{}%
-\contentsline {subsection}{\numberline {2.1.1}Reconstrucción de Imágenes Fotoacústicas}{5}{}%
-\contentsline {subsection}{\numberline {2.1.2}Modelo de Espacio de Estados Lineales para la Reconstrucción Fotoacústica}{5}{}%
-\contentsline {subsection}{\numberline {2.1.3}Regularización de Tikhonov y el Método de la Curva L}{5}{}%
-\contentsline {section}{\numberline {2.2}Métodos de Optimización Multi-Objetivo}{6}{}%
-\contentsline {subsection}{\numberline {2.2.1}Introducción a la Optimización Multi-Objetivo}{6}{}%
-\contentsline {subsection}{\numberline {2.2.2}NSGA-II en la Reconstrucción Fotoacústica}{6}{}%
-\contentsline {section}{\numberline {2.3}Desafíos y Limitaciones}{6}{}%
-\contentsline {chapter}{\numberline {3}Methodology}{7}{}%
-\contentsline {section}{\numberline {3.1}Generación de Datos Sintéticos}{7}{}%
-\contentsline {subsection}{\numberline {3.1.1}Regularización de Tikhonov}{7}{}%
-\contentsline {subsection}{\numberline {3.1.2}Optimización Multi-Objetivo para \( \lambda \)}{8}{}%
-\contentsline {subsection}{\numberline {3.1.3}Comparación con el Método de la Curva L}{8}{}%
-\contentsline {subsection}{\numberline {3.1.4}Evaluación Experimental}{8}{}%
-\contentsline {subsection}{\numberline {3.1.5}Implementación Experimental}{9}{}%
-\contentsline {chapter}{\numberline {4}Experiments and Results}{10}{}%
-\contentsline {section}{\numberline {4.1}Experimentos y Resultados}{10}{}%
-\contentsline {subsection}{\numberline {4.1.1}Configuración Experimental}{10}{}%
-\contentsline {subsection}{\numberline {4.1.2}Resultados del Frente de Pareto}{10}{}%
-\contentsline {subsection}{\numberline {4.1.3}Comparación entre NSGA-II y la Curva L}{11}{}%
-\contentsline {subsection}{\numberline {4.1.4}Reconstrucción del Perfil de Absorción \( \mathbf {\mu } \)}{11}{}%
-\contentsline {subsection}{\numberline {4.1.5}Análisis de Correlación entre Objetivos}{12}{}%
-\contentsline {subsection}{\numberline {4.1.6}Impacto del Nivel de Ruido}{12}{}%
-\contentsline {subsection}{\numberline {4.1.7}Discusión de los Resultados}{13}{}%
-\contentsline {chapter}{\numberline {5}Analysis}{15}{}%
-\contentsline {section}{\numberline {5.1}Análisis de los Resultados}{15}{}%
-\contentsline {subsection}{\numberline {5.1.1}Interpretación del Frente de Pareto}{15}{}%
-\contentsline {subsection}{\numberline {5.1.2}Correlaciones entre Objetivos}{15}{}%
-\contentsline {subsection}{\numberline {5.1.3}Impacto del Nivel de Ruido}{16}{}%
-\contentsline {subsection}{\numberline {5.1.4}Comparación con la Curva L}{16}{}%
-\contentsline {subsection}{\numberline {5.1.5}Conclusiones del Análisis}{16}{}%
-\contentsline {chapter}{\numberline {6}Conclusion}{17}{}%
+\contentsline {subsection}{\numberline {1.1.1}Preguntas de Investigación}{3}{}%
+\contentsline {subsection}{\numberline {1.1.2}Contribuciones}{4}{}%
+\contentsline {chapter}{\numberline {2}Revisión de la Literatura}{5}{}%
+\contentsline {section}{\numberline {2.1}Reconstrucción de Imágenes Fotoacústicas}{5}{}%
+\contentsline {section}{\numberline {2.2}Modelo de Espacio de Estados Lineales para la Reconstrucción Fotoacústica}{5}{}%
+\contentsline {section}{\numberline {2.3}Regularización de Tikhonov y el Método de la Curva L}{6}{}%
+\contentsline {section}{\numberline {2.4}Métodos de Optimización Multi-Objetivo}{7}{}%
+\contentsline {subsection}{\numberline {2.4.1}Introducción a la Optimización Multi-Objetivo}{7}{}%
+\contentsline {subsection}{\numberline {2.4.2}NSGA-II y MOEA/D en la Reconstrucción Fotoacústica}{7}{}%
+\contentsline {section}{\numberline {2.5}Desafíos y Limitaciones}{7}{}%
+\contentsline {chapter}{\numberline {3}Metodología}{8}{}%
+\contentsline {section}{\numberline {3.1}Optimización Multi-Objetivo para \( \lambda \)}{8}{}%
+\contentsline {subsubsection}{NSGA-II}{8}{}%
+\contentsline {subsubsection}{MOEA/D}{8}{}%
+\contentsline {section}{\numberline {3.2}Comparación con el Método de la Curva L}{9}{}%
+\contentsline {section}{\numberline {3.3}Evaluación Experimental con MOEA/D y NSGA-II}{9}{}%
+\contentsline {section}{\numberline {3.4}Implementación Experimental con MOEA/D y NSGA-II}{10}{}%
+\contentsline {subsection}{\numberline {3.4.1}Herramientas de Implementación}{10}{}%
+\contentsline {subsection}{\numberline {3.4.2}Configuración de los Experimentos}{10}{}%
+\contentsline {subsection}{\numberline {3.4.3}Métricas de Evaluación}{10}{}%
+\contentsline {subsection}{\numberline {3.4.4}Pipeline Experimental}{11}{}%
+\contentsline {subsection}{\numberline {3.4.5}Visualización y Análisis}{11}{}%
+\contentsline {subsection}{\numberline {3.4.6}Conclusión de la Implementación}{12}{}%
+\contentsline {chapter}{\numberline {4}Experimentos y Resultados}{13}{}%
+\contentsline {section}{\numberline {4.1}Configuración Experimental}{13}{}%
+\contentsline {section}{\numberline {4.2}Resultados del Frente de Pareto}{13}{}%
+\contentsline {section}{\numberline {4.3}Análisis de Clustering de los Frentes de Pareto}{15}{}%
+\contentsline {section}{\numberline {4.4}Reconstrucción del Perfil de Absorción}{17}{}%
+\contentsline {section}{\numberline {4.5}Resultados del Hipervolumen}{18}{}%
+\contentsline {section}{\numberline {4.6}Comparación entre NSGA-II, MOEA/D y la Curva L}{20}{}%
+\contentsline {section}{\numberline {4.7}Impacto del Ruido en el RMSE}{21}{}%
+\contentsline {section}{\numberline {4.8}Correlaciones entre Objetivos y Proyecciones en 2D}{22}{}%
+\contentsline {subsubsection}{Correlaciones entre Objetivos}{22}{}%
+\contentsline {section}{\numberline {4.9}Proyecciones en 2D de los Objetivos}{23}{}%
+\contentsline {subsection}{\numberline {4.9.1}Proyecciones en 2D de los Objetivos (NSGA-II)}{23}{}%
+\contentsline {subsection}{\numberline {4.9.2}Proyecciones en 2D de los Objetivos (MOEA/D)}{25}{}%
+\contentsline {subsection}{\numberline {4.9.3}Comparación entre NSGA-II y MOEA/D}{26}{}%
+\contentsline {chapter}{\numberline {5}Análisis de los Resultados}{27}{}%
+\contentsline {section}{\numberline {5.1}Interpretación del Frente de Pareto}{27}{}%
+\contentsline {section}{\numberline {5.2}Correlaciones entre Objetivos}{27}{}%
+\contentsline {section}{\numberline {5.3}Impacto del Nivel de Ruido}{28}{}%
+\contentsline {section}{\numberline {5.4}Comparación entre NSGA-II y MOEA/D}{28}{}%
+\contentsline {section}{\numberline {5.5}Conclusiones del Análisis}{29}{}%
+\contentsline {section}{\numberline {5.6}Trabajo Futuro}{29}{}%
+\contentsline {chapter}{\numberline {6}Conclusiones}{30}{}%

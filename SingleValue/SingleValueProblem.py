@@ -17,7 +17,7 @@ class SingleValueReconstructionProblem(Problem):
             xu = l_curve_sol + 1e-3
         else:
             xl = 0
-            xu = 1e3
+            xu = 1
         
         super().__init__(n_var=1, n_obj=3, n_constr=0, xl=xl, xu=xu)
 
@@ -68,14 +68,30 @@ class SingleValueReconstructionProblem(Problem):
         out["F"] = np.column_stack([residuals_norm, regularizations_norm, negativities_norm])
 
     def evaluate_l_curve_solution(self, l_curve_sol):
+        """
+        Evalúa la solución de la L-Curve en términos de los objetivos normalizados.
+
+        Args:
+            l_curve_sol (float): Valor de lambda correspondiente a la L-Curve.
+
+        Returns:
+            ndarray: Valores normalizados de los objetivos para la solución L-Curve.
+        """
         # Calcular d_hat para la solución de L-Curve
         d_hat = tikhonov(self.H, self.y, l_curve_sol, dim=1)
-        #d_hat = np.linalg.inv(self.H.T @ self.H + l_curve_sol * np.eye(self.H.shape[1])) @ self.H.T @ self.y
 
         # Evaluar objetivos sin normalizar
         f1 = self.f1(d_hat)
         f2 = self.f2(d_hat)
         f3 = self.f3(d_hat)
+
+        # Actualizar los límites máximos y mínimos si es necesario
+        self.f1_max = max(f1, self.f1_max)
+        self.f1_min = min(f1, self.f1_min)
+        self.f2_max = max(f2, self.f2_max)
+        self.f2_min = min(f2, self.f2_min)
+        self.f3_max = max(f3, self.f3_max)
+        self.f3_min = min(f3, self.f3_min)
 
         # Normalizar los objetivos
         f1_norm = (f1 - self.f1_min) / (self.f1_max - self.f1_min) if self.f1_max != self.f1_min else f1

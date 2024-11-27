@@ -1,20 +1,33 @@
-\section{Revisión de Literatura} \label{sec:lit}
 
-\subsection{Reconstrucción de Imágenes Fotoacústicas} \label{sec:lit:one}
+\section{Reconstrucción de Imágenes Fotoacústicas} \label{sec:lit:one}
 
-La imagen fotoacústica combina los principios de la óptica y la acústica para generar imágenes a partir de señales ultrasónicas. Estas señales son producidas por materiales que absorben pulsos de luz, lo que genera un aumento de temperatura y ondas de presión mecánica detectables por transductores ultrasónicos. Esta técnica es ampliamente utilizada en aplicaciones biomédicas, como la evaluación de tejidos arteriales, la monitorización de oxigenación tisular y estudios cerebrales in vivo en modelos animales \cite{Xu2015}.
+La imagen fotoacústica combina los principios de la óptica y la acústica para generar imágenes a partir de señales ultrasónicas. Estas señales son producidas por materiales que absorben pulsos de luz, lo que genera un aumento de temperatura y ondas de presión mecánica detectables por sensores ultrasónicos. Esta técnica es ampliamente utilizada en aplicaciones biomédicas, como la evaluación de tejidos arteriales, la monitorización de oxigenación tisular y estudios cerebrales \textit{in vivo} en modelos animales \cite{Xu2015}.
 
 El proceso de reconstrucción de imágenes implica la captura y análisis de las señales registradas por sensores. Entre los métodos clásicos se encuentran \textit{Time Reversal} y \textit{Delay and Sum}, conocidos por su rapidez pero limitados frente a ruido y problemas mal condicionados. En este contexto, la regularización de Tikhonov se ha convertido en una herramienta esencial para estabilizar los problemas mal planteados \cite{Tikhonov1963}.
 
-\subsection{Modelo de Espacio de Estados Lineales para la Reconstrucción Fotoacústica} \label{sec:lit:two}
+\section{Modelo de Espacio de Estados Lineales para la Reconstrucción Fotoacústica} \label{sec:lit:two}
 
-El problema de reconstrucción puede formularse como:
-\begin{equation}
-    \mathbf{y} = \mathbf{H} \mathbf{d} + \mathbf{w},
-\end{equation}
-donde $\mathbf{y}$ representa las mediciones, $\mathbf{H}$ es la matriz de propagación acústica, $\mathbf{d}$ el vector de absorción y $\mathbf{w}$ un término de ruido. Resolver este sistema frecuentemente requiere técnicas avanzadas debido a su sensibilidad al ruido y a la naturaleza mal condicionada de $\mathbf{H}$ \cite{Candes2006}.
+El problema de reconstrucción en imágenes fotoacústicas puede formularse como un sistema de ecuaciones lineales:
 
-\subsection{Regularización de Tikhonov y el Método de la Curva L} \label{sec:lit:tikhonov}
+\begin{equation} \mathbf{y} = \mathbf{H} \mathbf{d} + \mathbf{w}, \end{equation}
+
+donde $\mathbf{y}$ representa las mediciones obtenidas por los transductores ultrasónicos, $\mathbf{H}$ es la matriz del sistema que modela la propagación de las ondas acústicas, $\mathbf{d}$ es el vector que contiene las propiedades de absorción óptica del medio, y $\mathbf{w}$ es un término de ruido que sigue una distribución normal $\mathcal{N}(0, \sigma^2)$.
+
+La matriz $\mathbf{H}$ es construida a partir de datos experimentales o simulaciones numéricas, integrando los efectos de la propagación acústica y las características físicas del medio. Sin embargo, en medios acústicamente atenuantes, la precisión de este modelo puede verse afectada por factores como la dispersión, la atenuación no lineal y las condiciones de frontera \cite{Lang2019}.
+
+Un desafío significativo al resolver este sistema es su naturaleza mal condicionada, especialmente cuando $\mathbf{H}$ es grande o cercana a ser singular. Esto implica que pequeñas perturbaciones en las mediciones $\mathbf{y}$ pueden causar grandes errores en la estimación de $\mathbf{d}$. Además, la presencia de ruido $\mathbf{w}$ exacerba la inestabilidad del sistema, lo que hace necesario emplear técnicas avanzadas de regularización para obtener soluciones estables.
+
+El enfoque de espacio de estados lineales propuesto por Lang et al. (2019) modela directamente la dinámica del sistema acústico utilizando ecuaciones diferenciales parciales lineales. Este modelo permite representar la propagación acústica en medios atenuantes mediante un sistema matricial de la forma:
+
+\begin{equation} \dot{\mathbf{x}} = \mathbf{A} \mathbf{x} + \mathbf{B} \mathbf{u}, \quad \mathbf{y} = \mathbf{C} \mathbf{x} + \mathbf{w}, \end{equation}
+
+donde $\mathbf{x}$ es el estado interno del sistema que describe la propagación de las ondas acústicas, $\mathbf{u}$ es la entrada del sistema (generalmente las fuentes fotoacústicas), $\mathbf{A}$ es la matriz de dinámica, $\mathbf{B}$ acopla las fuentes al sistema, $\mathbf{C}$ mapea los estados internos a las mediciones $\mathbf{y}$, y $\mathbf{w}$ representa el ruido.
+
+Este modelo tiene varias ventajas: \begin{itemize} \item Permite capturar las características dinámicas del sistema acústico de manera compacta y eficiente. \item Es compatible con técnicas modernas de regularización y algoritmos de optimización multiobjetivo, como NSGA-II y MOEA/D, para abordar el problema de estimar $\mathbf{d}$ de manera robusta. \item Facilita la incorporación de restricciones físicas, como la positividad de $\mathbf{d}$, y la penalización de valores no plausibles, mejorando la interpretación y utilidad de las soluciones reconstruidas. \end{itemize}
+
+En resumen, el modelo de espacio de estados lineales proporciona un marco riguroso y flexible para abordar los desafíos de reconstrucción en imágenes fotoacústicas, permitiendo la integración de métodos computacionales avanzados para mitigar los efectos del ruido y la inestabilidad inherente al sistema \cite{Lang2019}.
+
+\section{Regularización de Tikhonov y el Método de la Curva L} \label{sec:lit:tikhonov}
 
 La regularización de Tikhonov introduce un término de penalización para estabilizar la solución:
 \begin{equation}
@@ -30,9 +43,18 @@ El método de la curva L selecciona $\lambda$ graficando la norma del residuo co
 
 La optimización multi-objetivo busca soluciones que equilibren múltiples criterios simultáneamente. En la reconstrucción fotoacústica, los objetivos típicos incluyen minimizar el residuo y garantizar la estabilidad de la solución, generando un frente de Pareto que representa compromisos entre estos objetivos \cite{Boyd2004}.
 
-\subsection{NSGA-II en la Reconstrucción Fotoacústica} \label{sec:lit:second:two}
+\subsection{NSGA-II y MOEA/D en la Reconstrucción Fotoacústica} \label{sec:lit:second:two}
 
 NSGA-II es un algoritmo evolutivo diseñado para problemas multi-objetivo. Este método clasifica soluciones en términos de dominancia y promueve la diversidad del frente de Pareto \cite{Deb2002}. Su capacidad para manejar múltiples objetivos simultáneamente lo hace ideal para explorar alternativas en la estimación del parámetro de regularización y mejorar la reconstrucción.
+
+Por otro lado, \textbf{MOEA/D (Multi-Objective Evolutionary Algorithm based on Decomposition)} descompone el problema multi-objetivo en varios subproblemas escalarizados, resolviendo cada uno de manera local utilizando direcciones de referencia \cite{Zhang2007}. MOEA/D ofrece ventajas clave para la reconstrucción de imágenes fotoacústicas:
+\begin{itemize}
+    \item \textbf{Exploración uniforme:} Genera una representación balanceada del frente de Pareto, asegurando la diversidad.
+    \item \textbf{Flexibilidad:} Permite priorizar ciertos objetivos asignando pesos específicos a las direcciones de referencia.
+    \item \textbf{Robustez frente al ruido:} Las estrategias basadas en vecindarios mejoran la estabilidad de las soluciones.
+\end{itemize}
+
+Este trabajo destaca cómo MOEA/D complementa a NSGA-II al ofrecer una mayor capacidad para ajustar las prioridades de los objetivos y explorar soluciones más balanceadas.
 
 \section{Desafíos y Limitaciones} \label{sec:lit:third}
 
@@ -41,8 +63,8 @@ A pesar de los avances, la reconstrucción de imágenes fotoacústicas enfrenta 
     \item Sensibilidad al ruido en las mediciones.
     \item Dificultad para determinar un valor óptimo de $\lambda$ en escenarios complejos.
     \item Limitaciones computacionales en técnicas tradicionales como la curva L.
+    \item Necesidad de garantizar un balance adecuado entre fidelidad, regularización y restricciones físicas como la positividad.
 \end{itemize}
 
-Este trabajo aborda estas limitaciones mediante el uso de NSGA-II para explorar un conjunto de soluciones que optimizan objetivos múltiples, incluyendo la positividad y la estabilidad, superando las limitaciones de métodos tradicionales como el de la curva L.
-
+Este trabajo aborda estas limitaciones mediante el uso de algoritmos multi-objetivo, destacando cómo NSGA-II y MOEA/D permiten explorar frentes de Pareto diversos, ajustando objetivos específicos para mejorar la reconstrucción y superar las limitaciones de los métodos tradicionales.
 
