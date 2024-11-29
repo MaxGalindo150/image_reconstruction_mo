@@ -1,0 +1,7 @@
+\beamer@slide {eq:problem}{6}
+\beamer@slide {alg:nsga2}{12}
+\beamer@slide {alg:moead}{13}
+\beamer@slide {fig:pareto_nsga2}{14}
+\beamer@slide {fig:pareto_clustering_nsga2}{15}
+\beamer@slide {fig:pareto_moead}{16}
+\beamer@slide {tab:comparison_algorithms}{20}

@@ -26,7 +26,7 @@ def regularized_estimation(
     # L curve method
     rho, eta, reg_corner_tikh, rho_c, eta_c, reg_param = l_curve(U, s, b, "Tikh", L, V)
     d_est_tikh = tikhonov(H, b, reg_corner_tikh, dim=dim)
-    # plot_lc(rho, eta, reg_corner_tikh, rho_c, eta_c)
+    plot_lc(rho, eta, reg_corner_tikh, rho_c, eta_c)
 
     return d_est_tikh, reg_corner_tikh
 

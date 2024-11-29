@@ -64,24 +64,37 @@ def l_curve(U, sm, b, method, L, V):
 
 def plot_lc(rho, eta, reg_corner, rho_c, eta_c):
     """
-    This function plots the L curve and marks the corner found.
+    This function plots the L curve and marks the corner found with a more professional and aesthetic format.
     """
-    plt.figure()
-    plt.plot(rho, eta, "o-", label="L curve")
+    plt.figure(figsize=(8, 6))  # Set a larger figure size for better readability
+    
+    # Plot the L curve
+    plt.plot(rho, eta, "o-", label="L Curve", linewidth=2, markersize=6, color="#1f77b4")
+    
+    # Use logarithmic scale
     plt.xscale("log")
     plt.yscale("log")
-    plt.xlabel("||Ax - b||")
-    plt.ylabel("||x||")
-    plt.title("L curve")
-    plt.grid(True)
     
-    # Marcar la esquina encontrada
-    plt.plot(rho_c, eta_c, 'ro', label=f'Corner: {reg_corner}')
+    # Enhance axis labels and title
+    plt.xlabel(r"$\|Ax - b\|$", fontsize=14, labelpad=10)
+    plt.ylabel(r"$\|x\|$", fontsize=14, labelpad=10)
+    plt.title("L-Curve", fontsize=16, weight='bold', pad=15)
     
-    # Anotar la esquina encontrada
+    # Add grid for better visual guidance
+    plt.grid(visible=True, which='both', linestyle='--', linewidth=0.5, alpha=0.7)
+    
+    # Highlight the corner point
+    plt.plot(rho_c, eta_c, 'ro', label=f'Corner: {reg_corner}', markersize=8)
+    
+    # Annotate the corner point
     plt.annotate(f'Corner: {reg_corner}', (rho_c, eta_c),
-                 textcoords="offset points", xytext=(10,-10), ha='center', color='red')
+                 textcoords="offset points", xytext=(10, -10), ha='center',
+                 color='red', fontsize=12)
     
-    plt.legend()
-    plt.savefig("img/L_curve.png")
+    # Add legend with better placement
+    plt.legend(fontsize=12, loc='upper right', frameon=True, shadow=True, fancybox=True)
+    
+    # Save the figure with a professional format
+    plt.savefig("img/L_curve_professional.png", dpi=300, bbox_inches='tight')
+
         

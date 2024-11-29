@@ -604,11 +604,11 @@ INPUT 1_introduction.tex
 INPUT ./1_introduction.tex
 INPUT ./1_introduction.tex
 INPUT 1_introduction.tex
-INPUT ./Images/effect.png
-INPUT ./Images/effect.png
-INPUT Images/effect.png
-INPUT ./Images/effect.png
-INPUT ./Images/effect.png
+INPUT ./Images/effect.pdf
+INPUT ./Images/effect.pdf
+INPUT Images/effect.pdf
+INPUT ./Images/effect.pdf
+INPUT ./Images/effect.pdf
 INPUT ./2_LiteratureReview.tex
 INPUT ./2_LiteratureReview.tex
 INPUT ./2_LiteratureReview.tex
